@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Sheikh Dry Fruit Pishin · Pro Billing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #d4edda 0%, #c3e6cb 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 36px 36px 24px 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0b3b1f 0%, #1e5f2e 100%);
+            color: white;
+            padding: 28px 20px 24px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8fdf9;
+            border-bottom: 1px solid #d0e6d2;
+            padding: 0 12px;
+            gap: 8px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 16px 0 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #2d6a4f;
+            border-bottom: 4px solid transparent;
+            cursor: pointer;
+            transition: all 0.15s;
+            min-width: 80px;
+        }
+
+        .tab.active {
+            border-bottom-color: #1b8c3e;
+            color: #0f461f;
+            font-weight: 700;
+        }
+
+        .tab-content {
+            padding: 24px 20px;
+            background: white;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin: 20px 0 28px;
+        }
+
+        .product-btn {
+            background: linear-gradient(to bottom, #f1f9f0, #e2f0df);
+            border: 1px solid #b7d7b0;
+            color: #1d4e2b;
+            padding: 20px 8px;
+            border-radius: 28px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            box-shadow: 0 6px 10px rgba(0,0,0,0.04);
+            cursor: pointer;
+            word-break: break-word;
+            transition: 0.2s;
+        }
+
+        .product-btn:active {
+            transform: scale(0.96);
+            background: #d4e8d0;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1b4d2a;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .customer-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .customer-field {
+            flex: 1 1 40%;
+            min-width: 160px;
+        }
+
+        .customer-field label {
+            font-weight: 600;
+            color: #1b5e20;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .customer-field input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #d0e6cf;
+            border-radius: 30px;
+            font-size: 1rem;
+            background: #fafefa;
+        }
+
+        .customer-field input:focus {
+            border-color: #2a8e3a;
+            outline: none;
+        }
+
+        .cart-item {
+            background: #f8fbf8;
+            border-radius: 28px;
+            padding: 18px;
+            margin-bottom: 14px;
+            border: 1px solid #d4ead3;
+            box-shadow: 0 8px 14px -8px rgba(30,70,30,0.15);
+        }
+
+        .cart-item-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .item-name {
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: #0f3b1f;
+            flex: 2;
+            min-width: 130px;
+        }
+
+        .item-price {
+            background: #e2f0de;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #136b2d;
+            font-size: 0.95rem;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1.5px solid #b0d6aa;
+            border-radius: 40px;
+            padding: 2px 6px;
+        }
+
+        .qty-controls input {
+            width: 80px;
+            text-align: center;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: transparent;
+            padding: 10px 0;
+            color: #1a4d2a;
+        }
+
+        .qty-controls input:focus {
+            outline: none;
+        }
+
+        .item-total {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: #1b5e2a;
+            min-width: 100px;
+            text-align: right;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #b13e3e;
+            padding: 0 6px;
+            transition: 0.1s;
+        }
+
+        .remove-item:active {
+            transform: scale(1.2);
+            color: #a00;
+        }
+
+        .totals {
+            background: #dff0e0;
+            border-radius: 36px;
+            padding: 22px 22px 18px;
+            margin: 24px 0 20px;
+            border: 1px solid #b1dbb2;
+        }
+
+        .totals-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 1.15rem;
+            color: #154d26;
+            border-bottom: 1px dashed #7bb87b;
+        }
+
+        .totals-row:last-of-type {
+            border-bottom: none;
+        }
+
+        .totals-row.grand-total {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #09451b;
+            border-top: 3px double #2a7a3a;
+            margin-top: 12px;
+            padding-top: 18px;
+            border-bottom: none;
+        }
+
+        .cash-input {
+            width: 140px;
+            padding: 10px 14px;
+            border: 2px solid #2e7d32;
+            border-radius: 40px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            background: white;
+            color: #154d26;
+        }
+
+        .balance-amount {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #09451b;
+        }
+
+        button.action {
+            background: linear-gradient(145deg, #1e6b2e, #155a24);
+            color: white;
+            border: none;
+            padding: 18px 20px;
+            border-radius: 60px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            width: 100%;
+            margin-top: 14px;
+            cursor: pointer;
+            box-shadow: 0 10px 18px -6px #0f4a1f;
+            transition: 0.15s;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button.action:active {
+            transform: scale(0.97);
+            background: #124f1f;
+        }
+
+        button.action.red {
+            background: linear-gradient(145deg, #b64545, #a13333);
+            box-shadow: 0 10px 18px -6px #832525;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #1b5e20;
+            font-size: 1rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 16px 18px;
+            border: 2px solid #d0e6cf;
+            border-radius: 30px;
+            font-size: 1.05rem;
+            background: #fafefa;
+        }
+
+        .form-group input:focus {
+            border-color: #2a8e3a;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(30,110,50,0.15);
+        }
+
+        .product-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            background: #f3faf2;
+            border-radius: 60px;
+            margin-bottom: 12px;
+            border: 1px solid #c0e0bd;
+        }
+
+        .product-list-item span {
+            font-weight: 600;
+            color: #154d26;
+        }
+
+        .product-list-item button {
+            border: none;
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-weight: 700;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: 0.1s;
+            font-size: 0.95rem;
+        }
+
+        .edit-btn {
+            background: #ffd966;
+            color: #3c2f00;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        /* Dashboard */
+        .stats-cards {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: #edf7ed;
+            border-radius: 28px;
+            padding: 20px;
+            flex: 1 1 40%;
+            border: 1px solid #b1dbb2;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #2a6e3a;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #09451b;
+            line-height: 1.2;
+        }
+
+        .sales-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #f9fff9;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 6px 12px rgba(0,30,0,0.05);
+        }
+
+        .sales-table th {
+            background: #c8e6c9;
+            color: #154d26;
+            font-weight: 700;
+            padding: 14px 8px;
+            text-align: center;
+        }
+
+        .sales-table td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #d0e6cf;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            background: #f2f9f0;
+            padding: 20px 20px 18px;
+            text-align: center;
+            border-top: 1px solid #cde2cc;
+            font-size: 1rem;
+            color: #2c5e34;
+            font-weight: 500;
+        }
+
+        .footer strong {
+            font-weight: 800;
+            color: #0b4a1d;
+        }
+
+        .footer .phone {
+            background: #c2e0c1;
+            padding: 6px 16px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-top: 8px;
+            font-weight: 600;
+            color: #094717;
+        }
+
+        @media print {
+            body * { visibility: hidden; }
+            #receipt, #receipt * { visibility: visible; }
+            #receipt {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 80mm;
+                font-family: 'Courier New', monospace;
+                font-size: 12px;
+                padding: 3mm;
+                background: white;
+                color: black;
+            }
+            @page { size: 80mm auto; margin: 0; }
+            .no-print { display: none; }
+        }
+
+        #receipt { display: none; }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Sheikh Dry Fruit</h1>
+        <p>Pishin, Balochistan<br>+92 312 3456789</p>
+    </div>
+
+    <div class="tabs no-print">
+        <div class="tab active" data-tab="billing">💰 Billing</div>
+        <div class="tab" data-tab="products">📦 Products</div>
+        <div class="tab" data-tab="dashboard">📊 Dashboard</div>
+    </div>
+
+    <!-- Billing Tab -->
+    <div id="billing" class="tab-content active">
+        <!-- Customer details -->
+        <div class="customer-row no-print">
+            <div class="customer-field">
+                <label>Customer Name</label>
+                <input type="text" id="customerName" placeholder="e.g. Muhammad Ali">
+            </div>
+            <div class="customer-field">
+                <label>Mobile Number</label>
+                <input type="tel" id="customerMobile" placeholder="03xx xxxxxxx">
+            </div>
+        </div>
+
+        <h3 class="no-print"><span>🛒</span> Select Products</h3>
+        <div id="productButtons" class="product-grid no-print"></div>
+
+        <h3 class="no-print"><span>🧾</span> Cart</h3>
+        <div id="cartList" class="no-print"></div>
+
+        <div class="totals no-print">
+            <div class="totals-row grand-total" style="border-top: none; margin-top: 0; padding-top: 0;">
+                <span>Total</span>
+                <span id="grandTotal">0.00</span>
+            </div>
+            <div class="totals-row">
+                <span>Cash</span>
+                <input type="number" id="cashInput" class="cash-input" value="0" step="any" min="0" oninput="calculateBalance()">
+            </div>
+            <div class="totals-row">
+                <span>Balance</span>
+                <span id="balanceAmount" class="balance-amount">0.00</span>
+            </div>
+        </div>
+
+        <button class="action no-print" id="printBtn">🖨️ Print Receipt</button>
+        <button class="action red no-print" id="clearCartBtn">🗑️ Clear Cart</button>
+    </div>
+
+    <!-- Products Tab -->
+    <div id="products" class="tab-content no-print">
+        <h3>➕ Add New Product</h3>
+        <div class="form-group">
+            <label>Product Name</label>
+            <input type="text" id="prodName" placeholder="e.g. Almonds">
+        </div>
+        <div class="form-group">
+            <label>Price per kg (Rs)</label>
+            <input type="number" id="prodPrice" placeholder="0.00" step="0.01" min="0">
+        </div>
+        <input type="hidden" id="editId" value="">
+        <button class="action" id="saveProductBtn">💾 Save Product</button>
+        <button class="action red" id="cancelEditBtn" style="display:none;">✖️ Cancel Edit</button>
+
+        <h3 style="margin-top: 32px;">📋 Product List</h3>
+        <div id="productList" class="product-list"></div>
+    </div>
+
+    <!-- Dashboard Tab -->
+    <div id="dashboard" class="tab-content no-print">
+        <h3>📊 Today's Sales Report</h3>
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-label">Total Sales</div>
+                <div class="stat-value" id="totalSalesAmount">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Transactions</div>
+                <div class="stat-value" id="totalTransactions">0</div>
+            </div>
+        </div>
+        <table class="sales-table" id="salesTable">
+            <thead>
+                <tr><th>Time</th><th>Customer</th><th>Mobile</th><th>Total</th></tr>
+            </thead>
+            <tbody id="salesTableBody"></tbody>
+        </table>
+        <button class="action red" id="clearSalesBtn" style="margin-top:20px;">🗑️ Clear Today's Sales</button>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer no-print">
+        <strong>Akhtar Mohammad</strong> — Software Developer<br>
+        <span class="phone">📞 0317 8022878</span>
+    </div>
+
+    <!-- Hidden receipt area -->
+    <div id="receipt"></div>
+</div>
+
+<script>
+    // ========== CONFIGURATION ==========
+    const SHOP_NAME = "Sheikh Dry Fruit Pishin";
+    const SHOP_ADDRESS = "Pishin, Balochistan";
+    const SHOP_PHONE = "+92 312 3456789";
+    const CURRENCY = "Rs";
+    const DEV_CREDIT = "Akhtar Mohammad 03178022878";
+    // ===================================
+
+    let products = [];
+    let cart = [];
+
+    // Load products from localStorage
+    function loadProducts() {
+        const stored = localStorage.getItem('dryfruit_pro_english_v2');
+        if (stored) {
+            products = JSON.parse(stored);
+        } else {
+            products = [
+                { id: 1, name: "Almonds", price: 850 },
+                { id: 2, name: "Cashews", price: 950 },
+                { id: 3, name: "Pistachios", price: 1200 },
+                { id: 4, name: "Walnuts", price: 700 },
+                { id: 5, name: "Raisins", price: 300 },
+                { id: 6, name: "Dates", price: 250 },
+                { id: 7, name: "Figs", price: 600 },
+                { id: 8, name: "Apricots", price: 550 },
+                { id: 9, name: "Peanuts", price: 150 },
+                { id: 10, name: "Mixed Dry Fruit", price: 900 }
+            ];
+            saveProducts();
+        }
+    }
+
+    function saveProducts() {
+        localStorage.setItem('dryfruit_pro_english_v2', JSON.stringify(products));
+    }
+
+    // Render product buttons
+    function renderProductButtons() {
+        const container = document.getElementById('productButtons');
+        container.innerHTML = '';
+        products.forEach(p => {
+            const btn = document.createElement('button');
+            btn.className = 'product-btn';
+            btn.innerText = `${p.name}\n${CURRENCY} ${p.price.toFixed(2)}/kg`;
+            btn.onclick = () => addToCart(p.id, p.name, p.price);
+            container.appendChild(btn);
+        });
+    }
+
+    // Cart functions
+    function addToCart(id, name, price) {
+        const existing = cart.find(item => item.id === id);
+        if (existing) {
+            existing.quantity = (parseFloat(existing.quantity) || 0) + 1.0;
+        } else {
+            cart.push({ id, name, price, quantity: 1.0 });
+        }
+        renderCart();
+    }
+
+    function updateQuantity(id, newQty) {
+        const item = cart.find(i => i.id === id);
+        if (item) {
+            newQty = parseFloat(newQty);
+            if (isNaN(newQty) || newQty <= 0) {
+                cart = cart.filter(i => i.id !== id);
+            } else {
+                item.quantity = newQty;
+            }
+            renderCart();
+        }
+    }
+
+    function removeItem(id) {
+        cart = cart.filter(i => i.id !== id);
+        renderCart();
+    }
+
+    function renderCart() {
+        const cartDiv = document.getElementById('cartList');
+        if (cart.length === 0) {
+            cartDiv.innerHTML = '<p style="text-align:center; color:#888; padding:20px;">🛒 Cart is empty</p>';
+            updateGrandTotal();
+            document.getElementById('cashInput').value = 0;
+            document.getElementById('balanceAmount').innerText = '0.00';
+            return;
+        }
+
+        let html = '';
+        cart.forEach(item => {
+            const itemTotal = item.price * item.quantity;
+            html += `
+                <div class="cart-item">
+                    <div class="cart-item-row">
+                        <span class="item-name">${item.name}</span>
+                        <span class="item-price">${CURRENCY} ${item.price.toFixed(2)}/kg</span>
+                    </div>
+                    <div class="cart-item-row" style="margin-top: 12px;">
+                        <div class="qty-controls">
+                            <input type="number" value="${item.quantity.toFixed(3)}" step="0.1" min="0.1" 
+                                   onchange="updateQuantity(${item.id}, this.value)" 
+                                   onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46"
+                                   style="width:90px;">
+                        </div>
+                        <span class="item-total">${CURRENCY} ${itemTotal.toFixed(2)}</span>
+                        <button class="remove-item" onclick="removeItem(${item.id})">🗑️</button>
+                    </div>
+                </div>
+            `;
+        });
+        cartDiv.innerHTML = html;
+        updateGrandTotal();
+    }
+
+    function updateGrandTotal() {
+        let total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+        document.getElementById('grandTotal').innerText = total.toFixed(2);
+        calculateBalance();
+    }
+
+    function calculateBalance() {
+        const total = parseFloat(document.getElementById('grandTotal').innerText) || 0;
+        const cash = parseFloat(document.getElementById('cashInput').value) || 0;
+        const balance = cash - total;
+        document.getElementById('balanceAmount').innerText = balance.toFixed(2);
+    }
+
+    function clearCart() {
+        if (cart.length > 0 && confirm('Clear the entire cart?')) {
+            cart = [];
+            renderCart();
+            document.getElementById('cashInput').value = 0;
+        }
+    }
+
+    // Save sale to localStorage (for dashboard)
+    function saveSale(saleData) {
+        let sales = JSON.parse(localStorage.getItem('dryfruit_sales')) || [];
+        sales.push(saleData);
+        localStorage.setItem('dryfruit_sales', JSON.stringify(sales));
+    }
+
+    // Get today's sales (based on date string YYYY-MM-DD)
+    function getTodaysSales() {
+        const sales = JSON.parse(localStorage.getItem('dryfruit_sales')) || [];
+        const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+        return sales.filter(s => s.date.startsWith(today));
+    }
+
+    // Update dashboard display
+    function updateDashboard() {
+        const todaysSales = getTodaysSales();
+        const totalAmount = todaysSales.reduce((sum, s) => sum + s.grandTotal, 0);
+        const transactions = todaysSales.length;
+
+        document.getElementById('totalSalesAmount').innerText = `${CURRENCY} ${totalAmount.toFixed(2)}`;
+        document.getElementById('totalTransactions').innerText = transactions;
+
+        const tbody = document.getElementById('salesTableBody');
+        tbody.innerHTML = '';
+        todaysSales.slice().reverse().forEach(sale => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${new Date(sale.date).toLocaleTimeString()}</td>
+                <td>${sale.customerName || '-'}</td>
+                <td>${sale.customerMobile || '-'}</td>
+                <td>${CURRENCY} ${sale.grandTotal.toFixed(2)}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    // Print receipt (modified to include developer credit)
+    function printReceipt() {
+        if (cart.length === 0) {
+            alert('Please add items to the cart');
+            return;
+        }
+
+        const customerName = document.getElementById('customerName').value.trim() || '-';
+        const customerMobile = document.getElementById('customerMobile').value.trim() || '-';
+        const cash = parseFloat(document.getElementById('cashInput').value) || 0;
+        const total = parseFloat(document.getElementById('grandTotal').innerText) || 0;
+        const balance = cash - total;
+
+        const now = new Date();
+        const dateStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+
+        let lines = [];
+        lines.push(SHOP_NAME);
+        lines.push(SHOP_ADDRESS);
+        lines.push(SHOP_PHONE);
+        lines.push('-----------------------------');
+        lines.push(`Date: ${dateStr}`);
+        if (customerName !== '-') lines.push(`Customer: ${customerName}`);
+        if (customerMobile !== '-') lines.push(`Mobile: ${customerMobile}`);
+        lines.push('-----------------------------');
+        lines.push('Item                 kg    Price');
+        lines.push('-----------------------------');
+
+        cart.forEach(item => {
+            const name = item.name.substring(0, 15).padEnd(15, ' ');
+            const qty = item.quantity.toFixed(3).padStart(6, ' ');
+            const total = (item.price * item.quantity).toFixed(2).padStart(8, ' ');
+            lines.push(`${name} ${qty} ${CURRENCY} ${total}`);
+        });
+
+        lines.push('-----------------------------');
+        lines.push(`Total:                 ${CURRENCY} ${total.toFixed(2)}`);
+        lines.push(`Cash:                  ${CURRENCY} ${cash.toFixed(2)}`);
+        lines.push(`Balance:               ${CURRENCY} ${balance.toFixed(2)}`);
+        lines.push('-----------------------------');
+        lines.push('Thank you, visit again!');
+        lines.push(DEV_CREDIT);  // Developer credit
+        lines.push('');
+
+        const receiptText = lines.join('\n');
+        const receiptDiv = document.getElementById('receipt');
+        receiptDiv.style.display = 'block';
+        receiptDiv.innerHTML = `<pre style="font-family:'Courier New',monospace; margin:0;">${receiptText}</pre>`;
+
+        // Save sale data
+        const saleRecord = {
+            date: now.toISOString(),
+            customerName,
+            customerMobile,
+            items: cart.map(i => ({ name: i.name, quantity: i.quantity, price: i.price })),
+            subtotal: total, // no tax
+            cash,
+            balance,
+            grandTotal: total
+        };
+        saveSale(saleRecord);
+
+        window.print();
+        receiptDiv.style.display = 'none';
+        updateDashboard(); // refresh dashboard if open
+    }
+
+    // Clear today's sales (with confirmation)
+    function clearTodaysSales() {
+        if (confirm('Delete all sales recorded today? This cannot be undone.')) {
+            const sales = JSON.parse(localStorage.getItem('dryfruit_sales')) || [];
+            const today = new Date().toISOString().split('T')[0];
+            const filtered = sales.filter(s => !s.date.startsWith(today));
+            localStorage.setItem('dryfruit_sales', JSON.stringify(filtered));
+            updateDashboard();
+        }
+    }
+
+    // ---------- Product Management ----------
+    document.getElementById('saveProductBtn').onclick = () => {
+        const name = document.getElementById('prodName').value.trim();
+        const price = parseFloat(document.getElementById('prodPrice').value);
+        const editId = document.getElementById('editId').value;
+
+        if (!name || isNaN(price) || price <= 0) {
+            alert('Please enter a valid name and price');
+            return;
+        }
+
+        if (editId) {
+            const index = products.findIndex(p => p.id == editId);
+            if (index !== -1) {
+                products[index].name = name;
+                products[index].price = price;
+            }
+            document.getElementById('editId').value = '';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+        } else {
+            const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+            products.push({ id: newId, name, price });
+        }
+
+        saveProducts();
+        document.getElementById('prodName').value = '';
+        document.getElementById('prodPrice').value = '';
+        renderProductButtons();
+        renderProductList();
+    };
+
+    window.editProduct = (id) => {
+        const p = products.find(p => p.id === id);
+        if (p) {
+            document.getElementById('prodName').value = p.name;
+            document.getElementById('prodPrice').value = p.price;
+            document.getElementById('editId').value = p.id;
+            document.getElementById('cancelEditBtn').style.display = 'inline-block';
+            // Switch to products tab
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelector('[data-tab="products"]').classList.add('active');
+            document.getElementById('products').classList.add('active');
+        }
+    };
+
+    window.deleteProduct = (id) => {
+        if (confirm('Delete this product permanently?')) {
+            products = products.filter(p => p.id !== id);
+            saveProducts();
+            renderProductButtons();
+            renderProductList();
+            cart = cart.filter(item => item.id !== id);
+            renderCart();
+        }
+    };
+
+    document.getElementById('cancelEditBtn').onclick = () => {
+        document.getElementById('prodName').value = '';
+        document.getElementById('prodPrice').value = '';
+        document.getElementById('editId').value = '';
+        document.getElementById('cancelEditBtn').style.display = 'none';
+    };
+
+    function renderProductList() {
+        const listDiv = document.getElementById('productList');
+        listDiv.innerHTML = '';
+        products.forEach(p => {
+            const div = document.createElement('div');
+            div.className = 'product-list-item';
+            div.innerHTML = `
+                <span><strong>${p.name}</strong> — ${CURRENCY} ${p.price.toFixed(2)}/kg</span>
+                <span>
+                    <button class="edit-btn" onclick="editProduct(${p.id})">Edit</button>
+                    <button class="delete-btn" onclick="deleteProduct(${p.id})">Delete</button>
+                </span>
+            `;
+            listDiv.appendChild(div);
+        });
+    }
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.onclick = () => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            tab.classList.add('active');
+            const tabId = tab.dataset.tab;
+            document.getElementById(tabId).classList.add('active');
+            if (tabId === 'dashboard') updateDashboard();
+        };
+    });
+
+    // Button events
+    document.getElementById('printBtn').onclick = printReceipt;
+    document.getElementById('clearCartBtn').onclick = clearCart;
+    document.getElementById('clearSalesBtn').onclick = clearTodaysSales;
+    document.getElementById('cashInput').addEventListener('input', calculateBalance);
+
+    // Expose functions to global
+    window.addToCart = addToCart;
+    window.updateQuantity = updateQuantity;
+    window.removeItem = removeItem;
+    window.calculateBalance = calculateBalance;
+
+    // Initialise
+    loadProducts();
+    renderProductButtons();
+    renderProductList();
+    renderCart();
+    updateDashboard(); // initial load
+</script>
+</body>
+</html>
