@@ -2,87 +2,141 @@
 <html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>شیخ ڈرائی فروٹ پشین · پیشہ ورانہ بلنگ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>شیخ ڈرائی فروٹ · موبائل بہترین</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Urdu Typesetting', 'Traditional Arabic', 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Urdu Typesetting', 'Traditional Arabic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
-            background: linear-gradient(145deg, #d4edda 0%, #c3e6cb 100%);
+            background: linear-gradient(145deg, #e6f7e6 0%, #c8e6c9 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 16px;
+            padding: 0;
+            margin: 0;
         }
 
         .container {
-            max-width: 500px;
+            max-width: 100%;
             width: 100%;
-            background: #ffffff;
-            border-radius: 36px 36px 24px 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            overflow: hidden;
+            min-height: 100vh;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 40px rgba(0, 40, 0, 0.2);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         .header {
-            background: linear-gradient(135deg, #0b3b1f 0%, #1e5f2e 100%);
+            background: linear-gradient(135deg, #0f4f2a, #1e7b3a);
             color: white;
-            padding: 28px 20px 24px;
+            padding: 20px 15px 18px;
             text-align: center;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 0 8px 20px rgba(0, 40, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: "";
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            width: 140px;
+            height: 140px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
         }
 
         .header h1 {
-            font-size: 2.4rem;
-            font-weight: 700;
-            margin-bottom: 6px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 2;
         }
 
         .header p {
             font-size: 1rem;
-            opacity: 0.9;
+            opacity: 0.95;
             line-height: 1.5;
+            font-weight: 500;
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
         }
 
         .tabs {
             display: flex;
-            background: #f8fdf9;
-            border-bottom: 1px solid #d0e6d2;
-            padding: 0 12px;
-            gap: 8px;
-            overflow-x: auto;
-            white-space: nowrap;
+            background: #ffffffdd;
+            backdrop-filter: blur(15px);
+            padding: 8px 12px 5px;
+            gap: 5px;
+            border-bottom: 1px solid #c8e6c9;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 30, 0, 0.1);
+            flex-wrap: wrap;
         }
 
         .tab {
-            flex: 1;
+            flex: 1 0 auto;
             text-align: center;
-            padding: 16px 0 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            color: #2d6a4f;
-            border-bottom: 4px solid transparent;
+            padding: 10px 5px 7px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #1a4d2a;
+            border-bottom: 3px solid transparent;
             cursor: pointer;
-            transition: all 0.15s;
-            min-width: 80px;
+            transition: all 0.2s ease;
+            border-radius: 25px 25px 0 0;
+            background: rgba(200, 230, 200, 0.3);
+            margin: 0 1px;
+            min-width: 60px;
         }
 
         .tab.active {
-            border-bottom-color: #1b8c3e;
-            color: #0f461f;
-            font-weight: 700;
+            border-bottom-color: #1f8b4c;
+            color: #0a4f1a;
+            background: rgba(210, 240, 210, 0.7);
+            font-weight: 800;
+            transform: translateY(-2px);
         }
 
         .tab-content {
-            padding: 24px 20px;
-            background: white;
+            padding: 18px 15px 15px;
+            background: transparent;
             display: none;
+            flex: 1;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0.5; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .tab-content.active {
@@ -92,37 +146,61 @@
         .product-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-            margin: 20px 0 28px;
+            gap: 12px;
+            margin: 15px 0 25px;
         }
 
         .product-btn {
-            background: linear-gradient(to bottom, #f1f9f0, #e2f0df);
-            border: 1px solid #b7d7b0;
-            color: #1d4e2b;
-            padding: 20px 8px;
+            background: linear-gradient(145deg, #f5fff5, #e0f0e0);
+            border: 1.5px solid #a8d5a8;
+            color: #0a471a;
+            padding: 16px 6px;
             border-radius: 28px;
-            font-size: 1.05rem;
-            font-weight: 600;
-            box-shadow: 0 6px 10px rgba(0,0,0,0.04);
+            font-size: 1rem;
+            font-weight: 700;
+            box-shadow: 0 6px 12px -4px rgba(30, 80, 30, 0.2);
             cursor: pointer;
             word-break: break-word;
-            transition: 0.2s;
+            transition: 0.15s;
+            backdrop-filter: blur(5px);
+            line-height: 1.4;
+            position: relative;
         }
 
         .product-btn:active {
             transform: scale(0.96);
-            background: #d4e8d0;
+            background: #d2ecd2;
+            box-shadow: 0 3px 6px rgba(0, 30, 0, 0.3);
+        }
+
+        .stock-badge {
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            background: #ff9800;
+            color: white;
+            border-radius: 25px;
+            padding: 3px 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .low-stock {
+            background: #ffcdd2;
+            border-color: #f44336;
         }
 
         h3 {
             font-size: 1.4rem;
-            font-weight: 700;
-            color: #1b4d2a;
-            margin-bottom: 14px;
+            font-weight: 800;
+            color: #0c4f20;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
+            border-right: 6px solid #1e8b3a;
+            padding-right: 12px;
         }
 
         .customer-row {
@@ -134,39 +212,50 @@
 
         .customer-field {
             flex: 1 1 40%;
-            min-width: 160px;
+            min-width: 140px;
         }
 
         .customer-field label {
-            font-weight: 600;
-            color: #1b5e20;
+            font-weight: 700;
+            color: #146b2a;
             font-size: 0.9rem;
             display: block;
             margin-bottom: 4px;
+            padding-right: 5px;
         }
 
         .customer-field input {
             width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #d0e6cf;
+            padding: 12px 14px;
+            border: 2px solid #b8e0b8;
             border-radius: 30px;
             font-size: 1rem;
-            background: #fafefa;
+            background: #fafffa;
             text-align: right;
+            transition: 0.2s;
+            box-shadow: inset 0 2px 4px rgba(0,20,0,0.05);
         }
 
         .customer-field input:focus {
-            border-color: #2a8e3a;
+            border-color: #2a9d4a;
             outline: none;
+            box-shadow: 0 0 0 4px rgba(40, 140, 60, 0.2);
         }
 
         .cart-item {
-            background: #f8fbf8;
-            border-radius: 28px;
-            padding: 18px;
-            margin-bottom: 14px;
-            border: 1px solid #d4ead3;
-            box-shadow: 0 8px 14px -8px rgba(30,70,30,0.15);
+            background: #ffffff;
+            border-radius: 30px;
+            padding: 16px;
+            margin-bottom: 15px;
+            border: 1px solid #b8e0b8;
+            box-shadow: 0 8px 16px -8px rgba(20, 70, 20, 0.25);
+            backdrop-filter: blur(5px);
+            transition: 0.2s;
+        }
+
+        .cart-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -8px #1a5a1a;
         }
 
         .cart-item-row {
@@ -174,44 +263,46 @@
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
 
         .item-name {
-            font-weight: 700;
-            font-size: 1.15rem;
-            color: #0f3b1f;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #0e4a1e;
             flex: 2;
-            min-width: 130px;
+            min-width: 120px;
         }
 
         .item-price {
-            background: #e2f0de;
+            background: #daf0da;
             padding: 6px 14px;
             border-radius: 40px;
-            font-weight: 600;
-            color: #136b2d;
-            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1a7330;
+            font-size: 1rem;
+            box-shadow: inset 0 1px 3px rgba(0,30,0,0.1);
         }
 
         .qty-controls {
             display: flex;
             align-items: center;
             background: white;
-            border: 1.5px solid #b0d6aa;
+            border: 2px solid #9fcf9f;
             border-radius: 40px;
             padding: 2px 6px;
+            box-shadow: 0 2px 6px rgba(0,20,0,0.1);
         }
 
         .qty-controls input {
-            width: 80px;
+            width: 70px;
             text-align: center;
             border: none;
             font-size: 1.1rem;
-            font-weight: 600;
+            font-weight: 700;
             background: transparent;
-            padding: 10px 0;
-            color: #1a4d2a;
+            padding: 8px 0;
+            color: #1b5e2a;
         }
 
         .qty-controls input:focus {
@@ -221,9 +312,13 @@
         .item-total {
             font-weight: 800;
             font-size: 1.3rem;
-            color: #1b5e2a;
-            min-width: 100px;
-            text-align: left; /* numbers left-aligned */
+            color: #0c621c;
+            min-width: 90px;
+            text-align: left;
+            background: #eaffea;
+            padding: 5px 10px;
+            border-radius: 40px;
+            box-shadow: inset 0 1px 3px rgba(0,20,0,0.1);
         }
 
         .remove-item {
@@ -231,9 +326,10 @@
             border: none;
             font-size: 1.8rem;
             cursor: pointer;
-            color: #b13e3e;
-            padding: 0 6px;
+            color: #c13e3e;
+            padding: 0 5px;
             transition: 0.1s;
+            filter: drop-shadow(0 3px 3px rgba(180,0,0,0.2));
         }
 
         .remove-item:active {
@@ -242,21 +338,22 @@
         }
 
         .totals {
-            background: #dff0e0;
-            border-radius: 36px;
-            padding: 22px 22px 18px;
-            margin: 24px 0 20px;
-            border: 1px solid #b1dbb2;
+            background: linear-gradient(145deg, #e3f5e3, #cef0ce);
+            border-radius: 40px;
+            padding: 18px 18px 15px;
+            margin: 20px 0 15px;
+            border: 1px solid #97d297;
+            box-shadow: 0 12px 20px -8px #1f5a1f;
         }
 
         .totals-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            font-size: 1.15rem;
-            color: #154d26;
-            border-bottom: 1px dashed #7bb87b;
+            padding: 8px 0;
+            font-size: 1.1rem;
+            color: #0f4d1f;
+            border-bottom: 1px dashed #79b979;
         }
 
         .totals-row:last-of-type {
@@ -266,204 +363,297 @@
         .totals-row.grand-total {
             font-size: 1.7rem;
             font-weight: 800;
-            color: #09451b;
-            border-top: 3px double #2a7a3a;
-            margin-top: 12px;
-            padding-top: 18px;
-            border-bottom: none;
+            color: #06431a;
+            border-top: 3px double #2f9640;
+            margin-top: 10px;
+            padding-top: 15px;
         }
 
         .cash-input {
-            width: 140px;
-            padding: 10px 14px;
-            border: 2px solid #2e7d32;
-            border-radius: 40px;
+            width: 120px;
+            padding: 8px 12px;
+            border: 2px solid #1f8640;
+            border-radius: 50px;
             text-align: center;
-            font-size: 1.2rem;
-            font-weight: 600;
+            font-size: 1.1rem;
+            font-weight: 700;
             background: white;
-            color: #154d26;
+            color: #0f4f1f;
+            box-shadow: inset 0 2px 4px rgba(0,30,0,0.1);
         }
 
         .balance-amount {
             font-weight: 800;
             font-size: 1.4rem;
-            color: #09451b;
+            color: #0b5c1b;
         }
 
         button.action {
-            background: linear-gradient(145deg, #1e6b2e, #155a24);
+            background: linear-gradient(145deg, #1f8230, #146b24);
             color: white;
             border: none;
-            padding: 18px 20px;
-            border-radius: 60px;
-            font-size: 1.25rem;
-            font-weight: 700;
+            padding: 16px 16px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 800;
             width: 100%;
-            margin-top: 14px;
+            margin-top: 15px;
             cursor: pointer;
-            box-shadow: 0 10px 18px -6px #0f4a1f;
+            box-shadow: 0 12px 20px -6px #0f4f1f;
             transition: 0.15s;
-            letter-spacing: 0.3px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            border: 1px solid #aae0aa;
         }
 
         button.action:active {
-            transform: scale(0.97);
-            background: #124f1f;
+            transform: scale(0.96);
+            background: #0e5a1e;
+            box-shadow: 0 5px 10px #0a3a0a;
         }
 
         button.action.red {
-            background: linear-gradient(145deg, #b64545, #a13333);
-            box-shadow: 0 10px 18px -6px #832525;
+            background: linear-gradient(145deg, #c23b3b, #a52a2a);
+            box-shadow: 0 12px 20px -6px #7a2a2a;
         }
 
         .form-group {
-            margin-bottom: 22px;
+            margin-bottom: 18px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 700;
-            color: #1b5e20;
+            color: #1b752b;
             font-size: 1rem;
+            padding-right: 5px;
         }
 
-        .form-group input {
+        .form-group input, .form-group select {
             width: 100%;
-            padding: 16px 18px;
-            border: 2px solid #d0e6cf;
+            padding: 14px 16px;
+            border: 2px solid #c0e6c0;
             border-radius: 30px;
-            font-size: 1.05rem;
-            background: #fafefa;
+            font-size: 1rem;
+            background: #fafffa;
             text-align: right;
+            box-shadow: inset 0 2px 4px rgba(0,20,0,0.05);
         }
 
-        .form-group input:focus {
-            border-color: #2a8e3a;
+        .form-group select {
+            background: white;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: #2fa84f;
             outline: none;
-            box-shadow: 0 0 0 4px rgba(30,110,50,0.15);
+            box-shadow: 0 0 0 5px rgba(30, 130, 50, 0.2);
         }
 
         .product-list-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 18px 20px;
-            background: #f3faf2;
-            border-radius: 60px;
-            margin-bottom: 12px;
-            border: 1px solid #c0e0bd;
+            padding: 16px 18px;
+            background: #f3fff3;
+            border-radius: 50px;
+            margin-bottom: 10px;
+            border: 1.5px solid #b2e0b2;
+            box-shadow: 0 5px 10px rgba(0,30,0,0.08);
+            font-size: 0.95rem;
         }
 
         .product-list-item span {
-            font-weight: 600;
-            color: #154d26;
+            font-weight: 700;
+            color: #155f25;
         }
 
         .product-list-item button {
             border: none;
-            padding: 10px 22px;
+            padding: 8px 18px;
             border-radius: 40px;
             font-weight: 700;
-            margin-right: 10px;
+            margin-right: 8px;
             cursor: pointer;
             transition: 0.1s;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
         }
 
         .edit-btn {
-            background: #ffd966;
-            color: #3c2f00;
+            background: #ffdb8e;
+            color: #3d2f00;
         }
 
         .delete-btn {
-            background: #dc3545;
+            background: #f05959;
             color: white;
         }
 
-        /* Dashboard */
+        .purchase-btn {
+            background: #4caf50;
+            color: white;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+            background: #eaf7ea;
+            padding: 15px 16px;
+            border-radius: 50px;
+            border: 1px solid #9fcf9f;
+        }
+
+        .filter-select {
+            flex: 2;
+            min-width: 140px;
+            padding: 12px 16px;
+            border: 2px solid #2a8e3a;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            background: white;
+            color: #0a4a1a;
+            text-align: center;
+        }
+
+        .filter-btn {
+            flex: 1;
+            background: #2a8e3a;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 5px 10px rgba(0,30,0,0.2);
+            transition: 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .filter-btn:active {
+            transform: scale(0.96);
+            background: #1b6d2a;
+        }
+
         .stats-cards {
             display: flex;
-            gap: 16px;
-            margin-bottom: 28px;
+            gap: 15px;
+            margin-bottom: 25px;
             flex-wrap: wrap;
         }
 
         .stat-card {
-            background: #edf7ed;
-            border-radius: 28px;
-            padding: 20px;
+            background: linear-gradient(145deg, #daf5da, #bef0be);
+            border-radius: 30px;
+            padding: 18px;
             flex: 1 1 40%;
-            border: 1px solid #b1dbb2;
+            border: 1px solid #96d696;
+            box-shadow: 0 10px 15px -8px #176f17;
+        }
+
+        .stat-card.green {
+            background: linear-gradient(145deg, #c8f0c8, #a8e0a8);
+            border-color: #2e8b57;
+        }
+
+        .stat-card.blue {
+            background: linear-gradient(145deg, #d0e8ff, #b0d0ff);
+            border-color: #1e6f9f;
         }
 
         .stat-label {
             font-size: 1rem;
-            color: #2a6e3a;
-            font-weight: 600;
+            color: #1e6e2e;
+            font-weight: 700;
         }
 
         .stat-value {
             font-size: 2.2rem;
             font-weight: 800;
-            color: #09451b;
+            color: #064f1a;
             line-height: 1.2;
+            text-shadow: 0 2px 3px rgba(0,30,0,0.1);
         }
 
         .sales-table {
             width: 100%;
             border-collapse: collapse;
-            background: #f9fff9;
-            border-radius: 28px;
+            background: #ffffffd0;
+            backdrop-filter: blur(5px);
+            border-radius: 30px;
             overflow: hidden;
-            box-shadow: 0 6px 12px rgba(0,30,0,0.05);
-        }
-
-        .sales-table th {
-            background: #c8e6c9;
-            color: #154d26;
-            font-weight: 700;
-            padding: 14px 8px;
-            text-align: center;
-        }
-
-        .sales-table td {
-            padding: 12px 8px;
-            border-bottom: 1px solid #d0e6cf;
-            text-align: center;
+            box-shadow: 0 10px 18px -6px #1f5a1f;
+            margin-top: 15px;
             font-size: 0.9rem;
         }
 
-        .footer {
-            background: #f2f9f0;
-            padding: 20px 20px 18px;
+        .sales-table th {
+            background: #b8e6b8;
+            color: #07431a;
+            font-weight: 800;
+            padding: 12px 5px;
             text-align: center;
-            border-top: 1px solid #cde2cc;
-            font-size: 1rem;
-            color: #2c5e34;
+            font-size: 0.95rem;
+        }
+
+        .sales-table td {
+            padding: 10px 5px;
+            border-bottom: 1px solid #c8eac8;
+            text-align: center;
+            font-size: 0.85rem;
             font-weight: 500;
+        }
+
+        .purchase-row {
+            background-color: #d4f0d4;
+        }
+
+        .sale-row {
+            background-color: #ffe6e6;
+        }
+
+        .footer {
+            background: #e5f5e5;
+            padding: 20px 15px 18px;
+            text-align: center;
+            border-top: 2px solid #a8daa8;
+            font-size: 1.1rem;
+            color: #176127;
+            font-weight: 600;
+            margin-top: auto;
+            box-shadow: 0 -5px 15px rgba(20, 70, 20, 0.1);
         }
 
         .footer strong {
             font-weight: 800;
-            color: #0b4a1d;
+            color: #08521b;
+            font-size: 1.2rem;
         }
 
         .footer .phone {
-            background: #c2e0c1;
-            padding: 6px 16px;
+            background: #b8e6b8;
+            padding: 8px 22px;
             border-radius: 50px;
             display: inline-block;
             margin-top: 8px;
-            font-weight: 600;
-            color: #094717;
+            font-weight: 700;
+            color: #085218;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 10px rgba(0,30,0,0.1);
         }
 
+        /* Print styles for receipt (3cm thermal - 80mm) */
         @media print {
             body * { visibility: hidden; }
             #receipt, #receipt * { visibility: visible; }
@@ -478,31 +668,66 @@
                 background: white;
                 color: black;
                 text-align: left;
+                border: 2px solid #333;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.5);
+                page-break-inside: avoid;
+                page-break-after: avoid;
             }
             @page { size: 80mm auto; margin: 0; }
             .no-print { display: none; }
         }
 
-        #receipt { display: none; }
+        /* Print styles for full report (A4) */
+        @media print {
+            #report-print-area, #report-print-area * { visibility: visible; }
+            #report-print-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: white;
+                color: black;
+                font-family: 'Noto Nastaliq Urdu', serif;
+                padding: 10mm;
+                border: 3px solid #0f4f2a;
+                border-radius: 10px;
+                box-shadow: 0 0 15px rgba(0,40,0,0.5);
+            }
+            @page { size: A4; margin: 1cm; }
+        }
+
+        #receipt, #report-print-area { display: none; }
+
+        /* Additional responsive fine-tuning */
+        @media (max-width: 380px) {
+            .header h1 { font-size: 1.8rem; }
+            .product-btn { font-size: 0.9rem; padding: 14px 4px; }
+            .item-name { font-size: 1rem; }
+            .item-total { font-size: 1.1rem; min-width: 70px; }
+            .qty-controls input { width: 60px; }
+            .tab { font-size: 0.85rem; padding: 8px 3px; }
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="container">
     <div class="header">
-        <h1>شیخ ڈرائی فروٹ پشین</h1>
+        <h1>شیخ ڈرائی فروٹ</h1>
         <p>پشین، بلوچستان<br>+92 312 3456789</p>
     </div>
 
     <div class="tabs no-print">
         <div class="tab active" data-tab="billing">💰 بلنگ</div>
         <div class="tab" data-tab="products">📦 اشیاء</div>
-        <div class="tab" data-tab="dashboard">📊 ڈیش بورڈ</div>
+        <div class="tab" data-tab="inventory">📊 انوینٹری</div>
+        <div class="tab" data-tab="purchases">🛒 خریداری</div>
+        <div class="tab" data-tab="dashboard">📈 رپورٹس</div>
     </div>
 
     <!-- بلنگ ٹیب -->
     <div id="billing" class="tab-content active">
-        <!-- گاہک کی تفصیلات -->
         <div class="customer-row no-print">
             <div class="customer-field">
                 <label>گاہک کا نام</label>
@@ -527,7 +752,7 @@
             </div>
             <div class="totals-row">
                 <span>نقدی</span>
-                <input type="number" id="cashInput" class="cash-input" value="0" step="any" min="0" oninput="calculateBalance()">
+                <input type="number" id="cashInput" class="cash-input" value="" step="any" min="0" placeholder="0" oninput="calculateBalance()">
             </div>
             <div class="totals-row">
                 <span>بقایا</span>
@@ -547,139 +772,294 @@
             <input type="text" id="prodName" placeholder="مثلاً بادام">
         </div>
         <div class="form-group">
-            <label>فی کلو قیمت (روپے)</label>
+            <label>فی کلو فروخت قیمت (روپے)</label>
             <input type="number" id="prodPrice" placeholder="0.00" step="0.01" min="0">
+        </div>
+        <div class="form-group">
+            <label>ابتدائی اسٹاک (کلو)</label>
+            <input type="number" id="prodStock" placeholder="0" step="0.1" min="0" value="0">
         </div>
         <input type="hidden" id="editId" value="">
         <button class="action" id="saveProductBtn">💾 محفوظ کریں</button>
         <button class="action red" id="cancelEditBtn" style="display:none;">✖️ ترمیم منسوخ کریں</button>
 
-        <h3 style="margin-top: 32px;">📋 اشیاء کی فہرست</h3>
+        <h3 style="margin-top: 28px;">📋 اشیاء کی فہرست</h3>
         <div id="productList" class="product-list"></div>
+    </div>
+
+    <!-- انوینٹری ٹیب -->
+    <div id="inventory" class="tab-content no-print">
+        <h3>📦 اسٹاک کی حالت</h3>
+        <div id="inventoryList" class="product-list"></div>
+    </div>
+
+    <!-- خریداری ٹیب -->
+    <div id="purchases" class="tab-content no-print">
+        <h3>➕ نئی خریداری</h3>
+        <div class="form-group">
+            <label>شے منتخب کریں</label>
+            <select id="purchaseProductId">
+                <option value="">-- منتخب کریں --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>مقدار (کلو)</label>
+            <input type="number" id="purchaseQty" step="0.1" min="0.1" value="1">
+        </div>
+        <div class="form-group">
+            <label>فی کلو قیمت خرید (روپے)</label>
+            <input type="number" id="purchaseRate" step="0.01" min="0" value="0">
+        </div>
+        <div class="form-group">
+            <label>تاریخ</label>
+            <input type="date" id="purchaseDate" value="">
+        </div>
+        <button class="action" id="savePurchaseBtn">💾 خرید محفوظ کریں</button>
+
+        <h3 style="margin-top: 28px;">📋 خریداری کی تاریخ</h3>
+        <div id="purchaseHistory"></div>
     </div>
 
     <!-- ڈیش بورڈ ٹیب -->
     <div id="dashboard" class="tab-content no-print">
-        <h3>📊 آج کی فروخت رپورٹ</h3>
+        <h3>📊 مکمل اسٹاک رپورٹ</h3>
+        
+        <div class="filter-row">
+            <select id="reportPeriod" class="filter-select">
+                <option value="today">آج</option>
+                <option value="month">ماہانہ (پچھلے 30 دن)</option>
+                <option value="6months">6 ماہ</option>
+                <option value="year">سالانہ (پچھلے 12 ماہ)</option>
+                <option value="all">تمام</option>
+            </select>
+            <button class="filter-btn" id="applyFilterBtn">🔍 فلٹر لگائیں</button>
+        </div>
+
         <div class="stats-cards">
-            <div class="stat-card">
-                <div class="stat-label">کل فروخت</div>
+            <div class="stat-card green">
+                <div class="stat-label">کل خریداری (آمد)</div>
+                <div class="stat-value" id="totalPurchaseAmount">0</div>
+            </div>
+            <div class="stat-card blue">
+                <div class="stat-label">کل فروخت (رفت)</div>
                 <div class="stat-value" id="totalSalesAmount">0</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">لین دین</div>
-                <div class="stat-value" id="totalTransactions">0</div>
-            </div>
         </div>
-        <table class="sales-table" id="salesTable">
+
+        <h4>آمد و رفت کی تفصیل</h4>
+        <table class="sales-table" id="transactionTable">
             <thead>
-                <tr><th>وقت</th><th>گاہک</th><th>موبائل</th><th>کل رقم</th></tr>
+                <tr><th>تاریخ</th><th>شے</th><th>مقدار</th><th>فی کلو</th><th>کل رقم</th><th>نوعیت</th></tr>
             </thead>
-            <tbody id="salesTableBody"></tbody>
+            <tbody id="transactionTableBody"></tbody>
         </table>
-        <button class="action red" id="clearSalesBtn" style="margin-top:20px;">🗑️ آج کی فروخت صاف کریں</button>
+
+        <button class="action" id="printFullReportBtn">🖨️ مکمل رپورٹ پرنٹ کریں (PDF)</button>
     </div>
 
-    <!-- فوٹر (ڈیولپر کا نام) -->
+    <!-- فوٹر -->
     <div class="footer no-print">
         <strong>اختر محمد</strong> — سافٹ ویئر ڈویلپر<br>
         <span class="phone">📞 0317 8022878</span>
     </div>
 
-    <!-- پوشیدہ رسید والا حصہ -->
+    <!-- پوشیدہ رسید (3cm تھرمل پرنٹر کے لیے) -->
     <div id="receipt"></div>
+
+    <!-- پوشیدہ رپورٹ پرنٹ ایریا -->
+    <div id="report-print-area"></div>
 </div>
 
 <script>
     // ========== کنفیگریشن ==========
-    const SHOP_NAME = "شیخ ڈرائی فروٹ پشین";
-    const SHOP_ADDRESS = "پشین، بلوچستان";
-    const SHOP_PHONE = "+92 312 3456789";
+    const SHOP_NAME = "    *شیخ ڈرائی فروٹ پشین*";
+    const SHOP_ADDRESS = "*    پشین، بلوچستان*";
+    const SHOP_PHONE = " 0319 0112447";
     const CURRENCY = "Rs";
     const DEV_CREDIT = "اختر محمد 03178022878";
     // ===================================
 
     let products = [];
     let cart = [];
+    let purchases = [];
+    let sales = [];
 
-    // لوکل سٹوریج سے اشیاء لوڈ کریں
+    // لوکل سٹوریج سے ڈیٹا لوڈ کریں
     function loadProducts() {
-        const stored = localStorage.getItem('dryfruit_urdu_v1');
+        const stored = localStorage.getItem('dryfruit_urdu_v9');
         if (stored) {
             products = JSON.parse(stored);
         } else {
-            // طے شدہ اشیاء (اردو نام)
             products = [
-                { id: 1, name: "بادام", price: 850 },
-                { id: 2, name: "کاجو", price: 950 },
-                { id: 3, name: "پستہ", price: 1200 },
-                { id: 4, name: "اخروٹ", price: 700 },
-                { id: 5, name: "کشمش", price: 300 },
-                { id: 6, name: "کھجور", price: 250 },
-                { id: 7, name: "انجیر", price: 600 },
-                { id: 8, name: "خوبانی", price: 550 },
-                { id: 9, name: "مونگ پھلی", price: 150 },
-                { id: 10, name: "مکس ڈرائی فروٹ", price: 900 }
+                { id: 1, name: "بادام", price: 850, stock: 10 },
+                { id: 2, name: "کاجو", price: 950, stock: 8 },
+                { id: 3, name: "پستہ", price: 1200, stock: 5 },
+                { id: 4, name: "اخروٹ", price: 700, stock: 12 },
+                { id: 5, name: "کشمش", price: 300, stock: 15 },
+                { id: 6, name: "کھجور", price: 250, stock: 20 },
+                { id: 7, name: "انجیر", price: 600, stock: 7 },
+                { id: 8, name: "خوبانی", price: 550, stock: 9 },
+                { id: 9, name: "مونگ پھلی", price: 150, stock: 25 },
+                { id: 10, name: "مکس ڈرائی فروٹ", price: 900, stock: 6 }
             ];
             saveProducts();
         }
     }
 
     function saveProducts() {
-        localStorage.setItem('dryfruit_urdu_v1', JSON.stringify(products));
+        localStorage.setItem('dryfruit_urdu_v9', JSON.stringify(products));
     }
 
-    // پروڈکٹ بٹن دکھائیں
+    function loadPurchases() {
+        const stored = localStorage.getItem('dryfruit_purchases_v9');
+        if (stored) purchases = JSON.parse(stored);
+        else purchases = [];
+    }
+
+    function savePurchases() {
+        localStorage.setItem('dryfruit_purchases_v9', JSON.stringify(purchases));
+    }
+
+    function loadSales() {
+        const stored = localStorage.getItem('dryfruit_sales_urdu_v9');
+        if (stored) sales = JSON.parse(stored);
+        else sales = [];
+    }
+
+    function saveSales() {
+        localStorage.setItem('dryfruit_sales_urdu_v9', JSON.stringify(sales));
+    }
+
     function renderProductButtons() {
         const container = document.getElementById('productButtons');
         container.innerHTML = '';
         products.forEach(p => {
             const btn = document.createElement('button');
             btn.className = 'product-btn';
-            btn.innerText = `${p.name}\n${CURRENCY} ${p.price.toFixed(2)}/kg`;
+            if (p.stock <= 0) btn.classList.add('low-stock');
+            btn.innerHTML = `${p.name}<br>${CURRENCY} ${p.price.toFixed(2)}/kg`;
+            const stockBadge = document.createElement('span');
+            stockBadge.className = 'stock-badge';
+            stockBadge.innerText = `${p.stock.toFixed(2)} kg`;
+            btn.appendChild(stockBadge);
             btn.onclick = () => addToCart(p.id, p.name, p.price);
             container.appendChild(btn);
         });
     }
 
-    // کارٹ میں شامل کریں
+    function renderProductList() {
+        const listDiv = document.getElementById('productList');
+        listDiv.innerHTML = '';
+        products.forEach(p => {
+            const div = document.createElement('div');
+            div.className = 'product-list-item';
+            div.innerHTML = `
+                <span><strong>${p.name}</strong> — فروخت: ${CURRENCY} ${p.price.toFixed(2)}/kg | اسٹاک: ${p.stock.toFixed(2)} kg</span>
+                <span>
+                    <button class="edit-btn" onclick="editProduct(${p.id})">ترمیم</button>
+                    <button class="delete-btn" onclick="deleteProduct(${p.id})">حذف</button>
+                </span>
+            `;
+            listDiv.appendChild(div);
+        });
+    }
+
+    function renderInventory() {
+        const invDiv = document.getElementById('inventoryList');
+        invDiv.innerHTML = '';
+        products.forEach(p => {
+            const div = document.createElement('div');
+            div.className = 'product-list-item';
+            div.innerHTML = `
+                <span><strong>${p.name}</strong></span>
+                <span>اسٹاک: ${p.stock.toFixed(2)} kg</span>
+            `;
+            invDiv.appendChild(div);
+        });
+    }
+
+    function renderPurchaseDropdown() {
+        const select = document.getElementById('purchaseProductId');
+        select.innerHTML = '<option value="">-- منتخب کریں --</option>';
+        products.forEach(p => {
+            const option = document.createElement('option');
+            option.value = p.id;
+            option.textContent = `${p.name} (موجودہ اسٹاک: ${p.stock.toFixed(2)} kg)`;
+            select.appendChild(option);
+        });
+    }
+
+    function renderPurchaseHistory() {
+        const historyDiv = document.getElementById('purchaseHistory');
+        historyDiv.innerHTML = '';
+        if (purchases.length === 0) {
+            historyDiv.innerHTML = '<p style="text-align:center; color:#888;">کوئی خریداری نہیں</p>';
+            return;
+        }
+        purchases.slice().reverse().forEach(p => {
+            const div = document.createElement('div');
+            div.className = 'product-list-item';
+            div.innerHTML = `
+                <span><strong>${p.productName}</strong> — ${p.quantity.toFixed(2)} kg @ ${CURRENCY} ${p.rate.toFixed(2)} = ${CURRENCY} ${p.total.toFixed(2)}</span>
+                <span>${new Date(p.date).toLocaleString('ur-PK')}</span>
+            `;
+            historyDiv.appendChild(div);
+        });
+    }
+
     function addToCart(id, name, price) {
+        const product = products.find(p => p.id === id);
+        if (!product) return;
+        
         const existing = cart.find(item => item.id === id);
+        const currentQtyInCart = existing ? existing.quantity : 0;
+        const requestedQty = 1.0;
+
+        if (product.stock < currentQtyInCart + requestedQty) {
+            alert(`صرف ${product.stock.toFixed(2)} کلو ${name} اسٹاک میں ہے۔`);
+            return;
+        }
+
         if (existing) {
-            existing.quantity = (parseFloat(existing.quantity) || 0) + 1.0;
+            existing.quantity += requestedQty;
         } else {
-            cart.push({ id, name, price, quantity: 1.0 });
+            cart.push({ id, name, price, quantity: requestedQty });
         }
         renderCart();
     }
 
-    // مقدار اپ ڈیٹ کریں
     function updateQuantity(id, newQty) {
         const item = cart.find(i => i.id === id);
-        if (item) {
-            newQty = parseFloat(newQty);
-            if (isNaN(newQty) || newQty <= 0) {
-                cart = cart.filter(i => i.id !== id);
-            } else {
-                item.quantity = newQty;
-            }
+        const product = products.find(p => p.id === id);
+        if (!item || !product) return;
+
+        newQty = parseFloat(newQty);
+        if (isNaN(newQty) || newQty <= 0) {
+            cart = cart.filter(i => i.id !== id);
             renderCart();
+            return;
         }
+
+        if (newQty > product.stock) {
+            alert(`صرف ${product.stock.toFixed(2)} کلو ${product.name} اسٹاک میں ہے۔`);
+            return;
+        }
+
+        item.quantity = newQty;
+        renderCart();
     }
 
-    // آئٹم مکمل ہٹا دیں
     function removeItem(id) {
         cart = cart.filter(i => i.id !== id);
         renderCart();
     }
 
-    // کارٹ دکھائیں
     function renderCart() {
         const cartDiv = document.getElementById('cartList');
         if (cart.length === 0) {
-            cartDiv.innerHTML = '<p style="text-align:center; color:#888; padding:20px;">🛒 کارٹ خالی ہے</p>';
+            cartDiv.innerHTML = '<p style="text-align:center; color:#888; padding:15px; font-size:1.2rem;">🛒 کارٹ خالی ہے</p>';
             updateGrandTotal();
-            document.getElementById('cashInput').value = 0;
+            document.getElementById('cashInput').value = '';
             document.getElementById('balanceAmount').innerText = '0.00';
             return;
         }
@@ -693,12 +1073,12 @@
                         <span class="item-name">${item.name}</span>
                         <span class="item-price">${CURRENCY} ${item.price.toFixed(2)}/kg</span>
                     </div>
-                    <div class="cart-item-row" style="margin-top: 12px;">
+                    <div class="cart-item-row" style="margin-top: 10px;">
                         <div class="qty-controls">
                             <input type="number" value="${item.quantity.toFixed(3)}" step="0.1" min="0.1" 
                                    onchange="updateQuantity(${item.id}, this.value)" 
                                    onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46"
-                                   style="width:90px;">
+                                   style="width:70px;">
                         </div>
                         <span class="item-total">${CURRENCY} ${itemTotal.toFixed(2)}</span>
                         <button class="remove-item" onclick="removeItem(${item.id})">🗑️</button>
@@ -710,14 +1090,12 @@
         updateGrandTotal();
     }
 
-    // کل رقم اپ ڈیٹ
     function updateGrandTotal() {
         let total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
         document.getElementById('grandTotal').innerText = total.toFixed(2);
         calculateBalance();
     }
 
-    // بقایا حساب کریں
     function calculateBalance() {
         const total = parseFloat(document.getElementById('grandTotal').innerText) || 0;
         const cash = parseFloat(document.getElementById('cashInput').value) || 0;
@@ -725,57 +1103,87 @@
         document.getElementById('balanceAmount').innerText = balance.toFixed(2);
     }
 
-    // کارٹ صاف کریں
     function clearCart() {
         if (cart.length > 0 && confirm('کیا آپ کارٹ صاف کرنا چاہتے ہیں؟')) {
             cart = [];
             renderCart();
-            document.getElementById('cashInput').value = 0;
+            document.getElementById('cashInput').value = '';
         }
     }
 
-    // فروخت محفوظ کریں
+    function savePurchase() {
+        const productId = parseInt(document.getElementById('purchaseProductId').value);
+        const qty = parseFloat(document.getElementById('purchaseQty').value);
+        const rate = parseFloat(document.getElementById('purchaseRate').value);
+        let date = document.getElementById('purchaseDate').value;
+
+        if (!productId || isNaN(qty) || qty <= 0 || isNaN(rate) || rate <= 0) {
+            alert('براہ کرم تمام فیلڈز درست بھریں');
+            return;
+        }
+
+        const product = products.find(p => p.id === productId);
+        if (!product) return;
+
+        if (!date) date = new Date().toISOString().split('T')[0];
+        const dateObj = new Date(date + 'T12:00:00');
+
+        const purchase = {
+            id: Date.now() + Math.random(),
+            productId,
+            productName: product.name,
+            quantity: qty,
+            rate: rate,
+            total: qty * rate,
+            date: dateObj.toISOString()
+        };
+
+        purchases.push(purchase);
+        savePurchases();
+
+        product.stock += qty;
+        saveProducts();
+
+        renderPurchaseDropdown();
+        renderPurchaseHistory();
+        renderProductButtons();
+        renderProductList();
+        renderInventory();
+
+        alert('خریداری محفوظ ہو گئی');
+        document.getElementById('purchaseQty').value = '1';
+        document.getElementById('purchaseRate').value = '0';
+        document.getElementById('purchaseDate').value = '';
+    }
+
     function saveSale(saleData) {
-        let sales = JSON.parse(localStorage.getItem('dryfruit_sales_urdu')) || [];
         sales.push(saleData);
-        localStorage.setItem('dryfruit_sales_urdu', JSON.stringify(sales));
-    }
+        saveSales();
 
-    // آج کی فروخت حاصل کریں
-    function getTodaysSales() {
-        const sales = JSON.parse(localStorage.getItem('dryfruit_sales_urdu')) || [];
-        const today = new Date().toISOString().split('T')[0];
-        return sales.filter(s => s.date.startsWith(today));
-    }
-
-    // ڈیش بورڈ اپ ڈیٹ
-    function updateDashboard() {
-        const todaysSales = getTodaysSales();
-        const totalAmount = todaysSales.reduce((sum, s) => sum + s.grandTotal, 0);
-        const transactions = todaysSales.length;
-
-        document.getElementById('totalSalesAmount').innerText = `${CURRENCY} ${totalAmount.toFixed(2)}`;
-        document.getElementById('totalTransactions').innerText = transactions;
-
-        const tbody = document.getElementById('salesTableBody');
-        tbody.innerHTML = '';
-        todaysSales.slice().reverse().forEach(sale => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${new Date(sale.date).toLocaleTimeString()}</td>
-                <td>${sale.customerName || '-'}</td>
-                <td>${sale.customerMobile || '-'}</td>
-                <td>${CURRENCY} ${sale.grandTotal.toFixed(2)}</td>
-            `;
-            tbody.appendChild(row);
+        cart.forEach(item => {
+            const product = products.find(p => p.id === item.id);
+            if (product) {
+                product.stock -= item.quantity;
+            }
         });
+        saveProducts();
+        renderProductButtons();
+        renderProductList();
+        renderInventory();
     }
 
-    // رسید پرنٹ کریں
     function printReceipt() {
         if (cart.length === 0) {
             alert('براہ کرم کارٹ میں اشیاء شامل کریں');
             return;
+        }
+
+        for (let item of cart) {
+            const product = products.find(p => p.id === item.id);
+            if (!product || product.stock < item.quantity) {
+                alert(`صرف ${product.stock.toFixed(2)} کلو ${product.name} اسٹاک میں ہے۔`);
+                return;
+            }
         }
 
         const customerName = document.getElementById('customerName').value.trim() || '-';
@@ -791,13 +1199,13 @@
         lines.push(SHOP_NAME);
         lines.push(SHOP_ADDRESS);
         lines.push(SHOP_PHONE);
-        lines.push('-----------------------------');
+        lines.push('---------------------------------');
         lines.push(`تاریخ: ${dateStr}`);
         if (customerName !== '-') lines.push(`گاہک: ${customerName}`);
         if (customerMobile !== '-') lines.push(`موبائل: ${customerMobile}`);
-        lines.push('-----------------------------');
-        lines.push('شے                     وزن     قیمت');
-        lines.push('-----------------------------');
+        lines.push('---------------------------------');
+        lines.push('ائٹم           وزن       قیمت');
+        lines.push('---------------------------------');
 
         cart.forEach(item => {
             const name = item.name.substring(0, 15).padEnd(15, ' ');
@@ -806,7 +1214,7 @@
             lines.push(`${name} ${qty} ${CURRENCY} ${total}`);
         });
 
-        lines.push('-----------------------------');
+        lines.push('--------------------------------');
         lines.push(`کل رقم:                 ${CURRENCY} ${total.toFixed(2)}`);
         lines.push(`نقدی:                  ${CURRENCY} ${cash.toFixed(2)}`);
         lines.push(`بقایا:                 ${CURRENCY} ${balance.toFixed(2)}`);
@@ -818,9 +1226,8 @@
         const receiptText = lines.join('\n');
         const receiptDiv = document.getElementById('receipt');
         receiptDiv.style.display = 'block';
-        receiptDiv.innerHTML = `<pre style="font-family:'Courier New',monospace; margin:0;">${receiptText}</pre>`;
+        receiptDiv.innerHTML = `<pre style="font-family:'Courier New',monospace; margin:0; border:2px solid #333; padding:8px; border-radius:8px; background:#fff;">${receiptText}</pre>`;
 
-        // فروخت محفوظ کریں
         const saleRecord = {
             date: now.toISOString(),
             customerName,
@@ -834,24 +1241,273 @@
 
         window.print();
         receiptDiv.style.display = 'none';
+        cart = [];
+        renderCart();
         updateDashboard();
     }
 
-    // آج کی فروخت صاف کریں
-    function clearTodaysSales() {
-        if (confirm('کیا آپ آج کی تمام فروخت کو حذف کرنا چاہتے ہیں؟ یہ عمل واپس نہیں ہو سکتا۔')) {
-            const sales = JSON.parse(localStorage.getItem('dryfruit_sales_urdu')) || [];
-            const today = new Date().toISOString().split('T')[0];
-            const filtered = sales.filter(s => !s.date.startsWith(today));
-            localStorage.setItem('dryfruit_sales_urdu', JSON.stringify(filtered));
-            updateDashboard();
+    function getFilteredTransactions(period) {
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        
+        let startDate;
+        switch(period) {
+            case 'today':
+                startDate = today;
+                break;
+            case 'month':
+                startDate = new Date(now); startDate.setMonth(now.getMonth() - 1);
+                break;
+            case '6months':
+                startDate = new Date(now); startDate.setMonth(now.getMonth() - 6);
+                break;
+            case 'year':
+                startDate = new Date(now); startDate.setFullYear(now.getFullYear() - 1);
+                break;
+            default:
+                startDate = new Date(0);
         }
+
+        const purchaseTrans = purchases.filter(p => new Date(p.date) >= startDate).map(p => ({
+            ...p,
+            type: 'خرید',
+            typeClass: 'purchase-row'
+        }));
+
+        const saleTrans = sales.flatMap(s => s.items.map(item => ({
+            date: s.date,
+            productName: item.name,
+            quantity: item.quantity,
+            rate: item.price,
+            total: item.price * item.quantity,
+            type: 'فروخت',
+            typeClass: 'sale-row'
+        }))).filter(t => new Date(t.date) >= startDate);
+
+        return [...purchaseTrans, ...saleTrans].sort((a,b) => new Date(b.date) - new Date(a.date));
     }
 
-    // ---------- پروڈکٹ مینجمنٹ ----------
+    function updateDashboard() {
+        const period = document.getElementById('reportPeriod').value;
+        const transactions = getFilteredTransactions(period);
+        
+        const totalPurchase = transactions.filter(t => t.type === 'خرید').reduce((sum, t) => sum + t.total, 0);
+        const totalSale = transactions.filter(t => t.type === 'فروخت').reduce((sum, t) => sum + t.total, 0);
+
+        document.getElementById('totalPurchaseAmount').innerText = `${CURRENCY} ${totalPurchase.toFixed(2)}`;
+        document.getElementById('totalSalesAmount').innerText = `${CURRENCY} ${totalSale.toFixed(2)}`;
+
+        const tbody = document.getElementById('transactionTableBody');
+        tbody.innerHTML = '';
+        transactions.forEach(t => {
+            const row = document.createElement('tr');
+            row.className = t.typeClass;
+            row.innerHTML = `
+                <td>${new Date(t.date).toLocaleString('ur-PK')}</td>
+                <td>${t.productName}</td>
+                <td>${t.quantity.toFixed(2)}</td>
+                <td>${CURRENCY} ${t.rate.toFixed(2)}</td>
+                <td>${CURRENCY} ${t.total.toFixed(2)}</td>
+                <td>${t.type}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function printFullReport() {
+        const period = document.getElementById('reportPeriod').value;
+        const transactions = getFilteredTransactions(period);
+        
+        let periodText = '';
+        switch(period) {
+            case 'today': periodText = 'آج'; break;
+            case 'month': periodText = 'پچھلے 30 دن'; break;
+            case '6months': periodText = 'پچھلے 6 ماہ'; break;
+            case 'year': periodText = 'پچھلے 12 ماہ'; break;
+            default: periodText = 'تمام';
+        }
+
+        const purchaseTrans = transactions.filter(t => t.type === 'خرید');
+        const saleTrans = transactions.filter(t => t.type === 'فروخت');
+
+        const totalPurchaseQty = purchaseTrans.reduce((sum, t) => sum + t.quantity, 0);
+        const totalPurchaseAmount = purchaseTrans.reduce((sum, t) => sum + t.total, 0);
+        const totalSaleQty = saleTrans.reduce((sum, t) => sum + t.quantity, 0);
+        const totalSaleAmount = saleTrans.reduce((sum, t) => sum + t.total, 0);
+
+        const itemMap = new Map();
+        transactions.forEach(t => {
+            if (!itemMap.has(t.productName)) {
+                itemMap.set(t.productName, { purchaseQty: 0, purchaseAmount: 0, saleQty: 0, saleAmount: 0 });
+            }
+            const item = itemMap.get(t.productName);
+            if (t.type === 'خرید') {
+                item.purchaseQty += t.quantity;
+                item.purchaseAmount += t.total;
+            } else {
+                item.saleQty += t.quantity;
+                item.saleAmount += t.total;
+            }
+        });
+
+        const itemSummaries = Array.from(itemMap.entries()).map(([name, vals]) => ({ name, ...vals }));
+        itemSummaries.sort((a, b) => a.name.localeCompare(b.name));
+
+        let html = `
+            <div style="direction: rtl; font-family: 'Noto Nastaliq Urdu', serif; padding: 15px; max-width: 1100px; margin: 0 auto; background: white; border: 3px solid #0f4f2a; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,40,0,0.3);">
+                <h1 style="text-align: center; color: #0f4f2a; font-size:2rem; margin-bottom:5px;">${SHOP_NAME}</h1>
+                <p style="text-align: center; font-size:1.1rem;">${SHOP_ADDRESS} | ${SHOP_PHONE}</p>
+                <h2 style="text-align: center; border-bottom: 3px solid #0f4f2a; padding-bottom: 10px; margin:15px 0;">آمد و رفت کی تفصیلی رپورٹ: ${periodText}</h2>
+                
+                <div style="display: flex; justify-content: space-around; margin: 20px 0; gap: 15px;">
+                    <div style="background: #d4f0d4; padding: 20px; border-radius: 25px; text-align: center; flex:1; box-shadow: 0 8px 16px rgba(0,40,0,0.2); border:2px solid #2e8b57;">
+                        <div style="font-weight: bold; font-size:1.3rem;">کل خریداری (آمد)</div>
+                        <div style="font-size: 2rem; font-weight: 800;">${CURRENCY} ${totalPurchaseAmount.toFixed(2)}</div>
+                        <div style="font-size:1.2rem;">کل وزن: ${totalPurchaseQty.toFixed(2)} kg</div>
+                    </div>
+                    <div style="background: #ffe6e6; padding: 20px; border-radius: 25px; text-align: center; flex:1; box-shadow: 0 8px 16px rgba(100,0,0,0.2); border:2px solid #b33;">
+                        <div style="font-weight: bold; font-size:1.3rem;">کل فروخت (رفت)</div>
+                        <div style="font-size: 2rem; font-weight: 800;">${CURRENCY} ${totalSaleAmount.toFixed(2)}</div>
+                        <div style="font-size:1.2rem;">کل وزن: ${totalSaleQty.toFixed(2)} kg</div>
+                    </div>
+                </div>
+        `;
+
+        if (itemSummaries.length > 0) {
+            html += `
+                <h3 style="margin-top: 30px; font-size:1.6rem; border-right:6px solid #1e8b3a; padding-right:12px;">اشیاء کی تفصیل</h3>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0; background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 8px 16px rgba(0,30,0,0.2); border:2px solid #0f4f2a;">
+                    <thead>
+                        <tr style="background: #c8e6c9;">
+                            <th style="padding: 12px; border: 1px solid #a5d6a5; font-size:1.1rem;">شے</th>
+                            <th style="padding: 12px; border: 1px solid #a5d6a5;" colspan="2">خریداری (آمد)</th>
+                            <th style="padding: 12px; border: 1px solid #a5d6a5;" colspan="2">فروخت (رفت)</th>
+                        </tr>
+                        <tr style="background: #e0f2e0;">
+                            <th style="padding: 10px; border: 1px solid #a5d6a5;"></th>
+                            <th style="padding: 10px; border: 1px solid #a5d6a5;">مقدار (کلو)</th>
+                            <th style="padding: 10px; border: 1px solid #a5d6a5;">رقم</th>
+                            <th style="padding: 10px; border: 1px solid #a5d6a5;">مقدار (کلو)</th>
+                            <th style="padding: 10px; border: 1px solid #a5d6a5;">رقم</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            itemSummaries.forEach(item => {
+                html += `
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #a5d6a5; font-weight: 600;">${item.name}</td>
+                        <td style="padding: 10px; border: 1px solid #a5d6a5;">${item.purchaseQty.toFixed(2)}</td>
+                        <td style="padding: 10px; border: 1px solid #a5d6a5;">${CURRENCY} ${item.purchaseAmount.toFixed(2)}</td>
+                        <td style="padding: 10px; border: 1px solid #a5d6a5;">${item.saleQty.toFixed(2)}</td>
+                        <td style="padding: 10px; border: 1px solid #a5d6a5;">${CURRENCY} ${item.saleAmount.toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+            html += `
+                    <tr style="background: #f0f8f0; font-weight: 800;">
+                        <td style="padding: 12px; border: 1px solid #a5d6a5;">کل</td>
+                        <td style="padding: 12px; border: 1px solid #a5d6a5;">${totalPurchaseQty.toFixed(2)}</td>
+                        <td style="padding: 12px; border: 1px solid #a5d6a5;">${CURRENCY} ${totalPurchaseAmount.toFixed(2)}</td>
+                        <td style="padding: 12px; border: 1px solid #a5d6a5;">${totalSaleQty.toFixed(2)}</td>
+                        <td style="padding: 12px; border: 1px solid #a5d6a5;">${CURRENCY} ${totalSaleAmount.toFixed(2)}</td>
+                    </tr>
+                </tbody>
+            </table>`;
+        }
+
+        // اوسط قیمتیں اور اسٹاک ویلیو
+        html += `
+            <h3 style="margin-top: 30px; font-size:1.6rem; border-right:6px solid #1e8b3a; padding-right:12px;">اوسط قیمتیں اور اسٹاک ویلیو</h3>
+            <table style="width: 100%; border-collapse: collapse; margin: 15px 0; background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 8px 16px rgba(0,30,0,0.2); border:2px solid #0f4f2a;">
+                <thead>
+                    <tr style="background: #c8e6c9;">
+                        <th style="padding: 12px; border: 1px solid #a5d6a5;">شے</th>
+                        <th style="padding: 12px; border: 1px solid #a5d6a5;">اوسط خرید قیمت</th>
+                        <th style="padding: 12px; border: 1px solid #a5d6a5;">اوسط فروخت قیمت</th>
+                        <th style="padding: 12px; border: 1px solid #a5d6a5;">موجودہ اسٹاک</th>
+                        <th style="padding: 12px; border: 1px solid #a5d6a5;">اسٹاک ویلیو</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+        itemSummaries.forEach(item => {
+            const avgPurchasePrice = item.purchaseQty > 0 ? item.purchaseAmount / item.purchaseQty : 0;
+            const avgSalePrice = item.saleQty > 0 ? item.saleAmount / item.saleQty : 0;
+            const currentStock = products.find(p => p.name === item.name)?.stock || 0;
+            const stockValue = currentStock * avgPurchasePrice;
+            html += `
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #a5d6a5;">${item.name}</td>
+                    <td style="padding: 10px; border: 1px solid #a5d6a5;">${CURRENCY} ${avgPurchasePrice.toFixed(2)}</td>
+                    <td style="padding: 10px; border: 1px solid #a5d6a5;">${CURRENCY} ${avgSalePrice.toFixed(2)}</td>
+                    <td style="padding: 10px; border: 1px solid #a5d6a5;">${currentStock.toFixed(2)} kg</td>
+                    <td style="padding: 10px; border: 1px solid #a5d6a5;">${CURRENCY} ${stockValue.toFixed(2)}</td>
+                </tr>
+            `;
+        });
+
+        const totalStockValue = products.reduce((sum, p) => {
+            const item = itemSummaries.find(i => i.name === p.name);
+            const avgPrice = item && item.purchaseQty > 0 ? item.purchaseAmount / item.purchaseQty : p.price;
+            return sum + (p.stock * avgPrice);
+        }, 0);
+
+        html += `
+                <tr style="background: #f0f8f0; font-weight: 800;">
+                    <td colspan="4" style="padding: 12px; border: 1px solid #a5d6a5; text-align: left;">کل اسٹاک ویلیو</td>
+                    <td style="padding: 12px; border: 1px solid #a5d6a5;">${CURRENCY} ${totalStockValue.toFixed(2)}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 30px; font-size:1.6rem; border-right:6px solid #1e8b3a; padding-right:12px;">تفصیلی لین دین</h3>
+        <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 8px 16px rgba(0,30,0,0.2); border:2px solid #0f4f2a;">
+            <thead>
+                <tr style="background: #c8e6c9;">
+                    <th style="padding: 12px; border: 1px solid #a5d6a5;">تاریخ</th>
+                    <th style="padding: 12px; border: 1px solid #a5d6a5;">شے</th>
+                    <th style="padding: 12px; border: 1px solid #a5d6a5;">مقدار (کلو)</th>
+                    <th style="padding: 12px; border: 1px solid #a5d6a5;">فی کلو قیمت</th>
+                    <th style="padding: 12px; border: 1px solid #a5d6a5;">کل رقم</th>
+                    <th style="padding: 12px; border: 1px solid #a5d6a5;">نوعیت</th>
+                </tr>
+            </thead>
+            <tbody>
+        `;
+
+        transactions.forEach(t => {
+            const bgColor = t.type === 'خرید' ? '#d4f0d4' : '#ffe6e6';
+            html += `
+                <tr style="background: ${bgColor};">
+                    <td style="padding: 10px; border: 1px solid #a5d6a5;">${new Date(t.date).toLocaleString('ur-PK')}</td>
+                    <td style="padding: 10px; border: 1px solid #a5d6a5;">${t.productName}</td>
+                    <td style="padding: 10px; border: 1px solid #a5d6a5;">${t.quantity.toFixed(2)}</td>
+                    <td style="padding: 10px; border: 1px solid #a5d6a5;">${CURRENCY} ${t.rate.toFixed(2)}</td>
+                    <td style="padding: 10px; border: 1px solid #a5d6a5;">${CURRENCY} ${t.total.toFixed(2)}</td>
+                    <td style="padding: 10px; border: 1px solid #a5d6a5;">${t.type}</td>
+                </tr>
+            `;
+        });
+
+        html += `
+                </tbody>
+            </table>
+            <div style="text-align: center; margin-top: 30px; font-weight: bold; font-size:1.2rem; border-top:2px solid #0f4f2a; padding-top:15px;">${DEV_CREDIT}</div>
+        </div>`;
+
+        const reportDiv = document.getElementById('report-print-area');
+        reportDiv.style.display = 'block';
+        reportDiv.innerHTML = html;
+        window.print();
+        reportDiv.style.display = 'none';
+    }
+
     document.getElementById('saveProductBtn').onclick = () => {
         const name = document.getElementById('prodName').value.trim();
         const price = parseFloat(document.getElementById('prodPrice').value);
+        const stock = parseFloat(document.getElementById('prodStock').value) || 0;
         const editId = document.getElementById('editId').value;
 
         if (!name || isNaN(price) || price <= 0) {
@@ -864,19 +1520,23 @@
             if (index !== -1) {
                 products[index].name = name;
                 products[index].price = price;
+                products[index].stock = stock;
             }
             document.getElementById('editId').value = '';
             document.getElementById('cancelEditBtn').style.display = 'none';
         } else {
             const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-            products.push({ id: newId, name, price });
+            products.push({ id: newId, name, price, stock });
         }
 
         saveProducts();
         document.getElementById('prodName').value = '';
         document.getElementById('prodPrice').value = '';
+        document.getElementById('prodStock').value = '0';
         renderProductButtons();
         renderProductList();
+        renderInventory();
+        renderPurchaseDropdown();
     };
 
     window.editProduct = (id) => {
@@ -884,9 +1544,9 @@
         if (p) {
             document.getElementById('prodName').value = p.name;
             document.getElementById('prodPrice').value = p.price;
+            document.getElementById('prodStock').value = p.stock;
             document.getElementById('editId').value = p.id;
             document.getElementById('cancelEditBtn').style.display = 'inline-block';
-            // سوئچ ٹو پروڈکٹ ٹیب
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelector('[data-tab="products"]').classList.add('active');
@@ -900,6 +1560,8 @@
             saveProducts();
             renderProductButtons();
             renderProductList();
+            renderInventory();
+            renderPurchaseDropdown();
             cart = cart.filter(item => item.id !== id);
             renderCart();
         }
@@ -908,28 +1570,13 @@
     document.getElementById('cancelEditBtn').onclick = () => {
         document.getElementById('prodName').value = '';
         document.getElementById('prodPrice').value = '';
+        document.getElementById('prodStock').value = '0';
         document.getElementById('editId').value = '';
         document.getElementById('cancelEditBtn').style.display = 'none';
     };
 
-    function renderProductList() {
-        const listDiv = document.getElementById('productList');
-        listDiv.innerHTML = '';
-        products.forEach(p => {
-            const div = document.createElement('div');
-            div.className = 'product-list-item';
-            div.innerHTML = `
-                <span><strong>${p.name}</strong> — ${CURRENCY} ${p.price.toFixed(2)}/kg</span>
-                <span>
-                    <button class="edit-btn" onclick="editProduct(${p.id})">ترمیم</button>
-                    <button class="delete-btn" onclick="deleteProduct(${p.id})">حذف</button>
-                </span>
-            `;
-            listDiv.appendChild(div);
-        });
-    }
+    document.getElementById('savePurchaseBtn').onclick = savePurchase;
 
-    // ٹیب سوئچنگ
     document.querySelectorAll('.tab').forEach(tab => {
         tab.onclick = () => {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -938,25 +1585,33 @@
             const tabId = tab.dataset.tab;
             document.getElementById(tabId).classList.add('active');
             if (tabId === 'dashboard') updateDashboard();
+            if (tabId === 'inventory') renderInventory();
+            if (tabId === 'purchases') {
+                renderPurchaseDropdown();
+                renderPurchaseHistory();
+            }
         };
     });
 
-    // بٹن ایونٹس
     document.getElementById('printBtn').onclick = printReceipt;
     document.getElementById('clearCartBtn').onclick = clearCart;
-    document.getElementById('clearSalesBtn').onclick = clearTodaysSales;
+    document.getElementById('applyFilterBtn').onclick = updateDashboard;
+    document.getElementById('printFullReportBtn').onclick = printFullReport;
     document.getElementById('cashInput').addEventListener('input', calculateBalance);
 
-    // گلوبل فنکشنز
     window.addToCart = addToCart;
     window.updateQuantity = updateQuantity;
     window.removeItem = removeItem;
     window.calculateBalance = calculateBalance;
 
-    // ابتداء
     loadProducts();
+    loadPurchases();
+    loadSales();
     renderProductButtons();
     renderProductList();
+    renderInventory();
+    renderPurchaseDropdown();
+    renderPurchaseHistory();
     renderCart();
     updateDashboard();
 </script>
