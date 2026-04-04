@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#08162D">
-    <title>شیخ ڈرائی فروٹ پشین </title>
+    <title>شیخ ڈرائی فروٹ پشین | پروفیشنل پوائنٹ آف سیل</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <style>
@@ -36,7 +36,7 @@
             --text-white: #FFFFFF;      /* White text on dark backgrounds */
             --text-white-muted: #B8C7E7;
             --danger: #ef5350;
-            --success: #66bb6a;
+            --success: #2e7d32;
             --border-light: #E2E8F0;
             --border-dark: #2C4C7C;
             --radius-sm: 12px;
@@ -877,7 +877,7 @@
                 </tbody>
             </table>
         </div>
-        <button class="action" id="printReportBtn" style="margin-top: 18px; background: var(--success); box-shadow: 0 6px 14px rgba(102, 187, 106, 0.3);">
+        <button class="action" id="printReportBtn" style="margin-top: 18px; background: var(--success); box-shadow: 0 6px 14px rgba(46,125,50,0.3);">
             <span class="material-icons-round">print</span> مکمل رپورٹ پرنٹ کریں
         </button>
         
@@ -974,6 +974,95 @@
     let isDataInitialized = false;
     let isOfflineMode = false;
 
+    // ========== 58MM THERMAL RECEIPT - LEFT ALIGNED + TOP ALIGNED ==========
+    function printThermalReceipt(sale) {
+        const itemsHtml = sale.items.map(item => `
+            <tr style="border-bottom: 1px dotted #aaa;">
+                <td style="padding: 4px 2px; text-align: left; font-size: 11px;">${item.name}</td>
+                <td style="padding: 4px 2px; text-align: center; font-size: 11px;">${parseFloat(item.qty).toFixed(2)}kg</td>
+                <td style="padding: 4px 2px; text-align: left; font-size: 11px;">${parseFloat(item.price).toFixed(0)}</td>
+                <td style="padding: 4px 2px; text-align: left; font-size: 11px; font-weight: 600;">${(parseFloat(item.qty) * parseFloat(item.price)).toFixed(0)}</td>
+              </tr>
+        `).join('');
+        
+        const balanceVal = parseFloat(sale.balance) || 0;
+        const balanceText = balanceVal >= 0 ? "تبدیلی / واپسی" : "بقایا رقم";
+        const balanceClass = balanceVal >= 0 ? "#2e7d32" : "#ef5350";
+        
+        // LEFT ALIGNED: removed margin:0 auto, set text-align:left, no centering
+        const receiptHTML = `
+        <div style="width: 58mm; max-width: 58mm; margin: 0; padding: 6px 4px; font-family: 'Jameel Noori Nastaleeq', 'Noto Nastaliq Urdu', monospace; background: white; color: black; direction: ltr; text-align: left; box-sizing: border-box;">
+            <div style="text-align: center; border-bottom: 1px dashed #000; margin-bottom: 6px; padding-bottom: 6px;">
+                <h2 style="margin: 0; font-size: 16px; font-weight: 800; letter-spacing: 0px;">شیخ ڈرائی فروٹ</h2>
+                <p style="margin: 3px 0; font-size: 9px; color: #2c3e66;">بلوچستان، پشین | ہول سیل ریٹ</p>
+                <p style="margin: 2px 0; font-size: 9px;">📞 0319 0112447  |  0336 8888083</p>
+                <p style="margin: 2px 0; font-size: 8px;">آن لائن ڈیلیوری دستیاب</p>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 9px; margin: 6px 0 4px; border-bottom: 1px dotted #ccc; padding-bottom: 4px;">
+                <span><strong>رسید نمبر:</strong> #${sale.receiptNo || '---'}</span>
+                <span><strong>تاریخ:</strong> ${sale.date.split(',')[0]}</span>
+            </div>
+            <div style="font-size: 9px; margin-bottom: 6px; border-bottom: 1px dotted #ccc; padding-bottom: 4px;">
+                <strong>گاہک:</strong> ${sale.customer || 'عام گاہک'} ${sale.mobile ? ` | ${sale.mobile}` : ''}
+            </div>
+            <table style="width: 100%; border-collapse: collapse; font-size: 9px; margin-bottom: 6px;">
+                <thead>
+                    <tr style="background: #f2f2f2; border-bottom: 1px solid #aaa;">
+                        <th style="text-align: left; padding: 4px 2px;">آئٹم</th>
+                        <th style="text-align: center; padding: 4px 2px;">مقدار</th>
+                        <th style="text-align: left; padding: 4px 2px;">ریٹ</th>
+                        <th style="text-align: left; padding: 4px 2px;">رقم</th>
+                      </tr>
+                </thead>
+                <tbody>${itemsHtml || '<tr><td colspan="4" style="text-align:center;">کوئی اشیاء نہیں</td>'}</tbody>
+            </table>
+            <div style="border-top: 1px solid #000; padding-top: 4px; margin-top: 4px;">
+                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 3px;">
+                    <span>کل رقم:</span><span dir="ltr">${parseFloat(sale.total).toFixed(0)} Rs</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 3px;">
+                    <span>نقدی وصولی:</span><span dir="ltr">${parseFloat(sale.cash).toFixed(0)} Rs</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; color: ${balanceClass};">
+                    <span>${balanceText}:</span><span dir="ltr">${Math.abs(balanceVal).toFixed(0)} Rs</span>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 12px; padding-top: 6px; border-top: 1px dashed #aaa; font-size: 8px; color: #4a627a;">
+                شکریہ! معیار اور اعتماد کی علامت<br>
+                ڈویلپر: اختر محمد 03178022878
+                ${sale.id && sale.id.startsWith('off_') ? '<br><span style="color:#d9534f;">(آف لائن موڈ)</span>' : ''}
+            </div>
+        </div>`;
+        
+        // Print window: body with no centering, left-aligned, padding minimal, margin 0
+        const printWindow = window.open('', '_blank', 'width=400,height=600,left=50,top=50');
+        printWindow.document.write(`<html dir="ltr"><head><title>شیخ ڈرائی فروٹ - رسید</title><style>
+            @font-face {
+                font-family: 'Jameel Noori Nastaleeq';
+                src: url('https://cdn.jsdelivr.net/gh/haideralishah/pakistani-fonts/Jameel%20Noori%20Nastaleeq/Jameel%20Noori%20Nastaleeq.woff2') format('woff2');
+            }
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { 
+                background: #e9ecef; 
+                margin: 0;
+                padding: 0;
+                font-family: 'Jameel Noori Nastaleeq', monospace;
+                text-align: left;
+            }
+            @media print {
+                body { background: white; padding: 0; margin: 0; }
+                .receipt-container { margin: 0; box-shadow: none; border: none; }
+            }
+        </style></head><body><div class="receipt-container" style="margin:0; padding:0;">${receiptHTML}</div></body></html>`);
+        printWindow.document.close();
+        printWindow.focus();
+        setTimeout(() => {
+            printWindow.print();
+            setTimeout(() => printWindow.close(), 1200);
+        }, 500);
+    }
+    
+    // Rest of the app logic unchanged (full functionality)
     async function syncOfflineData() {
         if (!navigator.onLine || !auth.currentUser || isOfflineMode) return;
         let offlineSales = JSON.parse(localStorage.getItem('offlineSales') || '[]');
@@ -991,10 +1080,7 @@
             }
             localStorage.removeItem('offlineSales');
             showToast("آف لائن ڈیٹا فائر بیس پر سنک ہو گیا!");
-        } catch (e) {
-            console.error(e);
-            showToast("ڈیٹا سنک کرنے میں مسئلہ!");
-        }
+        } catch (e) { console.error(e); showToast("ڈیٹا سنک کرنے میں مسئلہ!"); }
     }
     window.addEventListener('online', syncOfflineData);
 
@@ -1063,78 +1149,11 @@
 
     function showToast(msg) { let t = document.createElement('div'); t.className='toast'; t.innerText=msg; document.getElementById('toastContainer').appendChild(t); setTimeout(()=>t.remove(), 3000); }
 
-    // Updated print function: Entire receipt left-aligned, no centering
-    function printThermalReceipt(sale) {
-        const itemsHtml = sale.items.map(item => `<tr><td style="text-align:left; padding:4px 0;">${item.name}</td><td style="text-align:center; padding:4px 0;">${item.qty}kg</td><td style="text-align:left; padding:4px 0;">${item.price}</td><td style="text-align:left; padding:4px 0;">${(parseFloat(item.qty) * parseFloat(item.price)).toFixed(0)}</td></tr>`).join('');
-        
-        const receiptHTML = `
-        <div class="receipt-print-area" style="width:58mm; margin:0; padding:2mm; font-family:'Jameel Noori Nastaleeq', sans-serif; font-size:10px; direction:ltr; text-align:left; background:white; color:black;">
-            <!-- Entire content left aligned -->
-            <div style="border-bottom:1px dashed #000; padding-bottom:8px; margin-bottom:8px;">
-  
-                <h3 style="margin:0; font-size:18px; font-weight:bold;">           شیخ ڈرائی فروٹ</h3>
-                <p style="margin:2px 0; font-size:12px;" dir="ltr">         0319 0112447 | 0336 8888083</p>
-                <p style="margin:2px 0; font-size:12px;">                        بلوچستان، پشین</p>
-                <p style="margin:2px 0; font-size:11px; font-weight:bold;">  ہول سیل ریٹ پر دستیاب ہیں</p>
-                <p style="margin:2px 0; font-size:10px;">                  آن لائن ڈیلیوری کی سہولت بھی ہے</p>
-            </div>
-            <!-- Left aligned details -->
-            <div style="margin:6px 0; font-size:10px; text-align:left;">
-                رسید نمبر: <strong>${sale.receiptNo || '---'}</strong><br>
-                تاریخ: ${sale.date}<br>
-                گاہک: ${sale.customer} ${sale.mobile ? ' | ' + sale.mobile : ''}
-            </div>
-            <!-- Items Table left aligned -->
-            <table style="width:100%; border-collapse:collapse; margin:6px 0; font-size:11px; text-align:left;">
-                <thead>
-                    <tr style="border-bottom:1px solid #000;">
-                        <th style="text-align:left; padding:4px 0;">آئٹم</th>
-                        <th style="text-align:center; padding:4px 0;">مقدار</th>
-                        <th style="text-align:left; padding:4px 0;">ریٹ</th>
-                        <th style="text-align:left; padding:4px 0;">رقم</th>
-                    </tr>
-                </thead>
-                <tbody>${itemsHtml}</tbody>
-             </table>
-            <!-- Totals left aligned -->
-            <div style="border-top:1px dashed #000; padding-top:6px; font-size:11px; font-weight:bold; display: flex; flex-direction: column; gap: 4px; text-align:left;">
-                <div style="display:flex; justify-content:space-between;"><span>کل رقم:</span><span dir="ltr">${sale.total} Rs</span></div>
-                <div style="display:flex; justify-content:space-between;"><span>وصول شدہ:</span><span dir="ltr">${sale.cash} Rs</span></div>
-                <div style="display:flex; justify-content:space-between;"><span>بقایا:</span><span dir="ltr">${sale.balance} Rs</span></div>
-            </div>
-            <!-- Footer -->
-            <div style="text-align:left; margin-top:10px; font-size:9px; font-weight:bold;">
-                ${sale.id && sale.id.startsWith('off_') ? '(Offline)' : ''}<br>
-                Dev: AKHTAR MOHAMMAD : 03178022878
-            </div>
-        </div>`;
-        
-        const printWindow = window.open('', '_blank', 'width=400,height=600');
-        printWindow.document.write(`<html dir="ltr"><head><title>Receipt</title><style>
-            @font-face {
-                font-family: 'Jameel Noori Nastaleeq';
-                src: url('https://cdn.jsdelivr.net/gh/haideralishah/pakistani-fonts/Jameel%20Noori%20Nastaleeq/Jameel%20Noori%20Nastaleeq.woff2') format('woff2'),
-                     url('https://cdn.jsdelivr.net/gh/haideralishah/pakistani-fonts/Jameel%20Noori%20Nastaleeq/Jameel%20Noori%20Nastaleeq.ttf') format('truetype');
-            }
-            @media print {
-                body { margin: 0; padding: 0; }
-            }
-            * {
-                font-family: 'Jameel Noori Nastaleeq', sans-serif;
-                box-sizing: border-box;
-            }
-        </style></head><body style="margin:0; background:white; display:flex; justify-content:flex-start;">${receiptHTML}</body></html>`);
-        printWindow.document.close(); printWindow.focus(); 
-        
-        setTimeout(() => { printWindow.print(); setTimeout(() => printWindow.close(), 1000); }, 800);
-    }
-
     function parseDateFromString(dateStr) { if(!dateStr) return null; let cleaned = dateStr; const urduDigits=['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'], engDigits=['0','1','2','3','4','5','6','7','8','9']; for(let i=0;i<urduDigits.length;i++) cleaned = cleaned.replace(new RegExp(urduDigits[i],'g'), engDigits[i]); let parts = cleaned.split(' ')[0].split('/'); if(parts.length===3){ if(parts[0].length===4) return new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2])); else return new Date(parseInt(parts[2]), parseInt(parts[1])-1, parseInt(parts[0])); } return null; }
     function isDateInRange(dateStr, start, end) { const d = parseDateFromString(dateStr); if(!d) return false; const d2 = new Date(d.getFullYear(), d.getMonth(), d.getDate()); return d2 >= new Date(start.getFullYear(), start.getMonth(), start.getDate()) && d2 <= new Date(end.getFullYear(), end.getMonth(), end.getDate()); }
     function getDateRangeForFilter(f) { const n=new Date(); if(f==='today') return {start: new Date(n.getFullYear(), n.getMonth(), n.getDate()), end: new Date(n.getFullYear(), n.getMonth(), n.getDate())}; if(f==='month') return {start: new Date(n.getFullYear(), n.getMonth(), 1), end: new Date(n.getFullYear(), n.getMonth()+1, 0)}; if(f==='year') return {start: new Date(n.getFullYear(), 0, 1), end: new Date(n.getFullYear(), 11, 31)}; if(f==='halfyear') return {start: new Date(n.getFullYear(), n.getMonth()-6, 1), end: new Date(n.getFullYear(), n.getMonth()+1, 0)}; return {start: new Date(2000,0,1), end: new Date(2099,11,31)}; }
     function getFilteredTransactionRows() { const range = getDateRangeForFilter(currentDateFilter); const rows = []; sales.forEach(s => { if(s.date && isDateInRange(s.date, range.start, range.end)) s.items.forEach(item => { if(currentProductFilter !== 'all' && item.name !== currentProductFilter) return; rows.push({ date: s.date, product: item.name, qty: item.qty, unitPrice: item.price, total: (parseFloat(item.qty)*parseFloat(item.price))||0, type: 'فروخت' }); }); }); purchases.forEach(p => { if(p.date && isDateInRange(p.date, range.start, range.end) && (currentProductFilter === 'all' || p.productName === currentProductFilter)) rows.push({ date: p.date, product: p.productName, qty: p.qty, unitPrice: p.rate, total: (parseFloat(p.qty)*parseFloat(p.rate))||0, type: 'خریداری' }); }); rows.sort((a,b)=> (parseDateFromString(b.date)||0) - (parseDateFromString(a.date)||0)); return rows; }
-    function renderFullReport() { const rows = getFilteredTransactionRows(); document.getElementById('reportTableBody').innerHTML = rows.length ? rows.map(r => `<tr><td>${r.date.split(' ')[0]}</td><td>${r.product}</td><td>${r.qty}</td><td>${r.total.toFixed(0)}</td><td style="color:${r.type==='فروخت'?'var(--success)':'var(--danger)'};font-weight:bold;">${r.type}</td></tr>`).join('') : '<tr><td colspan="5">کوئی ریکارڈ نہیں</td></tr>'; let sAmt=0,pAmt=0,sKg=0,pKg=0; rows.forEach(r=>{ if(r.type==='فروخت'){ sAmt+=r.total; sKg+=parseFloat(r.qty); } else { pAmt+=r.total; pKg+=parseFloat(r.qty); } }); document.getElementById('statTotalSales').innerText = sAmt.toFixed(0); document.getElementById('statTotalPurchase').innerText = pAmt.toFixed(0); document.getElementById('statTotalKgSold').innerText = sKg.toFixed(2); document.getElementById('statTotalKgPurchased').innerText = pKg.toFixed(2); }
-    
+    function renderFullReport() { const rows = getFilteredTransactionRows(); document.getElementById('reportTableBody').innerHTML = rows.length ? rows.map(r => `<tr><td>${r.date.split(' ')[0]}</td><td>${r.product}</td><td>${r.qty}</td><td>${r.total.toFixed(0)}</td><td style="color:${r.type==='فروخت'?'#2e7d32':'#ef5350'};font-weight:bold;">${r.type}</td></tr>`).join('') : '<tr><td colspan="5">کوئی ریکارڈ نہیں</td></tr>'; let sAmt=0,pAmt=0,sKg=0,pKg=0; rows.forEach(r=>{ if(r.type==='فروخت'){ sAmt+=r.total; sKg+=parseFloat(r.qty); } else { pAmt+=r.total; pKg+=parseFloat(r.qty); } }); document.getElementById('statTotalSales').innerText = sAmt.toFixed(0); document.getElementById('statTotalPurchase').innerText = pAmt.toFixed(0); document.getElementById('statTotalKgSold').innerText = sKg.toFixed(2); document.getElementById('statTotalKgPurchased').innerText = pKg.toFixed(2); }
     function printA4Report() { 
         const rows = getFilteredTransactionRows(); 
         if(!rows.length) return showToast("پرنٹ کے لیے ڈیٹا نہیں"); 
@@ -1214,7 +1233,6 @@
     function renderPurchaseHistory() { const div = document.getElementById('purchaseHistory'); if(!div) return; if(purchases.length===0){ div.innerHTML='<div style="padding:20px; text-align:center; color:var(--text-dark-muted);">کوئی خریداری نہیں</div>'; return; } div.innerHTML = [...purchases].reverse().map(pur => `<div class="list-tile"><div class="list-tile-header"><div><div class="list-tile-title">${pur.productName}</div><div class="list-tile-subtitle">${pur.date.split(' ')[0]} | مقدار: ${pur.qty}kg | قیمت: ${pur.rate}</div></div><div style="font-weight:bold; color:var(--primary);">${(pur.qty*pur.rate).toFixed(0)}</div></div><div class="list-tile-actions"><button class="btn-icon primary edit-purchase-btn" data-id="${pur.id}"><span class="material-icons-round" style="font-size:16px;">edit</span></button><button class="btn-icon danger delete-purchase-btn" data-id="${pur.id}" data-qty="${pur.qty}" data-pname="${pur.productName}"><span class="material-icons-round" style="font-size:16px;">delete</span></button></div></div>`).join(''); document.querySelectorAll('.edit-purchase-btn').forEach(btn => btn.onclick = () => { const p = purchases.find(x=>x.id === btn.dataset.id); if(p) openEditPurchaseModal(p); }); document.querySelectorAll('.delete-purchase-btn').forEach(btn => btn.onclick = async () => { if(confirm("حذف کریں؟")){ const prod = products.find(p=>p.name === btn.dataset.pname); if(prod) await update(ref(db,`products/${prod.id}`),{stock: Math.max(0, prod.stock - parseFloat(btn.dataset.qty))}); await remove(ref(db,`purchases/${btn.dataset.id}`)); showToast("خریداری حذف"); } }); }
     function openEditPurchaseModal(purchase) { currentEditPurchaseId = purchase.id; document.getElementById('editPurchaseProductName').innerText = purchase.productName; document.getElementById('editPurchaseQty').value = purchase.qty; document.getElementById('editPurchaseRate').value = purchase.rate; document.getElementById('editPurchaseModal').style.display = 'flex'; }
     async function savePurchaseEdit() { const newQty = parseFloat(document.getElementById('editPurchaseQty').value); const newRate = parseFloat(document.getElementById('editPurchaseRate').value); const old = purchases.find(p=>p.id === currentEditPurchaseId); const prod = products.find(p=>p.name === old.productName); if(prod) await update(ref(db,`products/${prod.id}`),{stock: prod.stock + (newQty - old.qty)}); await update(ref(db,`purchases/${currentEditPurchaseId}`),{ qty: newQty, rate: newRate }); document.getElementById('editPurchaseModal').style.display = 'none'; }
-    
     function renderReceiptsList() { 
         const container = document.getElementById('receiptsList'); 
         if(!container) return; 
