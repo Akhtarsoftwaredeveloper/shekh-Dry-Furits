@@ -70,17 +70,17 @@
         }
 
         /* =========================================
-           APP BAR (TOP HEADER) - DARK BLUE THEME
+           APP BAR (TOP HEADER) - COMPACT DESIGN
            ========================================= */
         .app-bar {
             background: var(--surface-dark);
             color: var(--text-white);
-            padding: env(safe-area-inset-top, 20px) 20px 15px;
+            padding: env(safe-area-inset-top, 12px) 15px 10px; 
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -91,55 +91,36 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 4px; 
             width: 100%;
         }
 
         .app-bar-logo {
-            width: 60px;
-            height: 60px;
+            width: 45px; 
+            height: 45px;
             background: var(--white-pure);
             border-radius: 50%;
-            padding: 3px;
-            box-shadow: var(--shadow-md);
+            padding: 2px;
+            box-shadow: var(--shadow-sm);
         }
 
         .app-bar-text h1 {
-            font-size: 1.6rem;
+            font-size: 1.15rem; 
             font-weight: 700;
             line-height: 1.2;
-            margin-bottom: 5px;
+            margin-bottom: 0;
             color: var(--text-white);
-        }
-
-        .app-bar-text p {
-            font-size: 0.9rem;
-            margin-bottom: 3px;
-            color: var(--text-white-muted);
-        }
-
-        .app-bar-text .numbers {
-            font-size: 1.1rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-            color: var(--text-white);
-        }
-        
-        .app-bar-text .highlight-text {
-            color: var(--secondary);
-            font-weight: bold;
-            font-size: 0.85rem;
+            letter-spacing: 0.5px;
         }
 
         .logout-btn-header {
             position: absolute;
-            left: 20px;
-            top: 20px;
+            left: 15px;
+            top: 15px; 
             background: rgba(255, 255, 255, 0.12);
             color: var(--text-white);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 8px 14px;
+            padding: 6px 10px; 
             border-radius: var(--radius-sm);
             font-weight: bold;
             display: flex;
@@ -722,25 +703,22 @@
 </div>
 
 <div id="mainApp" style="display: none;">
+    
     <div class="app-bar no-print">
         <button id="logoutBtn" class="logout-btn-header">
             <span class="material-icons-round" style="font-size: 18px;">logout</span>
         </button>
         <div class="app-bar-title">
             <div class="app-bar-logo">
-                <img src="https://image2url.com/r2/default/images/1775187597374-9a1d8a7a-0487-4b27-a2aa-947ddf25f253.png" alt="لوگو" style="width:100%; border-radius:50%;">
+                <img src="https://image2url.com/r2/default/images/1775187597374-9a1d8a7a-0487-4b27-a2aa-947ddf25f253.png" alt="لوگو" style="width:100%; height:100%; border-radius:50%; object-fit:contain;">
             </div>
             <div class="app-bar-text">
                 <h1>شیخ ڈرائی فروٹ</h1>
-                <p class="numbers" dir="ltr">0319 0112447 | 0336 8888083</p>
-                <p>بلوچستان، پشین</p>
-                <p class="highlight-text">ہول سیل ریٹ پر دستیاب ہیں</p>
-                <p style="font-size: 0.8rem;">آن لائن ڈیلیوری کی سہولت بھی ہے</p>
             </div>
         </div>
     </div>
 
-    <div id="billing" class="tab-content active">
+    <div id="saleBilling" class="tab-content active">
         <div class="card">
             <div class="row">
                 <div class="col input-group" style="margin-bottom:0">
@@ -756,7 +734,7 @@
 
         <div id="productButtons" class="product-grid"></div>
         
-        <h3 style="margin: 22px 0 12px; font-size: 1.2rem; font-weight: 800; color: var(--text-white);">کارٹ میں شامل اشیاء</h3>
+        <h3 style="margin: 22px 0 12px; font-size: 1.2rem; font-weight: 800; color: var(--text-white);">فروخت کارٹ</h3>
         <div id="cartList"></div>
 
         <div class="totals-card">
@@ -775,7 +753,46 @@
         </div>
 
         <button class="action" id="printBtn">
-            <span class="material-icons-round">print</span> رسید پرنٹ کریں
+            <span class="material-icons-round">print</span> فروخت کی رسید پرنٹ کریں
+        </button>
+    </div>
+
+    <div id="purchaseBilling" class="tab-content">
+        <div class="card">
+            <div class="row">
+                <div class="col input-group" style="margin-bottom:0">
+                    <label>سپلائر / گاہک کا نام</label>
+                    <input type="text" id="supplierName" placeholder="اختیاری">
+                </div>
+                <div class="col input-group" style="margin-bottom:0">
+                    <label>موبائل نمبر</label>
+                    <input type="tel" id="supplierMobile" placeholder="اختیاری" dir="ltr" style="text-align: right;">
+                </div>
+            </div>
+        </div>
+
+        <div id="pProductButtons" class="product-grid"></div>
+        
+        <h3 style="margin: 22px 0 12px; font-size: 1.2rem; font-weight: 800; color: var(--text-white);">خریداری کارٹ</h3>
+        <div id="pCartList"></div>
+
+        <div class="totals-card">
+            <div class="totals-row grand">
+                <span>کل رقم:</span>
+                <span><span id="pGrandTotal">0</span> Rs</span>
+            </div>
+            <div class="totals-row">
+                <span>نقدی ادائیگی:</span>
+                <input type="number" id="pCashInput" oninput="updatePurchaseBalance()" value="0" dir="ltr">
+            </div>
+            <div class="totals-row">
+                <span>بقایا رقم:</span>
+                <span style="font-weight: bold; color: var(--danger);"><span id="pBalanceAmount">0</span> Rs</span>
+            </div>
+        </div>
+
+        <button class="action" id="printPurchaseBtn" style="background: var(--success); box-shadow: 0 6px 14px rgba(46,125,50,0.3);">
+            <span class="material-icons-round">print</span> خریداری کی رسید پرنٹ کریں
         </button>
     </div>
 
@@ -802,30 +819,13 @@
         <div id="productList"></div>
     </div>
 
-    <div id="purchases" class="tab-content">
-        <div class="card">
-            <div class="input-group">
-                <label>شے منتخب کریں</label>
-                <select id="purchaseProductId"></select>
-            </div>
-            <div class="row">
-                <div class="col input-group">
-                    <label>مقدار (کلو)</label>
-                    <input type="number" id="purchaseQty" dir="ltr">
-                </div>
-                <div class="col input-group">
-                    <label>قیمت خرید (Rs)</label>
-                    <input type="number" id="purchaseRate" dir="ltr">
-                </div>
-            </div>
-            <button class="action" id="savePurchaseBtn" style="padding: 14px; font-size: 1rem;">
-                <span class="material-icons-round">shopping_bag</span> خریداری درج کریں
-            </button>
-        </div>
-        <div id="purchaseHistory"></div>
-    </div>
-
     <div id="receipts" class="tab-content">
+        <div class="filter-scroll no-print">
+            <div class="chip receipt-filter-btn active" data-filter="all">تمام رسیدیں</div>
+            <div class="chip receipt-filter-btn" data-filter="sale">صرف فروخت</div>
+            <div class="chip receipt-filter-btn" data-filter="purchase">صرف خریداری</div>
+        </div>
+        
         <div class="search-bar">
             <span class="material-icons-round">search</span>
             <input type="text" id="searchReceiptInput" placeholder="رسید نمبر، نام یا تاریخ تلاش کریں...">
@@ -873,7 +873,7 @@
                     <tr><th>تاریخ</th><th>شے</th><th>مقدار</th><th>رقم</th><th>نوعیت</th></tr>
                 </thead>
                 <tbody id="reportTableBody">
-                    <tr><td colspan="5">لوڈ ہو رہا ہے...<\/td></tr>
+                    <tr><td colspan="5">لوڈ ہو رہا ہے...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -887,17 +887,17 @@
     </div>
 
     <div class="tabs no-print" id="mainTabs">
-        <div class="tab active" data-tab="billing">
+        <div class="tab active" data-tab="saleBilling">
             <span class="material-icons-round">point_of_sale</span>
-            <span class="tab-text">بلنگ</span>
+            <span class="tab-text">بل فروخت</span>
+        </div>
+        <div class="tab" data-tab="purchaseBilling">
+            <span class="material-icons-round">shopping_cart</span>
+            <span class="tab-text">بل خریداری</span>
         </div>
         <div class="tab" data-tab="products">
             <span class="material-icons-round">inventory_2</span>
             <span class="tab-text">اشیاء</span>
-        </div>
-        <div class="tab" data-tab="purchases">
-            <span class="material-icons-round">shopping_cart</span>
-            <span class="tab-text">خریداری</span>
         </div>
         <div class="tab" data-tab="receipts">
             <span class="material-icons-round">receipt_long</span>
@@ -913,27 +913,12 @@
 <div id="editModal" class="modal">
     <div class="modal-content">
         <h3>رسید میں ترمیم</h3>
-        <div class="input-group"><label>گاہک</label><input type="text" id="editCustomerName"></div>
+        <div class="input-group"><label>گاہک/سپلائر</label><input type="text" id="editCustomerName"></div>
         <div class="input-group"><label>موبائل</label><input type="tel" id="editCustomerMobile" dir="ltr" style="text-align: right;"></div>
         <div class="input-group"><label>نقدی</label><input type="number" id="editCash" dir="ltr"></div>
         <div class="modal-buttons">
             <button id="closeModalBtn" class="btn-cancel">منسوخ</button>
             <button id="saveEditBtn" class="btn-primary">محفوظ کریں</button>
-        </div>
-    </div>
-</div>
-
-<div id="editPurchaseModal" class="modal">
-    <div class="modal-content">
-        <h3>خریداری میں ترمیم</h3>
-        <p style="text-align: center; font-weight: bold; margin-bottom: 15px; color: var(--text-dark);" id="editPurchaseProductName"></p>
-        <div class="row">
-            <div class="col input-group"><label>مقدار</label><input type="number" id="editPurchaseQty" step="0.1" dir="ltr"></div>
-            <div class="col input-group"><label>قیمت</label><input type="number" id="editPurchaseRate" step="1" dir="ltr"></div>
-        </div>
-        <div class="modal-buttons">
-            <button id="closePurchaseModalBtn" class="btn-cancel">منسوخ</button>
-            <button id="savePurchaseEditBtn" class="btn-primary">محفوظ کریں</button>
         </div>
     </div>
 </div>
@@ -974,9 +959,12 @@
     let isDataInitialized = false;
     let isOfflineMode = false;
 
-    // ========== 58MM THERMAL RECEIPT - LEFT ALIGNED + TOP ALIGNED ==========
-    function printThermalReceipt(sale) {
-        const itemsHtml = sale.items.map(item => `
+    // ========== 58MM THERMAL RECEIPT - JAMEEL NOORI NASTALEEQ ==========
+    function printThermalReceipt(transaction, type = 'sale') {
+        const titleText = type === 'purchase' ? 'خریداری رسید' : 'فروخت کی رسید';
+        const personText = type === 'purchase' ? 'سپلائر:' : 'گاہک:';
+        
+        const itemsHtml = transaction.items.map(item => `
             <tr style="border-bottom: 1px dotted #aaa;">
                 <td style="padding: 4px 2px; text-align: left; font-size: 11px;">${item.name}</td>
                 <td style="padding: 4px 2px; text-align: center; font-size: 11px;">${parseFloat(item.qty).toFixed(2)}kg</td>
@@ -985,25 +973,23 @@
               </tr>
         `).join('');
         
-        const balanceVal = parseFloat(sale.balance) || 0;
+        const balanceVal = parseFloat(transaction.balance) || 0;
         const balanceText = balanceVal >= 0 ? "تبدیلی / واپسی" : "بقایا رقم";
         const balanceClass = balanceVal >= 0 ? "#2e7d32" : "#ef5350";
         
-        // LEFT ALIGNED: removed margin:0 auto, set text-align:left, no centering
         const receiptHTML = `
         <div style="width: 58mm; max-width: 58mm; margin: 0; padding: 6px 4px; font-family: 'Jameel Noori Nastaleeq', 'Noto Nastaliq Urdu', monospace; background: white; color: black; direction: ltr; text-align: left; box-sizing: border-box;">
             <div style="text-align: center; border-bottom: 1px dashed #000; margin-bottom: 6px; padding-bottom: 6px;">
                 <h2 style="margin: 0; font-size: 16px; font-weight: 800; letter-spacing: 0px;">شیخ ڈرائی فروٹ</h2>
-                <p style="margin: 3px 0; font-size: 9px; color: #2c3e66;">بلوچستان، پشین | ہول سیل ریٹ</p>
+                <p style="margin: 3px 0; font-size: 9px; color: #2c3e66;">(${titleText})</p>
                 <p style="margin: 2px 0; font-size: 9px;">📞 0319 0112447  |  0336 8888083</p>
-                <p style="margin: 2px 0; font-size: 8px;">آن لائن ڈیلیوری دستیاب</p>
             </div>
             <div style="display: flex; justify-content: space-between; font-size: 9px; margin: 6px 0 4px; border-bottom: 1px dotted #ccc; padding-bottom: 4px;">
-                <span><strong>رسید نمبر:</strong> #${sale.receiptNo || '---'}</span>
-                <span><strong>تاریخ:</strong> ${sale.date.split(',')[0]}</span>
+                <span><strong>رسید نمبر:</strong> #${transaction.receiptNo || '---'}</span>
+                <span><strong>تاریخ:</strong> ${transaction.date.split(',')[0]}</span>
             </div>
             <div style="font-size: 9px; margin-bottom: 6px; border-bottom: 1px dotted #ccc; padding-bottom: 4px;">
-                <strong>گاہک:</strong> ${sale.customer || 'عام گاہک'} ${sale.mobile ? ` | ${sale.mobile}` : ''}
+                <strong>${personText}</strong> ${transaction.customer || 'نامعلوم'} ${transaction.mobile ? ` | ${transaction.mobile}` : ''}
             </div>
             <table style="width: 100%; border-collapse: collapse; font-size: 9px; margin-bottom: 6px;">
                 <thead>
@@ -1018,10 +1004,10 @@
             </table>
             <div style="border-top: 1px solid #000; padding-top: 4px; margin-top: 4px;">
                 <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 3px;">
-                    <span>کل رقم:</span><span dir="ltr">${parseFloat(sale.total).toFixed(0)} Rs</span>
+                    <span>کل رقم:</span><span dir="ltr">${parseFloat(transaction.total).toFixed(0)} Rs</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 3px;">
-                    <span>نقدی وصولی:</span><span dir="ltr">${parseFloat(sale.cash).toFixed(0)} Rs</span>
+                    <span>نقدی / ادا شدہ:</span><span dir="ltr">${parseFloat(transaction.cash).toFixed(0)} Rs</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; color: ${balanceClass};">
                     <span>${balanceText}:</span><span dir="ltr">${Math.abs(balanceVal).toFixed(0)} Rs</span>
@@ -1030,13 +1016,14 @@
             <div style="text-align: center; margin-top: 12px; padding-top: 6px; border-top: 1px dashed #aaa; font-size: 8px; color: #4a627a;">
                 شکریہ! معیار اور اعتماد کی علامت<br>
                 ڈویلپر: اختر محمد 03178022878
-                ${sale.id && sale.id.startsWith('off_') ? '<br><span style="color:#d9534f;">(آف لائن موڈ)</span>' : ''}
+                ${transaction.id && transaction.id.startsWith('off_') ? '<br><span style="color:#d9534f;">(آف لائن موڈ)</span>' : ''}
             </div>
         </div>`;
         
-        // Print window: body with no centering, left-aligned, padding minimal, margin 0
         const printWindow = window.open('', '_blank', 'width=400,height=600,left=50,top=50');
-        printWindow.document.write(`<html dir="ltr"><head><title>شیخ ڈرائی فروٹ - رسید</title><style>
+        printWindow.document.write(`<html dir="ltr"><head><title>شیخ ڈرائی فروٹ - رسید</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
             @font-face {
                 font-family: 'Jameel Noori Nastaleeq';
                 src: url('https://cdn.jsdelivr.net/gh/haideralishah/pakistani-fonts/Jameel%20Noori%20Nastaleeq/Jameel%20Noori%20Nastaleeq.woff2') format('woff2');
@@ -1046,7 +1033,7 @@
                 background: #e9ecef; 
                 margin: 0;
                 padding: 0;
-                font-family: 'Jameel Noori Nastaleeq', monospace;
+                font-family: 'Jameel Noori Nastaleeq', 'Noto Nastaliq Urdu', monospace;
                 text-align: left;
             }
             @media print {
@@ -1056,42 +1043,54 @@
         </style></head><body><div class="receipt-container" style="margin:0; padding:0;">${receiptHTML}</div></body></html>`);
         printWindow.document.close();
         printWindow.focus();
+        
+        // Timeout increased to 1200ms to ensure Jameel Noori Nastaleeq font is perfectly loaded before printing
         setTimeout(() => {
             printWindow.print();
-            setTimeout(() => printWindow.close(), 1200);
-        }, 500);
+            setTimeout(() => printWindow.close(), 1500);
+        }, 1200);
     }
     
-    // Rest of the app logic unchanged (full functionality)
+    // Offline Data Sync
     async function syncOfflineData() {
         if (!navigator.onLine || !auth.currentUser || isOfflineMode) return;
         let offlineSales = JSON.parse(localStorage.getItem('offlineSales') || '[]');
-        if (offlineSales.length === 0) return;
+        let offlinePurchases = JSON.parse(localStorage.getItem('offlinePurchases') || '[]');
+        if (offlineSales.length === 0 && offlinePurchases.length === 0) return;
+        
         showToast("آف لائن ڈیٹا سنک ہو رہا ہے...");
         try {
             for (let sale of offlineSales) {
-                const saleToPush = { ...sale };
-                delete saleToPush.id;
+                const saleToPush = { ...sale }; delete saleToPush.id;
                 await push(ref(db, 'sales'), saleToPush);
                 for (let it of sale.items) {
                     const p = products.find(x => x.id === it.id);
-                    if (p) { await update(ref(db, `products/${p.id}`), {stock: Math.max(0, p.stock - it.qty)}); }
+                    if (p) await update(ref(db, `products/${p.id}`), {stock: Math.max(0, p.stock - it.qty)});
+                }
+            }
+            for (let pur of offlinePurchases) {
+                const purToPush = { ...pur }; delete purToPush.id;
+                await push(ref(db, 'purchases'), purToPush);
+                for (let it of pur.items) {
+                    const p = products.find(x => x.id === it.id);
+                    if (p) await update(ref(db, `products/${p.id}`), {stock: p.stock + it.qty});
                 }
             }
             localStorage.removeItem('offlineSales');
+            localStorage.removeItem('offlinePurchases');
             showToast("آف لائن ڈیٹا فائر بیس پر سنک ہو گیا!");
         } catch (e) { console.error(e); showToast("ڈیٹا سنک کرنے میں مسئلہ!"); }
     }
     window.addEventListener('online', syncOfflineData);
 
+    // Auth logic
     onAuthStateChanged(auth, (user) => {
         if (user) { 
             loginScreen.style.display = 'none'; 
             mainApp.style.display = 'block'; 
             if (!isDataInitialized) { initializeMainApp(); isDataInitialized = true; }
             syncOfflineData();
-        }
-        else if (!isOfflineMode) { 
+        } else if (!isOfflineMode) { 
             loginScreen.style.display = 'flex'; 
             mainApp.style.display = 'none'; 
             isDataInitialized = false; 
@@ -1121,12 +1120,11 @@
         mainApp.style.display = 'block';
         document.getElementById('mainTabs').style.display = 'none';
         document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-        document.getElementById('billing').classList.add('active');
+        document.getElementById('saleBilling').classList.add('active');
         logoutBtn.innerHTML = '<span class="material-icons-round" style="font-size: 18px;">arrow_back</span>';
-        const cachedProducts = localStorage.getItem('cachedProducts');
-        if (cachedProducts) products = JSON.parse(cachedProducts);
-        const cachedSales = localStorage.getItem('cachedSales');
-        if (cachedSales) sales = JSON.parse(cachedSales);
+        const cachedProducts = localStorage.getItem('cachedProducts'); if (cachedProducts) products = JSON.parse(cachedProducts);
+        const cachedSales = localStorage.getItem('cachedSales'); if (cachedSales) sales = JSON.parse(cachedSales);
+        const cachedPurchases = localStorage.getItem('cachedPurchases'); if (cachedPurchases) purchases = JSON.parse(cachedPurchases);
         if(!cachedProducts) showToast("انتباہ: اشیاء کا محفوظ شدہ ڈیٹا نہیں ملا!");
         else showToast("آف لائن موڈ: بلنگ جاری رکھیں۔");
         renderProducts();
@@ -1134,39 +1132,74 @@
 
     logoutBtn.addEventListener('click', () => { 
         if(isOfflineMode) {
-            isOfflineMode = false;
-            loginScreen.style.display = 'flex';
-            mainApp.style.display = 'none';
-            document.getElementById('mainTabs').style.display = 'flex';
+            isOfflineMode = false; loginScreen.style.display = 'flex'; mainApp.style.display = 'none'; document.getElementById('mainTabs').style.display = 'flex';
         } else {
             if(confirm("کیا آپ لاگ آؤٹ کرنا چاہتے ہیں؟")) signOut(auth); 
         }
     });
 
-    let products = [], cart = [], sales = [], purchases = [];
-    let currentDateFilter = "today", currentProductFilter = "all";
-    let currentEditSaleId = null, currentEditPurchaseId = null, currentEditProductId = null;
+    // Global variables
+    let products = [], cart = [], pCart = [], sales = [], purchases = [];
+    let currentDateFilter = "today", currentProductFilter = "all", currentReceiptFilter = "all";
+    let currentEditRecordId = null, currentEditRecordType = null, currentEditProductId = null;
 
     function showToast(msg) { let t = document.createElement('div'); t.className='toast'; t.innerText=msg; document.getElementById('toastContainer').appendChild(t); setTimeout(()=>t.remove(), 3000); }
 
+    // Date/Report Helpers
     function parseDateFromString(dateStr) { if(!dateStr) return null; let cleaned = dateStr; const urduDigits=['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'], engDigits=['0','1','2','3','4','5','6','7','8','9']; for(let i=0;i<urduDigits.length;i++) cleaned = cleaned.replace(new RegExp(urduDigits[i],'g'), engDigits[i]); let parts = cleaned.split(' ')[0].split('/'); if(parts.length===3){ if(parts[0].length===4) return new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2])); else return new Date(parseInt(parts[2]), parseInt(parts[1])-1, parseInt(parts[0])); } return null; }
     function isDateInRange(dateStr, start, end) { const d = parseDateFromString(dateStr); if(!d) return false; const d2 = new Date(d.getFullYear(), d.getMonth(), d.getDate()); return d2 >= new Date(start.getFullYear(), start.getMonth(), start.getDate()) && d2 <= new Date(end.getFullYear(), end.getMonth(), end.getDate()); }
     function getDateRangeForFilter(f) { const n=new Date(); if(f==='today') return {start: new Date(n.getFullYear(), n.getMonth(), n.getDate()), end: new Date(n.getFullYear(), n.getMonth(), n.getDate())}; if(f==='month') return {start: new Date(n.getFullYear(), n.getMonth(), 1), end: new Date(n.getFullYear(), n.getMonth()+1, 0)}; if(f==='year') return {start: new Date(n.getFullYear(), 0, 1), end: new Date(n.getFullYear(), 11, 31)}; if(f==='halfyear') return {start: new Date(n.getFullYear(), n.getMonth()-6, 1), end: new Date(n.getFullYear(), n.getMonth()+1, 0)}; return {start: new Date(2000,0,1), end: new Date(2099,11,31)}; }
-    function getFilteredTransactionRows() { const range = getDateRangeForFilter(currentDateFilter); const rows = []; sales.forEach(s => { if(s.date && isDateInRange(s.date, range.start, range.end)) s.items.forEach(item => { if(currentProductFilter !== 'all' && item.name !== currentProductFilter) return; rows.push({ date: s.date, product: item.name, qty: item.qty, unitPrice: item.price, total: (parseFloat(item.qty)*parseFloat(item.price))||0, type: 'فروخت' }); }); }); purchases.forEach(p => { if(p.date && isDateInRange(p.date, range.start, range.end) && (currentProductFilter === 'all' || p.productName === currentProductFilter)) rows.push({ date: p.date, product: p.productName, qty: p.qty, unitPrice: p.rate, total: (parseFloat(p.qty)*parseFloat(p.rate))||0, type: 'خریداری' }); }); rows.sort((a,b)=> (parseDateFromString(b.date)||0) - (parseDateFromString(a.date)||0)); return rows; }
-    function renderFullReport() { const rows = getFilteredTransactionRows(); document.getElementById('reportTableBody').innerHTML = rows.length ? rows.map(r => `<tr><td>${r.date.split(' ')[0]}</td><td>${r.product}</td><td>${r.qty}</td><td>${r.total.toFixed(0)}</td><td style="color:${r.type==='فروخت'?'#2e7d32':'#ef5350'};font-weight:bold;">${r.type}</td></tr>`).join('') : '<tr><td colspan="5">کوئی ریکارڈ نہیں</td></tr>'; let sAmt=0,pAmt=0,sKg=0,pKg=0; rows.forEach(r=>{ if(r.type==='فروخت'){ sAmt+=r.total; sKg+=parseFloat(r.qty); } else { pAmt+=r.total; pKg+=parseFloat(r.qty); } }); document.getElementById('statTotalSales').innerText = sAmt.toFixed(0); document.getElementById('statTotalPurchase').innerText = pAmt.toFixed(0); document.getElementById('statTotalKgSold').innerText = sKg.toFixed(2); document.getElementById('statTotalKgPurchased').innerText = pKg.toFixed(2); }
+    
+    function getFilteredTransactionRows() { 
+        const range = getDateRangeForFilter(currentDateFilter); const rows = []; 
+        sales.forEach(s => { 
+            if(s.date && isDateInRange(s.date, range.start, range.end)) {
+                s.items.forEach(item => { 
+                    if(currentProductFilter !== 'all' && item.name !== currentProductFilter) return; 
+                    rows.push({ date: s.date, product: item.name, qty: item.qty, unitPrice: item.price, total: (parseFloat(item.qty)*parseFloat(item.price))||0, type: 'فروخت' }); 
+                }); 
+            }
+        }); 
+        purchases.forEach(p => { 
+            if(p.date && isDateInRange(p.date, range.start, range.end)) {
+                // Support for new cart-based purchases
+                if (p.items) {
+                    p.items.forEach(item => {
+                        if(currentProductFilter !== 'all' && item.name !== currentProductFilter) return; 
+                        rows.push({ date: p.date, product: item.name, qty: item.qty, unitPrice: item.price, total: (parseFloat(item.qty)*parseFloat(item.price))||0, type: 'خریداری' }); 
+                    });
+                } else {
+                    // Fallback for old purchases format
+                    if (currentProductFilter === 'all' || p.productName === currentProductFilter) {
+                        rows.push({ date: p.date, product: p.productName, qty: p.qty, unitPrice: p.rate, total: (parseFloat(p.qty)*parseFloat(p.rate))||0, type: 'خریداری' }); 
+                    }
+                }
+            }
+        }); 
+        rows.sort((a,b)=> (parseDateFromString(b.date)||0) - (parseDateFromString(a.date)||0)); return rows; 
+    }
+    
+    function renderFullReport() { 
+        const rows = getFilteredTransactionRows(); 
+        document.getElementById('reportTableBody').innerHTML = rows.length ? rows.map(r => `<tr><td>${r.date.split(' ')[0]}</td><td>${r.product}</td><td>${r.qty}</td><td>${r.total.toFixed(0)}</td><td style="color:${r.type==='فروخت'?'#2e7d32':'#ef5350'};font-weight:bold;">${r.type}</td></tr>`).join('') : '<tr><td colspan="5">کوئی ریکارڈ نہیں</td></tr>'; 
+        let sAmt=0,pAmt=0,sKg=0,pKg=0; 
+        rows.forEach(r=>{ if(r.type==='فروخت'){ sAmt+=r.total; sKg+=parseFloat(r.qty); } else { pAmt+=r.total; pKg+=parseFloat(r.qty); } }); 
+        document.getElementById('statTotalSales').innerText = sAmt.toFixed(0); document.getElementById('statTotalPurchase').innerText = pAmt.toFixed(0); 
+        document.getElementById('statTotalKgSold').innerText = sKg.toFixed(2); document.getElementById('statTotalKgPurchased').innerText = pKg.toFixed(2); 
+    }
+    
     function printA4Report() { 
         const rows = getFilteredTransactionRows(); 
         if(!rows.length) return showToast("پرنٹ کے لیے ڈیٹا نہیں"); 
-        const totalSales = document.getElementById('statTotalSales').innerText;
-        const totalPurchase = document.getElementById('statTotalPurchase').innerText;
+        const totalSales = document.getElementById('statTotalSales').innerText; const totalPurchase = document.getElementById('statTotalPurchase').innerText;
         const win = window.open('','_blank'); 
         win.document.write(`<html dir="rtl"><head><title>مکمل رپورٹ</title><style>@font-face { font-family: 'Jameel Noori Nastaleeq'; src: url('https://cdn.jsdelivr.net/gh/haideralishah/pakistani-fonts/Jameel%20Noori%20Nastaleeq/Jameel%20Noori%20Nastaleeq.woff2') format('woff2'); } body{font-family:'Jameel Noori Nastaleeq', serif; padding:20px; text-align:center;} table{width:100%; border-collapse:collapse; margin-top:20px; direction:rtl;} th,td{border:1px solid #000; padding:8px; text-align:center;} th{background:#f0f0f0;} .summary-box{display:flex; justify-content:space-around; margin-bottom:20px; border:1px solid #000; padding:10px; background:#fafafa;}</style></head><body><h2>شیخ ڈرائی فروٹ - رپورٹ</h2><div class="summary-box"><div>فروخت رقم: ${totalSales} Rs</div><div>خریداری رقم: ${totalPurchase} Rs</div></div> <table><thead><tr><th>تاریخ</th><th>شے</th><th>مقدار</th><th>فی کلو</th><th>کل رقم</th><th>نوعیت</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r.date}</td><td>${r.product}</td><td>${r.qty}</td><td>${r.unitPrice}</td><td>${r.total}</td><td>${r.type}</td></tr>`).join('')}</tbody></table><script>setTimeout(()=>{window.print();window.close();},700);<\/script></body></html>`); 
         win.document.close(); 
     }
 
+    // ====== SALES BILLING LOGIC ======
     function addToCart(productId) {
-        const product = products.find(p => p.id === productId);
-        if (!product) return;
+        const product = products.find(p => p.id === productId); if (!product) return;
         const existing = cart.find(item => item.id === productId);
         if (existing) { existing.qty += 1; } else { cart.push({ id: product.id, name: product.name, price: product.price, qty: 1 }); }
         renderCartAndProducts();
@@ -1203,88 +1236,255 @@
         const offlineSales = JSON.parse(localStorage.getItem('offlineSales') || '[]');
         const allSales = [...sales, ...offlineSales]; 
         if (allSales.length > 0) { const maxNo = Math.max(...allSales.map(s => s.receiptNo || 1000)); nextReceiptNo = maxNo + 1; }
-        const saleObj = { receiptNo: nextReceiptNo, customer: document.getElementById('customerName').value || 'عام گاہک', mobile: document.getElementById('customerMobile').value, items: [...cart], total, cash, balance: cash-total, date: new Date().toLocaleString('ur-PK') };
+        const saleObj = { type: 'sale', receiptNo: nextReceiptNo, customer: document.getElementById('customerName').value || 'عام گاہک', mobile: document.getElementById('customerMobile').value, items: [...cart], total, cash, balance: cash-total, date: new Date().toLocaleString('ur-PK') };
+        
         if (isOfflineMode) {
-            saleObj.id = 'off_' + Date.now();
-            offlineSales.push(saleObj);
-            localStorage.setItem('offlineSales', JSON.stringify(offlineSales));
+            saleObj.id = 'off_sale_' + Date.now(); offlineSales.push(saleObj); localStorage.setItem('offlineSales', JSON.stringify(offlineSales));
             for(let it of cart){ const p = products.find(x=>x.id === it.id); if(p) p.stock = Math.max(0, p.stock - it.qty); }
             localStorage.setItem('cachedProducts', JSON.stringify(products));
-            printThermalReceipt(saleObj);
-            cart = []; renderCartAndProducts(); 
-            document.getElementById('customerName').value = ''; document.getElementById('customerMobile').value = ''; document.getElementById('cashInput').value = 0; 
-            showToast("آف لائن رسید محفوظ");
-            return;
+            printThermalReceipt(saleObj, 'sale');
+            cart = []; renderCartAndProducts(); document.getElementById('customerName').value = ''; document.getElementById('customerMobile').value = ''; document.getElementById('cashInput').value = 0; 
+            showToast("آف لائن فروخت رسید محفوظ"); return;
         }
         document.getElementById('printBtn').disabled = true;
         try {
             const newSaleRef = await push(ref(db,'sales'), saleObj);
             for(let it of cart){ const p = products.find(x=>x.id === it.id); if(p) await update(ref(db,`products/${it.id}`),{stock: Math.max(0, p.stock - it.qty)}); }
-            printThermalReceipt({ ...saleObj, id: newSaleRef.key });
-            cart = []; renderCartAndProducts(); document.getElementById('customerName').value = ''; document.getElementById('customerMobile').value = ''; document.getElementById('cashInput').value = 0; showToast("رسید محفوظ");
+            printThermalReceipt({ ...saleObj, id: newSaleRef.key }, 'sale');
+            cart = []; renderCartAndProducts(); document.getElementById('customerName').value = ''; document.getElementById('customerMobile').value = ''; document.getElementById('cashInput').value = 0; showToast("فروخت کی رسید محفوظ");
         } catch(e) { showToast("انٹرنیٹ کنکشن کا مسئلہ!"); }
         document.getElementById('printBtn').disabled = false;
     };
 
-    function renderProducts() { const grid = document.getElementById('productButtons'); if(!grid) return; grid.innerHTML = ''; const cartProductIds = new Set(cart.map(i => i.id)); products.forEach(p => { const btn = document.createElement('div'); btn.className = `product-btn ${cartProductIds.has(p.id) ? 'highlight' : ''}`; btn.innerHTML = `<span class="stock-badge">${p.stock}</span><span class="p-name">${p.name}</span><span class="p-price">${p.price} Rs</span>`; btn.onclick = () => addToCart(p.id); grid.appendChild(btn); }); }
-    function renderProductListAndSelect() { const listDiv = document.getElementById('productList'); const select = document.getElementById('purchaseProductId'); if(listDiv && select) { listDiv.innerHTML = ''; select.innerHTML = '<option value="">شے منتخب کریں</option>'; products.forEach(p => { const card = document.createElement('div'); card.className = 'list-tile'; card.innerHTML = `<div class="list-tile-header"><div><div class="list-tile-title">${p.name}</div><div class="list-tile-subtitle">اسٹاک: ${p.stock}kg | قیمت: ${p.price} Rs</div></div></div><div class="list-tile-actions"><button class="btn-icon primary edit-prod-btn" data-id="${p.id}"><span class="material-icons-round" style="font-size:16px;">edit</span> ترمیم</button><button class="btn-icon danger del-prod-btn" data-id="${p.id}"><span class="material-icons-round" style="font-size:16px;">delete</span> حذف</button></div>`; listDiv.appendChild(card); select.innerHTML += `<option value="${p.id}">${p.name}</option>`; }); document.querySelectorAll('.del-prod-btn').forEach(btn => btn.onclick = () => { if(confirm("حذف کریں؟")) remove(ref(db, `products/${btn.dataset.id}`)); }); document.querySelectorAll('.edit-prod-btn').forEach(btn => btn.onclick = () => { const prod = products.find(p => p.id === btn.dataset.id); if(prod) openEditProductModal(prod); }); } }
+    // ====== PURCHASE BILLING LOGIC ======
+    function addToPurchaseCart(productId) {
+        const product = products.find(p => p.id === productId); if (!product) return;
+        const existing = pCart.find(item => item.id === productId);
+        if (existing) { existing.qty += 1; } else { pCart.push({ id: product.id, name: product.name, price: product.price, qty: 1 }); } // Default price is sale price, user can edit it
+        renderPurchaseCartAndProducts();
+    }
+    function updatePCartItemQty(index, newQty) { if (newQty <= 0) pCart.splice(index,1); else pCart[index].qty = newQty; renderPurchaseCartAndProducts(); }
+    function updatePCartItemPrice(index, newPrice) { if (newPrice >= 0) pCart[index].price = newPrice; renderPurchaseCartAndProducts(); }
+    function removePCartItem(index) { pCart.splice(index,1); renderPurchaseCartAndProducts(); }
+    function renderPurchaseCartAndProducts() { renderPurchaseCart(); renderProducts(); updatePurchaseTotals(); }
+    function renderPurchaseCart() {
+        const container = document.getElementById('pCartList'); if (!container) return;
+        if (pCart.length === 0) { container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-dark-muted);">کارٹ خالی ہے</div>'; return; }
+        container.innerHTML = pCart.map((item, idx) => `
+            <div class="cart-item" data-cart-index="${idx}">
+                <div class="cart-header"><span>${item.name}</span><span style="color:var(--primary); font-weight:800;">${(item.qty * item.price).toFixed(0)} Rs</span></div>
+                <div class="cart-controls">
+                    <div class="qty-control"><input type="number" step="0.1" value="${item.qty}" class="pcart-qty" data-idx="${idx}" dir="ltr"><span style="padding:0 8px; font-size:0.8rem;">kg</span></div>
+                    <div class="qty-control"><input type="number" step="1" value="${item.price}" class="pcart-price cart-price-input" data-idx="${idx}" dir="ltr"><span style="padding:0 8px;">Rs</span></div>
+                    <button class="cart-delete-btn" data-idx="${idx}"><span class="material-icons-round" style="font-size:18px;">delete</span></button>
+                </div>
+            </div>
+        `).join('');
+        document.querySelectorAll('.pcart-qty').forEach(inp => inp.addEventListener('change', (e) => { updatePCartItemQty(parseInt(e.target.dataset.idx), parseFloat(e.target.value)||1); }));
+        document.querySelectorAll('.pcart-price').forEach(inp => inp.addEventListener('change', (e) => { updatePCartItemPrice(parseInt(e.target.dataset.idx), parseFloat(e.target.value)||0); }));
+        document.querySelectorAll('.pcart-delete-btn').forEach(btn => btn.addEventListener('click', (e) => removePCartItem(parseInt(e.currentTarget.dataset.idx))));
+    }
+    function updatePurchaseTotals() { let total = pCart.reduce((sum, i) => sum + (i.qty * i.price), 0); document.getElementById('pGrandTotal').innerText = total.toFixed(0); updatePurchaseBalance(); }
+    window.updatePurchaseBalance = () => { const total = parseFloat(document.getElementById('pGrandTotal').innerText) || 0; const cash = parseFloat(document.getElementById('pCashInput').value) || 0; document.getElementById('pBalanceAmount').innerText = (cash - total).toFixed(0); };
+    
+    document.getElementById('printPurchaseBtn').onclick = async () => {
+        if(pCart.length === 0) return showToast("خریداری کارٹ خالی ہے");
+        const total = parseFloat(document.getElementById('pGrandTotal').innerText);
+        const cash = parseFloat(document.getElementById('pCashInput').value) || 0;
+        let nextReceiptNo = 5001; // Different starting series for purchases
+        const offlinePurchases = JSON.parse(localStorage.getItem('offlinePurchases') || '[]');
+        const allPurchases = [...purchases, ...offlinePurchases]; 
+        if (allPurchases.length > 0) { const maxNo = Math.max(...allPurchases.map(s => s.receiptNo || 5000)); nextReceiptNo = maxNo + 1; }
+        const purchaseObj = { type: 'purchase', receiptNo: nextReceiptNo, customer: document.getElementById('supplierName').value || 'سپلائر', mobile: document.getElementById('supplierMobile').value, items: [...pCart], total, cash, balance: cash-total, date: new Date().toLocaleString('ur-PK') };
+        
+        if (isOfflineMode) {
+            purchaseObj.id = 'off_pur_' + Date.now(); offlinePurchases.push(purchaseObj); localStorage.setItem('offlinePurchases', JSON.stringify(offlinePurchases));
+            for(let it of pCart){ const p = products.find(x=>x.id === it.id); if(p) p.stock = p.stock + it.qty; } // INCREASE STOCK
+            localStorage.setItem('cachedProducts', JSON.stringify(products));
+            printThermalReceipt(purchaseObj, 'purchase');
+            pCart = []; renderPurchaseCartAndProducts(); document.getElementById('supplierName').value = ''; document.getElementById('supplierMobile').value = ''; document.getElementById('pCashInput').value = 0; 
+            showToast("آف لائن خریداری محفوظ"); return;
+        }
+        document.getElementById('printPurchaseBtn').disabled = true;
+        try {
+            const newPurRef = await push(ref(db,'purchases'), purchaseObj);
+            for(let it of pCart){ const p = products.find(x=>x.id === it.id); if(p) await update(ref(db,`products/${it.id}`),{stock: p.stock + it.qty}); } // INCREASE STOCK
+            printThermalReceipt({ ...purchaseObj, id: newPurRef.key }, 'purchase');
+            pCart = []; renderPurchaseCartAndProducts(); document.getElementById('supplierName').value = ''; document.getElementById('supplierMobile').value = ''; document.getElementById('pCashInput').value = 0; showToast("خریداری کی رسید محفوظ");
+        } catch(e) { showToast("انٹرنیٹ کنکشن کا مسئلہ!"); }
+        document.getElementById('printPurchaseBtn').disabled = false;
+    };
+
+    // ====== COMMON PRODUCT RENDER ======
+    function renderProducts() { 
+        const sGrid = document.getElementById('productButtons'); 
+        const pGrid = document.getElementById('pProductButtons'); 
+        if(sGrid) sGrid.innerHTML = ''; if(pGrid) pGrid.innerHTML = '';
+        
+        const cartIds = new Set(cart.map(i => i.id)); 
+        const pCartIds = new Set(pCart.map(i => i.id)); 
+
+        products.forEach(p => { 
+            // Sales Grid Buttons
+            if (sGrid) {
+                const sBtn = document.createElement('div'); sBtn.className = `product-btn ${cartIds.has(p.id) ? 'highlight' : ''}`; 
+                sBtn.innerHTML = `<span class="stock-badge">${p.stock}</span><span class="p-name">${p.name}</span><span class="p-price">${p.price} Rs</span>`; 
+                sBtn.onclick = () => addToCart(p.id); sGrid.appendChild(sBtn); 
+            }
+            // Purchase Grid Buttons
+            if (pGrid) {
+                const pBtn = document.createElement('div'); pBtn.className = `product-btn ${pCartIds.has(p.id) ? 'highlight' : ''}`; 
+                pBtn.innerHTML = `<span class="stock-badge" style="background:var(--success);">${p.stock}</span><span class="p-name">${p.name}</span>`; 
+                pBtn.onclick = () => addToPurchaseCart(p.id); pGrid.appendChild(pBtn); 
+            }
+        }); 
+        // Sync lists
+        renderProductListAndSelect();
+    }
+
+    function renderProductListAndSelect() { 
+        const listDiv = document.getElementById('productList'); 
+        if(listDiv) { 
+            listDiv.innerHTML = ''; 
+            products.forEach(p => { 
+                const card = document.createElement('div'); card.className = 'list-tile'; 
+                card.innerHTML = `<div class="list-tile-header"><div><div class="list-tile-title">${p.name}</div><div class="list-tile-subtitle">اسٹاک: ${p.stock}kg | قیمت فروخت: ${p.price} Rs</div></div></div><div class="list-tile-actions"><button class="btn-icon primary edit-prod-btn" data-id="${p.id}"><span class="material-icons-round" style="font-size:16px;">edit</span> ترمیم</button><button class="btn-icon danger del-prod-btn" data-id="${p.id}"><span class="material-icons-round" style="font-size:16px;">delete</span> حذف</button></div>`; 
+                listDiv.appendChild(card); 
+            }); 
+            document.querySelectorAll('.del-prod-btn').forEach(btn => btn.onclick = () => { if(confirm("حذف کریں؟")) remove(ref(db, `products/${btn.dataset.id}`)); }); 
+            document.querySelectorAll('.edit-prod-btn').forEach(btn => btn.onclick = () => { const prod = products.find(p => p.id === btn.dataset.id); if(prod) openEditProductModal(prod); }); 
+        } 
+    }
+
+    document.getElementById('saveProductBtn').onclick = () => { push(ref(db,'products'),{ name: document.getElementById('prodName').value, price: parseFloat(document.getElementById('prodPrice').value), stock: parseFloat(document.getElementById('prodStock').value) }); document.getElementById('prodName').value=''; document.getElementById('prodPrice').value=''; document.getElementById('prodStock').value='0'; };
+    
     function openEditProductModal(product) { currentEditProductId = product.id; document.getElementById('editProductName').value = product.name; document.getElementById('editProductPrice').value = product.price; document.getElementById('editProductStock').value = product.stock; document.getElementById('editProductModal').style.display = 'flex'; }
     async function saveProductEdit() { const name = document.getElementById('editProductName').value.trim(); const price = parseFloat(document.getElementById('editProductPrice').value); const stock = parseFloat(document.getElementById('editProductStock').value); if(!name || isNaN(price) || isNaN(stock)) return showToast("فارم پُر کریں"); await update(ref(db), { [`products/${currentEditProductId}/name`]: name, [`products/${currentEditProductId}/price`]: price, [`products/${currentEditProductId}/stock`]: stock }); showToast("اپڈیٹ ہوگیا"); document.getElementById('editProductModal').style.display = 'none'; }
-    function renderPurchaseHistory() { const div = document.getElementById('purchaseHistory'); if(!div) return; if(purchases.length===0){ div.innerHTML='<div style="padding:20px; text-align:center; color:var(--text-dark-muted);">کوئی خریداری نہیں</div>'; return; } div.innerHTML = [...purchases].reverse().map(pur => `<div class="list-tile"><div class="list-tile-header"><div><div class="list-tile-title">${pur.productName}</div><div class="list-tile-subtitle">${pur.date.split(' ')[0]} | مقدار: ${pur.qty}kg | قیمت: ${pur.rate}</div></div><div style="font-weight:bold; color:var(--primary);">${(pur.qty*pur.rate).toFixed(0)}</div></div><div class="list-tile-actions"><button class="btn-icon primary edit-purchase-btn" data-id="${pur.id}"><span class="material-icons-round" style="font-size:16px;">edit</span></button><button class="btn-icon danger delete-purchase-btn" data-id="${pur.id}" data-qty="${pur.qty}" data-pname="${pur.productName}"><span class="material-icons-round" style="font-size:16px;">delete</span></button></div></div>`).join(''); document.querySelectorAll('.edit-purchase-btn').forEach(btn => btn.onclick = () => { const p = purchases.find(x=>x.id === btn.dataset.id); if(p) openEditPurchaseModal(p); }); document.querySelectorAll('.delete-purchase-btn').forEach(btn => btn.onclick = async () => { if(confirm("حذف کریں؟")){ const prod = products.find(p=>p.name === btn.dataset.pname); if(prod) await update(ref(db,`products/${prod.id}`),{stock: Math.max(0, prod.stock - parseFloat(btn.dataset.qty))}); await remove(ref(db,`purchases/${btn.dataset.id}`)); showToast("خریداری حذف"); } }); }
-    function openEditPurchaseModal(purchase) { currentEditPurchaseId = purchase.id; document.getElementById('editPurchaseProductName').innerText = purchase.productName; document.getElementById('editPurchaseQty').value = purchase.qty; document.getElementById('editPurchaseRate').value = purchase.rate; document.getElementById('editPurchaseModal').style.display = 'flex'; }
-    async function savePurchaseEdit() { const newQty = parseFloat(document.getElementById('editPurchaseQty').value); const newRate = parseFloat(document.getElementById('editPurchaseRate').value); const old = purchases.find(p=>p.id === currentEditPurchaseId); const prod = products.find(p=>p.name === old.productName); if(prod) await update(ref(db,`products/${prod.id}`),{stock: prod.stock + (newQty - old.qty)}); await update(ref(db,`purchases/${currentEditPurchaseId}`),{ qty: newQty, rate: newRate }); document.getElementById('editPurchaseModal').style.display = 'none'; }
+    
+    // ====== RECEIPTS & HISTORY ======
+    document.querySelectorAll('.receipt-filter-btn').forEach(btn => btn.onclick = () => { 
+        document.querySelectorAll('.receipt-filter-btn').forEach(b=>b.classList.remove('active')); 
+        btn.classList.add('active'); currentReceiptFilter=btn.dataset.filter; renderReceiptsList(); 
+    });
+
     function renderReceiptsList() { 
-        const container = document.getElementById('receiptsList'); 
-        if(!container) return; 
+        const container = document.getElementById('receiptsList'); if(!container) return; 
         const searchTerm = (document.getElementById('searchReceiptInput')?.value || '').toLowerCase().trim();
-        let filteredSales = sales;
-        if (searchTerm) { filteredSales = sales.filter(s => (s.receiptNo && s.receiptNo.toString().includes(searchTerm)) || (s.customer && s.customer.toLowerCase().includes(searchTerm)) || (s.date && s.date.toLowerCase().includes(searchTerm))); }
-        if(filteredSales.length===0){ container.innerHTML='<div style="padding:30px; text-align:center; color:var(--text-dark-muted); font-weight:bold;">کوئی رسید نہیں ملی</div>'; return; } 
-        container.innerHTML = filteredSales.map(sale => `<div class="list-tile"><div class="list-tile-header"><div><div class="list-tile-title">رسید # ${sale.receiptNo || '---'}</div><div class="list-tile-subtitle">${sale.customer||'عام گاہک'} ${sale.mobile?`(${sale.mobile})`:''} | ${sale.date.split(' ')[0]}</div></div><div style="font-weight:900; color:var(--primary);">${sale.total} Rs</div></div><div style="font-size:0.85rem; color:var(--text-dark-muted); margin: 5px 0;">${sale.items.map(i=>`${i.name}(${i.qty}kg)`).join(' · ')}</div><div class="list-tile-actions"><button class="btn-icon primary print-receipt-btn" data-id="${sale.id}"><span class="material-icons-round" style="font-size:16px;">print</span></button><button class="btn-icon primary edit-receipt-btn" data-id="${sale.id}"><span class="material-icons-round" style="font-size:16px;">edit</span></button><button class="btn-icon danger delete-receipt-btn" data-id="${sale.id}"><span class="material-icons-round" style="font-size:16px;">delete</span></button></div></div>`).join(''); 
-        document.querySelectorAll('.print-receipt-btn').forEach(btn => btn.onclick = () => { const s = sales.find(x=>x.id===btn.dataset.id); if(s) printThermalReceipt(s); }); 
-        document.querySelectorAll('.edit-receipt-btn').forEach(btn => btn.onclick = () => openEditModal(btn.dataset.id)); 
-        document.querySelectorAll('.delete-receipt-btn').forEach(btn => btn.onclick = () => deleteReceipt(btn.dataset.id)); 
+        
+        // Combine sales and purchases
+        let allRecords = [];
+        sales.forEach(s => allRecords.push({ ...s, _dbType: 'sale' }));
+        purchases.forEach(p => { 
+            if(p.items) allRecords.push({ ...p, _dbType: 'purchase' }); 
+            // Fallback for old purchases format is ignored in Receipt list to avoid crashes, old logic was just "history" not full receipts
+        });
+
+        // Apply Filter (Sale vs Purchase)
+        if (currentReceiptFilter === 'sale') allRecords = allRecords.filter(r => r._dbType === 'sale');
+        if (currentReceiptFilter === 'purchase') allRecords = allRecords.filter(r => r._dbType === 'purchase');
+
+        // Apply Search
+        if (searchTerm) { allRecords = allRecords.filter(r => (r.receiptNo && r.receiptNo.toString().includes(searchTerm)) || (r.customer && r.customer.toLowerCase().includes(searchTerm)) || (r.date && r.date.toLowerCase().includes(searchTerm))); }
+        
+        // Sort by Date Descending
+        allRecords.sort((a,b)=> (parseDateFromString(b.date)||0) - (parseDateFromString(a.date)||0));
+
+        if(allRecords.length===0){ container.innerHTML='<div style="padding:30px; text-align:center; color:var(--text-dark-muted); font-weight:bold;">کوئی رسید نہیں ملی</div>'; return; } 
+        
+        container.innerHTML = allRecords.map(rec => {
+            const isPurchase = rec._dbType === 'purchase';
+            const typeColor = isPurchase ? 'var(--danger)' : 'var(--primary)';
+            const typeLabel = isPurchase ? '(خریداری)' : '(فروخت)';
+            return `<div class="list-tile" style="border-right: 4px solid ${typeColor}">
+                <div class="list-tile-header">
+                    <div><div class="list-tile-title">رسید # ${rec.receiptNo || '---'} <span style="font-size:0.8rem; color:${typeColor}">${typeLabel}</span></div>
+                    <div class="list-tile-subtitle">${rec.customer||'نامعلوم'} ${rec.mobile?`(${rec.mobile})`:''} | ${rec.date.split(' ')[0]}</div></div>
+                    <div style="font-weight:900; color:${typeColor};">${rec.total} Rs</div>
+                </div>
+                <div style="font-size:0.85rem; color:var(--text-dark-muted); margin: 5px 0;">${rec.items.map(i=>`${i.name}(${i.qty}kg)`).join(' · ')}</div>
+                <div class="list-tile-actions">
+                    <button class="btn-icon primary print-receipt-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">print</span></button>
+                    <button class="btn-icon primary edit-receipt-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">edit</span></button>
+                    <button class="btn-icon danger delete-receipt-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">delete</span></button>
+                </div>
+            </div>`
+        }).join(''); 
+        
+        document.querySelectorAll('.print-receipt-btn').forEach(btn => btn.onclick = () => { 
+            const arr = btn.dataset.type === 'sale' ? sales : purchases; 
+            const r = arr.find(x=>x.id===btn.dataset.id); if(r) printThermalReceipt(r, btn.dataset.type); 
+        }); 
+        document.querySelectorAll('.edit-receipt-btn').forEach(btn => btn.onclick = () => openEditModal(btn.dataset.id, btn.dataset.type)); 
+        document.querySelectorAll('.delete-receipt-btn').forEach(btn => btn.onclick = () => deleteReceipt(btn.dataset.id, btn.dataset.type)); 
     }
     document.getElementById('searchReceiptInput')?.addEventListener('input', renderReceiptsList);
 
-    function openEditModal(id) { const s = sales.find(x=>x.id===id); if(!s) return; currentEditSaleId=id; document.getElementById('editCustomerName').value=s.customer; document.getElementById('editCustomerMobile').value=s.mobile; document.getElementById('editCash').value=s.cash; document.getElementById('editModal').style.display='flex'; }
-    async function saveEditReceipt() { const s = sales.find(x=>x.id===currentEditSaleId); const cash = parseFloat(document.getElementById('editCash').value); await update(ref(db,`sales/${currentEditSaleId}`),{ customer: document.getElementById('editCustomerName').value, mobile: document.getElementById('editCustomerMobile').value, cash, balance: cash - s.total }); document.getElementById('editModal').style.display='none'; }
-    async function deleteReceipt(id) { if(!confirm("رسید حذف کریں؟")) return; const s = sales.find(x=>x.id===id); for(let it of s.items){ const p = products.find(x=>x.name===it.name); if(p) await update(ref(db,`products/${p.id}`),{stock: p.stock + it.qty}); } await remove(ref(db,`sales/${id}`)); }
-
-    document.getElementById('saveProductBtn').onclick = () => { push(ref(db,'products'),{ name: document.getElementById('prodName').value, price: parseFloat(document.getElementById('prodPrice').value), stock: parseFloat(document.getElementById('prodStock').value) }); document.getElementById('prodName').value=''; document.getElementById('prodPrice').value=''; document.getElementById('prodStock').value='0'; };
-    document.getElementById('savePurchaseBtn').onclick = async () => { const p = products.find(x=>x.id===document.getElementById('purchaseProductId').value); const q = parseFloat(document.getElementById('purchaseQty').value); await push(ref(db,'purchases'),{ productName: p.name, qty: q, rate: parseFloat(document.getElementById('purchaseRate').value), date: new Date().toLocaleString('ur-PK') }); await update(ref(db,`products/${p.id}`),{ stock: p.stock + q }); document.getElementById('purchaseQty').value=''; document.getElementById('purchaseRate').value='';};
+    function openEditModal(id, type) { 
+        currentEditRecordType = type;
+        const arr = type === 'sale' ? sales : purchases;
+        const r = arr.find(x=>x.id===id); if(!r) return; currentEditRecordId=id; 
+        document.getElementById('editCustomerName').value=r.customer; document.getElementById('editCustomerMobile').value=r.mobile; document.getElementById('editCash').value=r.cash; 
+        document.getElementById('editModal').style.display='flex'; 
+    }
     
+    async function saveEditReceipt() { 
+        const arr = currentEditRecordType === 'sale' ? sales : purchases;
+        const dbNode = currentEditRecordType === 'sale' ? 'sales' : 'purchases';
+        const r = arr.find(x=>x.id===currentEditRecordId); const cash = parseFloat(document.getElementById('editCash').value); 
+        await update(ref(db,`${dbNode}/${currentEditRecordId}`),{ customer: document.getElementById('editCustomerName').value, mobile: document.getElementById('editCustomerMobile').value, cash, balance: cash - r.total }); 
+        document.getElementById('editModal').style.display='none'; 
+    }
+    
+    async function deleteReceipt(id, type) { 
+        if(!confirm("کیا آپ واقعی رسید حذف کرنا چاہتے ہیں؟")) return; 
+        const arr = type === 'sale' ? sales : purchases;
+        const dbNode = type === 'sale' ? 'sales' : 'purchases';
+        const r = arr.find(x=>x.id===id); 
+        for(let it of r.items){ 
+            const p = products.find(x=>x.name===it.name); 
+            if(p) {
+                // If deleting a SALE -> stock goes UP. If deleting a PURCHASE -> stock goes DOWN.
+                const newStock = type === 'sale' ? p.stock + it.qty : Math.max(0, p.stock - it.qty);
+                await update(ref(db,`products/${p.id}`),{stock: newStock}); 
+            }
+        } 
+        await remove(ref(db,`${dbNode}/${id}`)); 
+    }
+
+    // Filters and Tabs
     document.querySelectorAll('.filter-btn').forEach(btn => btn.onclick = () => { document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentDateFilter=btn.dataset.filter; renderFullReport(); });
     document.getElementById('productFilterSelect').onchange = (e) => { currentProductFilter=e.target.value; renderFullReport(); };
     
     document.querySelectorAll('.tab').forEach(t => t.onclick = () => { 
         document.querySelectorAll('.tab, .tab-content').forEach(el=>el.classList.remove('active')); 
-        t.classList.add('active'); 
-        document.getElementById(t.dataset.tab).classList.add('active'); 
-        window.scrollTo({top:0, behavior:'smooth'});
+        t.classList.add('active'); document.getElementById(t.dataset.tab).classList.add('active'); window.scrollTo({top:0, behavior:'smooth'});
         if(t.dataset.tab==='dashboard') renderFullReport(); 
         if(t.dataset.tab==='receipts') renderReceiptsList(); 
-        if(t.dataset.tab==='purchases') renderPurchaseHistory(); 
     });
     
     document.getElementById('saveEditBtn').onclick = saveEditReceipt; document.getElementById('closeModalBtn').onclick = () => document.getElementById('editModal').style.display='none';
-    document.getElementById('savePurchaseEditBtn').onclick = savePurchaseEdit; document.getElementById('closePurchaseModalBtn').onclick = () => document.getElementById('editPurchaseModal').style.display='none';
     document.getElementById('saveProductEditBtn').onclick = saveProductEdit; document.getElementById('closeProductModalBtn').onclick = () => document.getElementById('editProductModal').style.display='none';
     document.getElementById('printReportBtn').onclick = printA4Report;
     
+    // DB Initialization
     function initializeMainApp() {
         onValue(ref(db, 'products'), (snap) => { 
             products = snap.val() ? Object.keys(snap.val()).map(id => ({id, ...snap.val()[id]})) : []; 
             localStorage.setItem('cachedProducts', JSON.stringify(products));
-            renderProducts(); renderProductListAndSelect(); 
-            const sel = document.getElementById('productFilterSelect'); sel.innerHTML = '<option value="all">تمام اشیاء</option>'; products.forEach(p => sel.innerHTML += `<option value="${p.name}">${p.name}</option>`); renderFullReport(); 
+            renderProducts(); 
+            const sel = document.getElementById('productFilterSelect'); sel.innerHTML = '<option value="all">تمام اشیاء</option>'; products.forEach(p => sel.innerHTML += `<option value="${p.name}">${p.name}</option>`); 
+            renderFullReport(); 
         });
         onValue(ref(db, 'sales'), (snap) => { 
             sales = snap.val() ? Object.keys(snap.val()).map(id => ({id, ...snap.val()[id]})) : []; 
             localStorage.setItem('cachedSales', JSON.stringify(sales));
             renderFullReport(); renderReceiptsList(); 
         });
-        onValue(ref(db, 'purchases'), (snap) => { purchases = snap.val() ? Object.keys(snap.val()).map(id => ({id, ...snap.val()[id]})) : []; renderFullReport(); renderPurchaseHistory(); });
+        onValue(ref(db, 'purchases'), (snap) => { 
+            purchases = snap.val() ? Object.keys(snap.val()).map(id => ({id, ...snap.val()[id]})) : []; 
+            localStorage.setItem('cachedPurchases', JSON.stringify(purchases));
+            renderFullReport(); renderReceiptsList(); 
+        });
     }
 </script>
 </body>
