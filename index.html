@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#08162D">
+    <meta name="theme-color" content="#1A0815">
     <title>شیخ ڈرائی فروٹ پشین | پروفیشنل پوائنٹ آف سیل</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
@@ -21,24 +21,24 @@
         }
 
         /* =========================================
-           FLUTTER INSPIRED DARK BLUE + WHITE THEME
+           FLUTTER INSPIRED DARK EGGPLANT + WHITE THEME
            ========================================= */
         :root {
-            --primary: #1E498E;         
-            --primary-light: #2A60B4;   
+            --primary: #581845;         
+            --primary-light: #7D2663;   
             --secondary: #f5a623;       
-            --background: #08162D;      
-            --surface-dark: #102447;    
+            --background: #1A0815;      
+            --surface-dark: #2E1025;    
             --white-pure: #FFFFFF;      
-            --white-off: #F8FAFF;       
-            --text-dark: #0A1929;       
-            --text-dark-muted: #4A5B7A; 
+            --white-off: #FCF8FA;       
+            --text-dark: #1A0815;       
+            --text-dark-muted: #5E3A54; 
             --text-white: #FFFFFF;      
-            --text-white-muted: #B8C7E7;
+            --text-white-muted: #D1B8C9;
             --danger: #ef5350;
             --success: #2e7d32;
-            --border-light: #E2E8F0;
-            --border-dark: #2C4C7C;
+            --border-light: #E8D8E2;
+            --border-dark: #4A233D;
             --radius-sm: 12px;
             --radius-md: 20px;
             --radius-lg: 32px;
@@ -137,7 +137,7 @@
         }
 
         /* =========================================
-           BOTTOM NAVIGATION - DARK BLUE, WHITE ICONS
+           BOTTOM NAVIGATION
            ========================================= */
         .tabs {
             position: fixed;
@@ -201,7 +201,7 @@
         }
 
         /* =========================================
-           MAIN CONTENT - WHITE CARDS, DARK TEXT (FLUTTER STYLE)
+           MAIN CONTENT - WHITE CARDS, DARK TEXT
            ========================================= */
         .tab-content {
             display: none;
@@ -218,7 +218,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Cards & Surfaces: White background with soft shadow */
+        /* Cards & Surfaces */
         .card, .product-btn, .cart-item, .list-tile, .totals-card, 
         .modal-content, .stat-card, .table-container, .search-bar, 
         .chip, .login-card, .input-group input, .input-group select {
@@ -262,17 +262,17 @@
 
         input:focus, select:focus {
             border-color: var(--primary-light);
-            box-shadow: 0 0 0 4px rgba(42, 96, 180, 0.15);
+            box-shadow: 0 0 0 4px rgba(125, 38, 99, 0.15);
         }
         
         input::placeholder {
-            color: #9AA9C1;
+            color: #B59EAD;
         }
 
         .row { display: flex; gap: 14px; }
         .col { flex: 1; }
 
-        /* Buttons - Primary blue with white text */
+        /* Buttons */
         button.action {
             background: var(--primary-light);
             color: white;
@@ -282,7 +282,7 @@
             width: 100%;
             font-size: 1.1rem;
             font-weight: 700;
-            box-shadow: 0 6px 14px rgba(42, 96, 180, 0.3);
+            box-shadow: 0 6px 14px rgba(125, 38, 99, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -296,7 +296,7 @@
             background: var(--primary);
         }
 
-        /* Product Grid Items (White cards) */
+        /* Product Grid Items */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
@@ -316,11 +316,11 @@
             cursor: pointer;
         }
 
-        .product-btn:active { transform: scale(0.96); background: #F5F9FF; }
+        .product-btn:active { transform: scale(0.96); background: #FCF4F9; }
         .product-btn.highlight {
-            border-color: var(--primary-light);
-            background: #F0F7FF;
-            box-shadow: 0 6px 12px rgba(30, 73, 142, 0.12);
+            border: 2px solid var(--primary); 
+            background: #F9E8F2;
+            box-shadow: 0 6px 12px rgba(88, 24, 69, 0.15);
         }
 
         .product-btn .p-name { font-weight: 800; font-size: 1rem; margin-top: 6px; display: block; color: var(--text-dark); }
@@ -339,7 +339,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
-        /* Cart Items (White card with dark text) */
+        /* Cart Items */
         .cart-item {
             background: var(--white-pure);
             border-radius: var(--radius-sm);
@@ -369,7 +369,7 @@
         .qty-control {
             display: flex;
             align-items: center;
-            background: #F2F5FA;
+            background: #F5EEF3;
             border-radius: 10px;
             overflow: hidden;
             border: 1px solid var(--border-light);
@@ -389,7 +389,7 @@
         .cart-price-input {
             width: 85px;
             padding: 8px;
-            background: #F2F5FA;
+            background: #F5EEF3;
             border: 1px solid var(--border-light);
             border-radius: 10px;
         }
@@ -409,10 +409,10 @@
         }
         .cart-delete-btn:active { background: rgba(239, 83, 80, 0.3); }
 
-        /* شارٹ کٹ بٹنز (گرام اور قیمت) کے لیے سی ایس ایس */
+        /* شارٹ کٹ بٹنز */
         .quick-qty-btn {
-            background: #F8FAFF;
-            border: 1px solid #B8C7E7;
+            background: #FCF8FA;
+            border: 1px solid #D1B8C9;
             border-radius: 4px;
             padding: 4px 6px;
             font-size: 0.75rem;
@@ -425,11 +425,17 @@
             background: var(--primary);
             color: white;
         }
+        /* شارٹ کٹ ہائی لائٹ کلاس */
+        .quick-qty-btn.active-shortcut {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
         .shortcuts-row {
             display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; direction: ltr; justify-content: flex-end;
         }
 
-        /* Totals Card - White background with dark text, elegant */
+        /* Totals Card */
         .totals-card {
             background: var(--white-pure);
             border-radius: var(--radius-md);
@@ -459,7 +465,7 @@
 
         .totals-row input {
             width: 130px;
-            background: #F2F5FA;
+            background: #F5EEF3;
             color: var(--text-dark);
             border: 1px solid var(--border-light);
             padding: 8px 12px;
@@ -469,7 +475,7 @@
         }
         .totals-row input:focus { background: var(--white-pure); border-color: var(--primary-light); }
 
-        /* Lists (Products, Receipts, History) White theme */
+        /* Lists */
         .list-tile {
             background: var(--white-pure);
             border-radius: var(--radius-sm);
@@ -487,7 +493,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            border-bottom: 1px dashed #E9EDF2;
+            border-bottom: 1px dashed #EDE5E9;
             padding-bottom: 8px;
         }
 
@@ -502,7 +508,7 @@
         }
 
         .btn-icon {
-            background: #F2F5FA;
+            background: #F5EEF3;
             border: 1px solid var(--border-light);
             padding: 6px 14px;
             border-radius: 30px;
@@ -516,10 +522,10 @@
             transition: 0.2s;
         }
         .btn-icon.danger { background: rgba(239, 83, 80, 0.08); color: var(--danger); border-color: rgba(239, 83, 80, 0.2);}
-        .btn-icon.primary { background: rgba(42, 96, 180, 0.08); color: var(--primary); border-color: rgba(42, 96, 180, 0.2);}
+        .btn-icon.primary { background: rgba(88, 24, 69, 0.08); color: var(--primary); border-color: rgba(88, 24, 69, 0.2);}
         .btn-icon:active { transform: scale(0.95); }
 
-        /* Dashboard & Stats Cards (White) */
+        /* Dashboard & Stats Cards */
         .filter-scroll {
             display: flex;
             overflow-x: auto;
@@ -546,7 +552,7 @@
             background: var(--primary-light);
             color: white;
             border-color: var(--primary-light);
-            box-shadow: 0 4px 10px rgba(42,96,180,0.3);
+            box-shadow: 0 4px 10px rgba(125, 38, 99, 0.3);
         }
 
         .dashboard-grid {
@@ -576,10 +582,10 @@
         }
 
         table { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.85rem; direction: rtl;}
-        th { background: #F8FAFE; padding: 14px; color: var(--text-dark-muted); font-weight: 800; border-bottom: 2px solid var(--border-light);}
+        th { background: #FCF8FA; padding: 14px; color: var(--text-dark-muted); font-weight: 800; border-bottom: 2px solid var(--border-light);}
         td { padding: 12px; border-bottom: 1px solid var(--border-light); color: var(--text-dark); }
 
-        /* Login Screen - White Card on Dark Blue */
+        /* Login Screen */
         .login-wrapper {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -622,14 +628,14 @@
             cursor: pointer;
             transition: 0.2s;
         }
-        .offline-btn { background: #F2F5FA; color: var(--text-dark); border: 1.5px solid var(--border-light); box-shadow: none; }
+        .offline-btn { background: #F5EEF3; color: var(--text-dark); border: 1.5px solid var(--border-light); box-shadow: none; }
 
         .divider {
             display: flex; align-items: center; color: var(--text-dark-muted); margin: 18px 0; font-size: 0.9rem;
         }
         .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border-light); margin: 0 10px; }
 
-        /* Modals - White bottom sheets */
+        /* Modals */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center;
@@ -659,7 +665,7 @@
         .modal-buttons { display: flex; gap: 12px; margin-top: 25px; }
         .modal-buttons button { flex: 1; padding: 14px; border-radius: var(--radius-sm); font-weight: bold; border: none; cursor: pointer; }
         .modal-buttons .btn-primary { background: var(--primary-light); color: white; }
-        .modal-buttons .btn-cancel { background: #F2F5FA; color: var(--text-dark); border: 1px solid var(--border-light); }
+        .modal-buttons .btn-cancel { background: #F5EEF3; color: var(--text-dark); border: 1px solid var(--border-light); }
 
         /* Toast Notifications */
         .toast-container {
@@ -870,12 +876,12 @@
 
         <div class="dashboard-grid">
             <div class="stat-card">
-                <h4>کل فروخت (Rs)</h4>
-                <div class="val" id="statTotalSales">0</div>
+                <h4 style="display:flex; justify-content:center; align-items:center; gap:5px;">کل فروخت (Rs) <span class="material-icons-round toggle-eye-btn" onclick="toggleStats()" style="cursor:pointer; font-size:16px;">visibility_off</span></h4>
+                <div class="val" id="statTotalSales">••••</div>
             </div>
             <div class="stat-card">
-                <h4>کل خریداری (Rs)</h4>
-                <div class="val" id="statTotalPurchase">0</div>
+                <h4 style="display:flex; justify-content:center; align-items:center; gap:5px;">کل خریداری (Rs) <span class="material-icons-round toggle-eye-btn" onclick="toggleStats()" style="cursor:pointer; font-size:16px;">visibility_off</span></h4>
+                <div class="val" id="statTotalPurchase">••••</div>
             </div>
             <div class="stat-card">
                 <h4>فروخت وزن (کلو)</h4>
@@ -1001,7 +1007,7 @@
         <div style="width: 58mm; max-width: 58mm; margin: 0; padding: 6px 4px; font-family: 'Jameel Noori Nastaleeq', 'Noto Nastaliq Urdu', monospace; background: white; color: black; direction: ltr; text-align: left; box-sizing: border-box;">
             <div style="text-align: center; border-bottom: 1px dashed #000; margin-bottom: 6px; padding-bottom: 6px;">
                 <h2 style="margin: 0; font-size: 16px; font-weight: 800; letter-spacing: 0px;">شیخ ڈرائی فروٹ</h2>
-                <p style="margin: 3px 0; font-size: 9px; color: #2c3e66;">(${titleText})</p>
+                <p style="margin: 3px 0; font-size: 9px; color: #5E3A54;">(${titleText})</p>
                 <p style="margin: 2px 0; font-size: 9px;">📞 0319 0112447  |  0336 8888083</p>
             </div>
             <div style="display: flex; justify-content: space-between; font-size: 9px; margin: 6px 0 4px; border-bottom: 1px dotted #ccc; padding-bottom: 4px;">
@@ -1033,7 +1039,7 @@
                     <span>${balanceText}:</span><span dir="ltr">${Math.abs(balanceVal).toFixed(0)} Rs</span>
                 </div>
             </div>
-            <div style="text-align: center; margin-top: 12px; padding-top: 6px; border-top: 1px dashed #aaa; font-size: 8px; color: #4a627a;">
+            <div style="text-align: center; margin-top: 12px; padding-top: 6px; border-top: 1px dashed #aaa; font-size: 8px; color: #5E3A54;">
                 شکریہ! معیار اور اعتماد کی علامت<br>
                 ڈویلپر: اختر محمد 03178022878
                 ${transaction.id && transaction.id.startsWith('off_') ? '<br><span style="color:#d9534f;">(آف لائن موڈ)</span>' : ''}
@@ -1158,6 +1164,7 @@
     let products = [], cart = [], pCart = [], sales = [], purchases = [];
     let currentDateFilter = "today", currentProductFilter = "all", currentReceiptFilter = "all";
     let currentEditRecordId = null, currentEditRecordType = null, currentEditProductId = null;
+    let statsVisible = false; // آنکھ کے بٹن کے لیے کنٹرول
 
     function showToast(msg) { let t = document.createElement('div'); t.className='toast'; t.innerText=msg; document.getElementById('toastContainer').appendChild(t); setTimeout(()=>t.remove(), 3000); }
 
@@ -1192,19 +1199,38 @@
         rows.sort((a,b)=> (parseDateFromString(b.date)||0) - (parseDateFromString(a.date)||0)); return rows; 
     }
     
+    // آنکھ کے بٹن کا فنکشن
+    window.toggleStats = () => {
+        statsVisible = !statsVisible;
+        document.querySelectorAll('.toggle-eye-btn').forEach(icon => {
+            icon.innerText = statsVisible ? 'visibility' : 'visibility_off';
+        });
+        renderFullReport(); 
+    };
+
     function renderFullReport() { 
         const rows = getFilteredTransactionRows(); 
         document.getElementById('reportTableBody').innerHTML = rows.length ? rows.map(r => `<tr><td>${r.date.split(' ')[0]}</td><td>${r.product}</td><td>${r.qty}</td><td>${r.total.toFixed(0)}</td><td style="color:${r.type==='فروخت'?'#2e7d32':'#ef5350'};font-weight:bold;">${r.type}</td></tr>`).join('') : '<tr><td colspan="5">کوئی ریکارڈ نہیں</td></tr>'; 
         let sAmt=0,pAmt=0,sKg=0,pKg=0; 
         rows.forEach(r=>{ if(r.type==='فروخت'){ sAmt+=r.total; sKg+=parseFloat(r.qty); } else { pAmt+=r.total; pKg+=parseFloat(r.qty); } }); 
-        document.getElementById('statTotalSales').innerText = sAmt.toFixed(0); document.getElementById('statTotalPurchase').innerText = pAmt.toFixed(0); 
-        document.getElementById('statTotalKgSold').innerText = sKg.toFixed(2); document.getElementById('statTotalKgPurchased').innerText = pKg.toFixed(2); 
+        
+        // ڈاٹ والا طریقہ شامل کر دیا گیا
+        document.getElementById('statTotalSales').innerText = statsVisible ? sAmt.toFixed(0) : '••••'; 
+        document.getElementById('statTotalPurchase').innerText = statsVisible ? pAmt.toFixed(0) : '••••'; 
+        
+        document.getElementById('statTotalKgSold').innerText = sKg.toFixed(2); 
+        document.getElementById('statTotalKgPurchased').innerText = pKg.toFixed(2); 
     }
     
     function printA4Report() { 
         const rows = getFilteredTransactionRows(); 
         if(!rows.length) return showToast("پرنٹ کے لیے ڈیٹا نہیں"); 
-        const totalSales = document.getElementById('statTotalSales').innerText; const totalPurchase = document.getElementById('statTotalPurchase').innerText;
+        
+        let sAmt=0,pAmt=0; 
+        rows.forEach(r=>{ if(r.type==='فروخت'){ sAmt+=r.total; } else { pAmt+=r.total; } }); 
+        const totalSales = sAmt.toFixed(0); 
+        const totalPurchase = pAmt.toFixed(0);
+
         const win = window.open('','_blank'); 
         win.document.write(`<html dir="rtl"><head><title>مکمل رپورٹ</title><style>@font-face { font-family: 'Jameel Noori Nastaleeq'; src: url('https://cdn.jsdelivr.net/gh/haideralishah/pakistani-fonts/Jameel%20Noori%20Nastaleeq/Jameel%20Noori%20Nastaleeq.woff2') format('woff2'); } body{font-family:'Jameel Noori Nastaleeq', serif; padding:20px; text-align:center;} table{width:100%; border-collapse:collapse; margin-top:20px; direction:rtl;} th,td{border:1px solid #000; padding:8px; text-align:center;} th{background:#f0f0f0;} .summary-box{display:flex; justify-content:space-around; margin-bottom:20px; border:1px solid #000; padding:10px; background:#fafafa;}</style></head><body><h2>شیخ ڈرائی فروٹ - رپورٹ</h2><div class="summary-box"><div>فروخت رقم: ${totalSales} Rs</div><div>خریداری رقم: ${totalPurchase} Rs</div></div> <table><thead><tr><th>تاریخ</th><th>شے</th><th>مقدار</th><th>فی کلو</th><th>کل رقم</th><th>نوعیت</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r.date}</td><td>${r.product}</td><td>${r.qty}</td><td>${r.unitPrice}</td><td>${r.total}</td><td>${r.type}</td></tr>`).join('')}</tbody></table><script>setTimeout(()=>{window.print();window.close();},700);<\/script></body></html>`); 
         win.document.close(); 
@@ -1214,7 +1240,12 @@
     function addToCart(productId) {
         const product = products.find(p => p.id === productId); if (!product) return;
         const existing = cart.find(item => item.id === productId);
-        if (existing) { existing.qty += 1; } else { cart.push({ id: product.id, name: product.name, price: product.price, qty: 1 }); }
+        if (existing) { 
+            existing.qty += 1; 
+            existing.activeShortcut = null; // اگر دوبارہ کلک ہو تو پرانا شارٹ کٹ ہٹ جائے
+        } else { 
+            cart.push({ id: product.id, name: product.name, price: product.price, qty: 1, activeShortcut: null }); 
+        }
         renderCartAndProducts();
     }
     function updateCartItemQty(index, newQty) { if (newQty <= 0) cart.splice(index,1); else cart[index].qty = newQty; renderCartAndProducts(); }
@@ -1236,25 +1267,31 @@
                 </div>
                 
                 <div class="shortcuts-row">
-                    <button class="quick-qty-btn gram-btn" data-idx="${idx}" data-val="0.05">50g</button>
-                    <button class="quick-qty-btn gram-btn" data-idx="${idx}" data-val="0.1">100g</button>
-                    <button class="quick-qty-btn gram-btn" data-idx="${idx}" data-val="0.15">150g</button>
-                    <button class="quick-qty-btn gram-btn" data-idx="${idx}" data-val="0.2">200g</button>
-                    <button class="quick-qty-btn gram-btn" data-idx="${idx}" data-val="0.25">250g</button>
-                    <button class="quick-qty-btn gram-btn" data-idx="${idx}" data-val="0.5">500g</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.05' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.05">50g</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.1' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.1">100g</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.15' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.15">150g</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.2' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.2">200g</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.25' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.25">250g</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.5' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.5">500g</button>
                     <span style="color:#ccc; padding:0 2px;">|</span>
-                    <button class="quick-qty-btn rs-btn" data-idx="${idx}" data-val="50">50 Rs</button>
-                    <button class="quick-qty-btn rs-btn" data-idx="${idx}" data-val="100">100 Rs</button>
-                    <button class="quick-qty-btn rs-btn" data-idx="${idx}" data-val="200">200 Rs</button>
-                    <button class="quick-qty-btn rs-btn" data-idx="${idx}" data-val="300">300 Rs</button>
-                    <button class="quick-qty-btn rs-btn" data-idx="${idx}" data-val="400">400 Rs</button>
-                    <button class="quick-qty-btn rs-btn" data-idx="${idx}" data-val="500">500 Rs</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-50' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="50">50 Rs</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-100' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="100">100 Rs</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-200' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="200">200 Rs</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-300' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="300">300 Rs</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-400' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="400">400 Rs</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-500' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="500">500 Rs</button>
                 </div>
 
             </div>
         `).join('');
 
-        document.querySelectorAll('.cart-qty').forEach(inp => inp.addEventListener('change', (e) => { updateCartItemQty(parseInt(e.target.dataset.idx), parseFloat(e.target.value)||1); }));
+        // اگر مینوئل تبدیل کریں تو شارٹ کٹ ہائی لائٹ ہٹ جائے گا
+        document.querySelectorAll('.cart-qty').forEach(inp => inp.addEventListener('change', (e) => { 
+            const idx = parseInt(e.target.dataset.idx);
+            cart[idx].activeShortcut = null;
+            updateCartItemQty(idx, parseFloat(e.target.value)||1); 
+        }));
+        
         document.querySelectorAll('.cart-price').forEach(inp => inp.addEventListener('change', (e) => { updateCartItemPrice(parseInt(e.target.dataset.idx), parseFloat(e.target.value)||0); }));
         document.querySelectorAll('.cart-delete-btn').forEach(btn => btn.addEventListener('click', (e) => removeCartItem(parseInt(e.currentTarget.dataset.idx))));
         
@@ -1262,6 +1299,7 @@
         document.querySelectorAll('.gram-btn').forEach(btn => btn.addEventListener('click', (e) => {
             const idx = parseInt(e.target.dataset.idx);
             const qtyInKg = parseFloat(e.target.dataset.val);
+            cart[idx].activeShortcut = 'g-' + e.target.dataset.val; // ہائی لائٹ محفوظ کریں
             updateCartItemQty(idx, qtyInKg);
         }));
 
@@ -1270,8 +1308,8 @@
             const amountInRs = parseFloat(e.target.dataset.val);
             const pricePerKg = parseFloat(cart[idx].price);
             if (pricePerKg > 0) {
-                // روپے کو کلو میں تبدیل کرنے کا فارمولا
                 const qtyInKg = Number((amountInRs / pricePerKg).toFixed(3)); 
+                cart[idx].activeShortcut = 'r-' + e.target.dataset.val; // ہائی لائٹ محفوظ کریں
                 updateCartItemQty(idx, qtyInKg);
             }
         }));
