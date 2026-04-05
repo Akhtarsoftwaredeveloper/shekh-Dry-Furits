@@ -432,7 +432,7 @@
             border-color: var(--primary);
         }
         .shortcuts-row {
-            display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; direction: ltr; justify-content: flex-end;
+            display: flex; flex-wrap: wrap; gap: 5px; direction: ltr; justify-content: flex-end;
         }
 
         /* Totals Card */
@@ -1007,7 +1007,10 @@
         <div style="width: 58mm; max-width: 58mm; margin: 0; padding: 6px 4px; font-family: 'Jameel Noori Nastaleeq', 'Noto Nastaliq Urdu', monospace; background: white; color: black; direction: ltr; text-align: left; box-sizing: border-box;">
             <div style="text-align: center; border-bottom: 1px dashed #000; margin-bottom: 6px; padding-bottom: 6px;">
                 <h2 style="margin: 0; font-size: 16px; font-weight: 800; letter-spacing: 0px;">شیخ ڈرائی فروٹ</h2>
-                <p style="margin: 3px 0; font-size: 9px; color: #5E3A54;">(${titleText})</p>
+                <p style="margin: 3px 0; font-size: 10px; font-weight:bold;">نزدیک گنج گلی پشین بلوچستان</p>
+                <p style="margin: 1px 0; font-size: 9px;">ہول سیل ریٹ پر دستیاب ہیں</p>
+                <p style="margin: 1px 0 4px; font-size: 9px;">آن لائن ڈیلوری کی سہولت بھی دستیاب ہیں</p>
+                <p style="margin: 3px 0; font-size: 9px; color: #5E3A54; border-top: 1px dotted #ccc; padding-top: 3px;">(${titleText})</p>
                 <p style="margin: 2px 0; font-size: 9px;">📞 0319 0112447  |  0336 8888083</p>
             </div>
             <div style="display: flex; justify-content: space-between; font-size: 9px; margin: 6px 0 4px; border-bottom: 1px dotted #ccc; padding-bottom: 4px;">
@@ -1266,20 +1269,48 @@
                     <button class="cart-delete-btn" data-idx="${idx}"><span class="material-icons-round" style="font-size:18px;">delete</span></button>
                 </div>
                 
-                <div class="shortcuts-row">
-                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.05' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.05">50g</button>
-                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.1' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.1">100g</button>
-                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.15' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.15">150g</button>
-                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.2' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.2">200g</button>
-                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.25' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.25">250g</button>
-                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.5' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.5">500g</button>
-                    <span style="color:#ccc; padding:0 2px;">|</span>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-50' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="50">50 Rs</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-100' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="100">100 Rs</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-200' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="200">200 Rs</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-300' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="300">300 Rs</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-400' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="400">400 Rs</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-500' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="500">500 Rs</button>
+                <div style="font-size: 0.8rem; font-weight: bold; margin-top: 10px; color: var(--primary);">گرام:</div>
+                <div class="shortcuts-row" style="margin-top: 5px;">
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.05' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.05">50</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.1' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.1">100</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.15' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.15">150</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.2' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.2">200</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.25' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.25">250</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.3' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.3">300</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.4' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.4">400</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.5' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.5">500</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.55' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.55">550</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.6' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.6">600</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.65' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.65">650</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.7' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.7">700</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.75' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.75">750</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.8' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.8">800</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.85' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.85">850</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.9' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.9">900</button>
+                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.95' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.95">950</button>
+                </div>
+                <div style="font-size: 0.8rem; font-weight: bold; margin-top: 10px; color: var(--primary);">فکس قیمت (Rs):</div>
+                <div class="shortcuts-row" style="margin-top: 5px;">
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-50' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="50">50</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-100' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="100">100</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-150' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="150">150</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-200' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="200">200</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-250' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="250">250</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-300' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="300">300</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-350' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="350">350</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-400' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="400">400</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-450' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="450">450</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-500' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="500">500</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-550' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="550">550</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-600' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="600">600</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-650' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="650">650</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-700' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="700">700</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-750' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="750">750</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-800' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="800">800</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-850' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="850">850</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-900' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="900">900</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-950' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="950">950</button>
+                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-1000' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="1000">1000</button>
                 </div>
 
             </div>
