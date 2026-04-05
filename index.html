@@ -24,16 +24,16 @@
            FLUTTER INSPIRED DARK BLUE + WHITE THEME
            ========================================= */
         :root {
-            --primary: #1E498E;         /* Rich Blue Accent */
-            --primary-light: #2A60B4;   /* Lighter Blue */
-            --secondary: #f5a623;       /* Warm Orange Accent */
-            --background: #08162D;      /* Deep Dark Blue Background */
-            --surface-dark: #102447;    /* Dark surface (app bar, bottom nav) */
-            --white-pure: #FFFFFF;      /* Pure White for cards and surfaces */
-            --white-off: #F8FAFF;       /* Slightly off-white for subtle contrast */
-            --text-dark: #0A1929;       /* Dark text for white backgrounds */
-            --text-dark-muted: #4A5B7A; /* Muted dark text */
-            --text-white: #FFFFFF;      /* White text on dark backgrounds */
+            --primary: #1E498E;         
+            --primary-light: #2A60B4;   
+            --secondary: #f5a623;       
+            --background: #08162D;      
+            --surface-dark: #102447;    
+            --white-pure: #FFFFFF;      
+            --white-off: #F8FAFF;       
+            --text-dark: #0A1929;       
+            --text-dark-muted: #4A5B7A; 
+            --text-white: #FFFFFF;      
             --text-white-muted: #B8C7E7;
             --danger: #ef5350;
             --success: #2e7d32;
@@ -408,6 +408,26 @@
             transition: 0.2s;
         }
         .cart-delete-btn:active { background: rgba(239, 83, 80, 0.3); }
+
+        /* شارٹ کٹ بٹنز (گرام اور قیمت) کے لیے سی ایس ایس */
+        .quick-qty-btn {
+            background: #F8FAFF;
+            border: 1px solid #B8C7E7;
+            border-radius: 4px;
+            padding: 4px 6px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: var(--primary);
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .quick-qty-btn:active {
+            background: var(--primary);
+            color: white;
+        }
+        .shortcuts-row {
+            display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; direction: ltr; justify-content: flex-end;
+        }
 
         /* Totals Card - White background with dark text, elegant */
         .totals-card {
@@ -1044,14 +1064,12 @@
         printWindow.document.close();
         printWindow.focus();
         
-        // Timeout increased to 1200ms to ensure Jameel Noori Nastaleeq font is perfectly loaded before printing
         setTimeout(() => {
             printWindow.print();
             setTimeout(() => printWindow.close(), 1500);
         }, 1200);
     }
     
-    // Offline Data Sync
     async function syncOfflineData() {
         if (!navigator.onLine || !auth.currentUser || isOfflineMode) return;
         let offlineSales = JSON.parse(localStorage.getItem('offlineSales') || '[]');
@@ -1083,7 +1101,6 @@
     }
     window.addEventListener('online', syncOfflineData);
 
-    // Auth logic
     onAuthStateChanged(auth, (user) => {
         if (user) { 
             loginScreen.style.display = 'none'; 
@@ -1138,14 +1155,12 @@
         }
     });
 
-    // Global variables
     let products = [], cart = [], pCart = [], sales = [], purchases = [];
     let currentDateFilter = "today", currentProductFilter = "all", currentReceiptFilter = "all";
     let currentEditRecordId = null, currentEditRecordType = null, currentEditProductId = null;
 
     function showToast(msg) { let t = document.createElement('div'); t.className='toast'; t.innerText=msg; document.getElementById('toastContainer').appendChild(t); setTimeout(()=>t.remove(), 3000); }
 
-    // Date/Report Helpers
     function parseDateFromString(dateStr) { if(!dateStr) return null; let cleaned = dateStr; const urduDigits=['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'], engDigits=['0','1','2','3','4','5','6','7','8','9']; for(let i=0;i<urduDigits.length;i++) cleaned = cleaned.replace(new RegExp(urduDigits[i],'g'), engDigits[i]); let parts = cleaned.split(' ')[0].split('/'); if(parts.length===3){ if(parts[0].length===4) return new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2])); else return new Date(parseInt(parts[2]), parseInt(parts[1])-1, parseInt(parts[0])); } return null; }
     function isDateInRange(dateStr, start, end) { const d = parseDateFromString(dateStr); if(!d) return false; const d2 = new Date(d.getFullYear(), d.getMonth(), d.getDate()); return d2 >= new Date(start.getFullYear(), start.getMonth(), start.getDate()) && d2 <= new Date(end.getFullYear(), end.getMonth(), end.getDate()); }
     function getDateRangeForFilter(f) { const n=new Date(); if(f==='today') return {start: new Date(n.getFullYear(), n.getMonth(), n.getDate()), end: new Date(n.getFullYear(), n.getMonth(), n.getDate())}; if(f==='month') return {start: new Date(n.getFullYear(), n.getMonth(), 1), end: new Date(n.getFullYear(), n.getMonth()+1, 0)}; if(f==='year') return {start: new Date(n.getFullYear(), 0, 1), end: new Date(n.getFullYear(), 11, 31)}; if(f==='halfyear') return {start: new Date(n.getFullYear(), n.getMonth()-6, 1), end: new Date(n.getFullYear(), n.getMonth()+1, 0)}; return {start: new Date(2000,0,1), end: new Date(2099,11,31)}; }
@@ -1162,14 +1177,12 @@
         }); 
         purchases.forEach(p => { 
             if(p.date && isDateInRange(p.date, range.start, range.end)) {
-                // Support for new cart-based purchases
                 if (p.items) {
                     p.items.forEach(item => {
                         if(currentProductFilter !== 'all' && item.name !== currentProductFilter) return; 
                         rows.push({ date: p.date, product: item.name, qty: item.qty, unitPrice: item.price, total: (parseFloat(item.qty)*parseFloat(item.price))||0, type: 'خریداری' }); 
                     });
                 } else {
-                    // Fallback for old purchases format
                     if (currentProductFilter === 'all' || p.productName === currentProductFilter) {
                         rows.push({ date: p.date, product: p.productName, qty: p.qty, unitPrice: p.rate, total: (parseFloat(p.qty)*parseFloat(p.rate))||0, type: 'خریداری' }); 
                     }
@@ -1208,6 +1221,8 @@
     function updateCartItemPrice(index, newPrice) { if (newPrice >= 0) cart[index].price = newPrice; renderCartAndProducts(); }
     function removeCartItem(index) { cart.splice(index,1); renderCartAndProducts(); }
     function renderCartAndProducts() { renderCart(); renderProducts(); updateTotals(); }
+    
+    // Yahan Cart main Shortcuts add kiye gaye hain
     function renderCart() {
         const container = document.getElementById('cartList'); if (!container) return;
         if (cart.length === 0) { container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-dark-muted);">کارٹ خالی ہے</div>'; return; }
@@ -1215,16 +1230,53 @@
             <div class="cart-item" data-cart-index="${idx}">
                 <div class="cart-header"><span>${item.name}</span><span style="color:var(--primary); font-weight:800;">${(item.qty * item.price).toFixed(0)} Rs</span></div>
                 <div class="cart-controls">
-                    <div class="qty-control"><input type="number" step="0.1" value="${item.qty}" class="cart-qty" data-idx="${idx}" dir="ltr"><span style="padding:0 8px; font-size:0.8rem;">kg</span></div>
+                    <div class="qty-control"><input type="number" step="0.001" value="${item.qty}" class="cart-qty" data-idx="${idx}" dir="ltr"><span style="padding:0 8px; font-size:0.8rem;">kg</span></div>
                     <div class="qty-control"><input type="number" step="1" value="${item.price}" class="cart-price cart-price-input" data-idx="${idx}" dir="ltr"><span style="padding:0 8px;">Rs</span></div>
                     <button class="cart-delete-btn" data-idx="${idx}"><span class="material-icons-round" style="font-size:18px;">delete</span></button>
                 </div>
+                
+                <div class="shortcuts-row">
+                    <button class="quick-qty-btn gram-btn" data-idx="${idx}" data-val="0.05">50g</button>
+                    <button class="quick-qty-btn gram-btn" data-idx="${idx}" data-val="0.1">100g</button>
+                    <button class="quick-qty-btn gram-btn" data-idx="${idx}" data-val="0.15">150g</button>
+                    <button class="quick-qty-btn gram-btn" data-idx="${idx}" data-val="0.2">200g</button>
+                    <button class="quick-qty-btn gram-btn" data-idx="${idx}" data-val="0.25">250g</button>
+                    <button class="quick-qty-btn gram-btn" data-idx="${idx}" data-val="0.5">500g</button>
+                    <span style="color:#ccc; padding:0 2px;">|</span>
+                    <button class="quick-qty-btn rs-btn" data-idx="${idx}" data-val="50">50 Rs</button>
+                    <button class="quick-qty-btn rs-btn" data-idx="${idx}" data-val="100">100 Rs</button>
+                    <button class="quick-qty-btn rs-btn" data-idx="${idx}" data-val="200">200 Rs</button>
+                    <button class="quick-qty-btn rs-btn" data-idx="${idx}" data-val="300">300 Rs</button>
+                    <button class="quick-qty-btn rs-btn" data-idx="${idx}" data-val="400">400 Rs</button>
+                    <button class="quick-qty-btn rs-btn" data-idx="${idx}" data-val="500">500 Rs</button>
+                </div>
+
             </div>
         `).join('');
+
         document.querySelectorAll('.cart-qty').forEach(inp => inp.addEventListener('change', (e) => { updateCartItemQty(parseInt(e.target.dataset.idx), parseFloat(e.target.value)||1); }));
         document.querySelectorAll('.cart-price').forEach(inp => inp.addEventListener('change', (e) => { updateCartItemPrice(parseInt(e.target.dataset.idx), parseFloat(e.target.value)||0); }));
         document.querySelectorAll('.cart-delete-btn').forEach(btn => btn.addEventListener('click', (e) => removeCartItem(parseInt(e.currentTarget.dataset.idx))));
+        
+        // شارٹ کٹس پر کلک کرنے کے ایونٹس
+        document.querySelectorAll('.gram-btn').forEach(btn => btn.addEventListener('click', (e) => {
+            const idx = parseInt(e.target.dataset.idx);
+            const qtyInKg = parseFloat(e.target.dataset.val);
+            updateCartItemQty(idx, qtyInKg);
+        }));
+
+        document.querySelectorAll('.rs-btn').forEach(btn => btn.addEventListener('click', (e) => {
+            const idx = parseInt(e.target.dataset.idx);
+            const amountInRs = parseFloat(e.target.dataset.val);
+            const pricePerKg = parseFloat(cart[idx].price);
+            if (pricePerKg > 0) {
+                // روپے کو کلو میں تبدیل کرنے کا فارمولا
+                const qtyInKg = Number((amountInRs / pricePerKg).toFixed(3)); 
+                updateCartItemQty(idx, qtyInKg);
+            }
+        }));
     }
+
     function updateTotals() { let total = cart.reduce((sum, i) => sum + (i.qty * i.price), 0); document.getElementById('grandTotal').innerText = total.toFixed(0); updateBalance(); }
     window.updateBalance = () => { const total = parseFloat(document.getElementById('grandTotal').innerText) || 0; const cash = parseFloat(document.getElementById('cashInput').value) || 0; document.getElementById('balanceAmount').innerText = (cash - total).toFixed(0); };
     
@@ -1260,7 +1312,7 @@
     function addToPurchaseCart(productId) {
         const product = products.find(p => p.id === productId); if (!product) return;
         const existing = pCart.find(item => item.id === productId);
-        if (existing) { existing.qty += 1; } else { pCart.push({ id: product.id, name: product.name, price: product.price, qty: 1 }); } // Default price is sale price, user can edit it
+        if (existing) { existing.qty += 1; } else { pCart.push({ id: product.id, name: product.name, price: product.price, qty: 1 }); } 
         renderPurchaseCartAndProducts();
     }
     function updatePCartItemQty(index, newQty) { if (newQty <= 0) pCart.splice(index,1); else pCart[index].qty = newQty; renderPurchaseCartAndProducts(); }
@@ -1291,7 +1343,7 @@
         if(pCart.length === 0) return showToast("خریداری کارٹ خالی ہے");
         const total = parseFloat(document.getElementById('pGrandTotal').innerText);
         const cash = parseFloat(document.getElementById('pCashInput').value) || 0;
-        let nextReceiptNo = 5001; // Different starting series for purchases
+        let nextReceiptNo = 5001; 
         const offlinePurchases = JSON.parse(localStorage.getItem('offlinePurchases') || '[]');
         const allPurchases = [...purchases, ...offlinePurchases]; 
         if (allPurchases.length > 0) { const maxNo = Math.max(...allPurchases.map(s => s.receiptNo || 5000)); nextReceiptNo = maxNo + 1; }
@@ -1299,7 +1351,7 @@
         
         if (isOfflineMode) {
             purchaseObj.id = 'off_pur_' + Date.now(); offlinePurchases.push(purchaseObj); localStorage.setItem('offlinePurchases', JSON.stringify(offlinePurchases));
-            for(let it of pCart){ const p = products.find(x=>x.id === it.id); if(p) p.stock = p.stock + it.qty; } // INCREASE STOCK
+            for(let it of pCart){ const p = products.find(x=>x.id === it.id); if(p) p.stock = p.stock + it.qty; } 
             localStorage.setItem('cachedProducts', JSON.stringify(products));
             printThermalReceipt(purchaseObj, 'purchase');
             pCart = []; renderPurchaseCartAndProducts(); document.getElementById('supplierName').value = ''; document.getElementById('supplierMobile').value = ''; document.getElementById('pCashInput').value = 0; 
@@ -1308,7 +1360,7 @@
         document.getElementById('printPurchaseBtn').disabled = true;
         try {
             const newPurRef = await push(ref(db,'purchases'), purchaseObj);
-            for(let it of pCart){ const p = products.find(x=>x.id === it.id); if(p) await update(ref(db,`products/${it.id}`),{stock: p.stock + it.qty}); } // INCREASE STOCK
+            for(let it of pCart){ const p = products.find(x=>x.id === it.id); if(p) await update(ref(db,`products/${it.id}`),{stock: p.stock + it.qty}); } 
             printThermalReceipt({ ...purchaseObj, id: newPurRef.key }, 'purchase');
             pCart = []; renderPurchaseCartAndProducts(); document.getElementById('supplierName').value = ''; document.getElementById('supplierMobile').value = ''; document.getElementById('pCashInput').value = 0; showToast("خریداری کی رسید محفوظ");
         } catch(e) { showToast("انٹرنیٹ کنکشن کا مسئلہ!"); }
@@ -1325,20 +1377,17 @@
         const pCartIds = new Set(pCart.map(i => i.id)); 
 
         products.forEach(p => { 
-            // Sales Grid Buttons
             if (sGrid) {
                 const sBtn = document.createElement('div'); sBtn.className = `product-btn ${cartIds.has(p.id) ? 'highlight' : ''}`; 
                 sBtn.innerHTML = `<span class="stock-badge">${p.stock}</span><span class="p-name">${p.name}</span><span class="p-price">${p.price} Rs</span>`; 
                 sBtn.onclick = () => addToCart(p.id); sGrid.appendChild(sBtn); 
             }
-            // Purchase Grid Buttons
             if (pGrid) {
                 const pBtn = document.createElement('div'); pBtn.className = `product-btn ${pCartIds.has(p.id) ? 'highlight' : ''}`; 
                 pBtn.innerHTML = `<span class="stock-badge" style="background:var(--success);">${p.stock}</span><span class="p-name">${p.name}</span>`; 
                 pBtn.onclick = () => addToPurchaseCart(p.id); pGrid.appendChild(pBtn); 
             }
         }); 
-        // Sync lists
         renderProductListAndSelect();
     }
 
@@ -1371,22 +1420,17 @@
         const container = document.getElementById('receiptsList'); if(!container) return; 
         const searchTerm = (document.getElementById('searchReceiptInput')?.value || '').toLowerCase().trim();
         
-        // Combine sales and purchases
         let allRecords = [];
         sales.forEach(s => allRecords.push({ ...s, _dbType: 'sale' }));
         purchases.forEach(p => { 
             if(p.items) allRecords.push({ ...p, _dbType: 'purchase' }); 
-            // Fallback for old purchases format is ignored in Receipt list to avoid crashes, old logic was just "history" not full receipts
         });
 
-        // Apply Filter (Sale vs Purchase)
         if (currentReceiptFilter === 'sale') allRecords = allRecords.filter(r => r._dbType === 'sale');
         if (currentReceiptFilter === 'purchase') allRecords = allRecords.filter(r => r._dbType === 'purchase');
 
-        // Apply Search
         if (searchTerm) { allRecords = allRecords.filter(r => (r.receiptNo && r.receiptNo.toString().includes(searchTerm)) || (r.customer && r.customer.toLowerCase().includes(searchTerm)) || (r.date && r.date.toLowerCase().includes(searchTerm))); }
         
-        // Sort by Date Descending
         allRecords.sort((a,b)=> (parseDateFromString(b.date)||0) - (parseDateFromString(a.date)||0));
 
         if(allRecords.length===0){ container.innerHTML='<div style="padding:30px; text-align:center; color:var(--text-dark-muted); font-weight:bold;">کوئی رسید نہیں ملی</div>'; return; } 
@@ -1443,7 +1487,6 @@
         for(let it of r.items){ 
             const p = products.find(x=>x.name===it.name); 
             if(p) {
-                // If deleting a SALE -> stock goes UP. If deleting a PURCHASE -> stock goes DOWN.
                 const newStock = type === 'sale' ? p.stock + it.qty : Math.max(0, p.stock - it.qty);
                 await update(ref(db,`products/${p.id}`),{stock: newStock}); 
             }
@@ -1451,7 +1494,6 @@
         await remove(ref(db,`${dbNode}/${id}`)); 
     }
 
-    // Filters and Tabs
     document.querySelectorAll('.filter-btn').forEach(btn => btn.onclick = () => { document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); currentDateFilter=btn.dataset.filter; renderFullReport(); });
     document.getElementById('productFilterSelect').onchange = (e) => { currentProductFilter=e.target.value; renderFullReport(); };
     
@@ -1466,7 +1508,6 @@
     document.getElementById('saveProductEditBtn').onclick = saveProductEdit; document.getElementById('closeProductModalBtn').onclick = () => document.getElementById('editProductModal').style.display='none';
     document.getElementById('printReportBtn').onclick = printA4Report;
     
-    // DB Initialization
     function initializeMainApp() {
         onValue(ref(db, 'products'), (snap) => { 
             products = snap.val() ? Object.keys(snap.val()).map(id => ({id, ...snap.val()[id]})) : []; 
