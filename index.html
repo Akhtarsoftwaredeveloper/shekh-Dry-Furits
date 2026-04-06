@@ -171,13 +171,13 @@
         }
 
         .tab .material-icons-round {
-            font-size: 24px;
-            margin-bottom: 4px;
+            font-size: 22px;
+            margin-bottom: 3px;
             transition: 0.2s;
         }
 
         .tab-text {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             font-weight: 700;
         }
 
@@ -193,8 +193,8 @@
         .tab.active::after {
             content: '';
             position: absolute;
-            bottom: 12px;
-            width: 20px;
+            bottom: 10px;
+            width: 15px;
             height: 3px;
             background: var(--white-pure);
             border-radius: 6px;
@@ -425,7 +425,6 @@
             background: var(--primary);
             color: white;
         }
-        /* شارٹ کٹ ہائی لائٹ کلاس */
         .quick-qty-btn.active-shortcut {
             background: var(--primary);
             color: white;
@@ -845,6 +844,38 @@
         <div id="productList"></div>
     </div>
 
+    <div id="accounts" class="tab-content">
+        <div class="dashboard-grid no-print">
+            <div class="stat-card">
+                <h4 style="font-size:0.75rem;">کل فروخت قرضداری (Rs)</h4>
+                <div class="val" id="statTotalCreditGiven" style="color:var(--primary);">0</div>
+            </div>
+            <div class="stat-card">
+                <h4 style="font-size:0.75rem;">کل خریداری قرضداری (Rs)</h4>
+                <div class="val" id="statTotalCreditTaken" style="color:var(--danger);">0</div>
+            </div>
+            <div class="stat-card">
+                <h4 style="font-size:0.75rem;">فروخت قرضداری وزن (کلو)</h4>
+                <div class="val" id="statWeightCreditGiven">0</div>
+            </div>
+            <div class="stat-card">
+                <h4 style="font-size:0.75rem;">خریداری قرضداری وزن (کلو)</h4>
+                <div class="val" id="statWeightCreditTaken">0</div>
+            </div>
+        </div>
+
+        <div class="filter-scroll no-print">
+            <div class="chip account-filter-btn active" data-filter="given">ادھار دیا (فروخت)</div>
+            <div class="chip account-filter-btn" data-filter="taken">ادھار لیا (خریداری)</div>
+        </div>
+        
+        <div class="search-bar no-print">
+            <span class="material-icons-round">search</span>
+            <input type="text" id="searchAccountInput" placeholder="نام، تاریخ یا رسید نمبر تلاش کریں...">
+        </div>
+        <div id="accountsList"></div>
+    </div>
+
     <div id="receipts" class="tab-content">
         <div class="filter-scroll no-print">
             <div class="chip receipt-filter-btn active" data-filter="all">تمام رسیدیں</div>
@@ -915,15 +946,19 @@
     <div class="tabs no-print" id="mainTabs">
         <div class="tab active" data-tab="saleBilling">
             <span class="material-icons-round">point_of_sale</span>
-            <span class="tab-text">بل فروخت</span>
+            <span class="tab-text">فروخت</span>
         </div>
         <div class="tab" data-tab="purchaseBilling">
             <span class="material-icons-round">shopping_cart</span>
-            <span class="tab-text">بل خریداری</span>
+            <span class="tab-text">خریداری</span>
         </div>
         <div class="tab" data-tab="products">
             <span class="material-icons-round">inventory_2</span>
             <span class="tab-text">اشیاء</span>
+        </div>
+        <div class="tab" data-tab="accounts">
+            <span class="material-icons-round">account_balance_wallet</span>
+            <span class="tab-text">حسابات</span>
         </div>
         <div class="tab" data-tab="receipts">
             <span class="material-icons-round">receipt_long</span>
@@ -941,7 +976,7 @@
         <h3>رسید میں ترمیم</h3>
         <div class="input-group"><label>گاہک/سپلائر</label><input type="text" id="editCustomerName"></div>
         <div class="input-group"><label>موبائل</label><input type="tel" id="editCustomerMobile" dir="ltr" style="text-align: right;"></div>
-        <div class="input-group"><label>نقدی</label><input type="number" id="editCash" dir="ltr"></div>
+        <div class="input-group"><label>نقدی (ادا شدہ)</label><input type="number" id="editCash" dir="ltr"></div>
         <div class="modal-buttons">
             <button id="closeModalBtn" class="btn-cancel">منسوخ</button>
             <button id="saveEditBtn" class="btn-primary">محفوظ کریں</button>
@@ -985,7 +1020,7 @@
     let isDataInitialized = false;
     let isOfflineMode = false;
 
-    // ========== 58MM THERMAL RECEIPT - JAMEEL NOORI NASTALEEQ ==========
+    // ========== 58MM THERMAL RECEIPT ==========
     function printThermalReceipt(transaction, type = 'sale') {
         const titleText = type === 'purchase' ? 'خریداری رسید' : 'فروخت کی رسید';
         const personText = type === 'purchase' ? 'سپلائر:' : 'گاہک:';
@@ -1165,9 +1200,9 @@
     });
 
     let products = [], cart = [], pCart = [], sales = [], purchases = [];
-    let currentDateFilter = "today", currentProductFilter = "all", currentReceiptFilter = "all";
+    let currentDateFilter = "today", currentProductFilter = "all", currentReceiptFilter = "all", currentAccountFilter = "given";
     let currentEditRecordId = null, currentEditRecordType = null, currentEditProductId = null;
-    let statsVisible = false; // آنکھ کے بٹن کے لیے کنٹرول
+    let statsVisible = false;
 
     function showToast(msg) { let t = document.createElement('div'); t.className='toast'; t.innerText=msg; document.getElementById('toastContainer').appendChild(t); setTimeout(()=>t.remove(), 3000); }
 
@@ -1202,7 +1237,6 @@
         rows.sort((a,b)=> (parseDateFromString(b.date)||0) - (parseDateFromString(a.date)||0)); return rows; 
     }
     
-    // آنکھ کے بٹن کا فنکشن
     window.toggleStats = () => {
         statsVisible = !statsVisible;
         document.querySelectorAll('.toggle-eye-btn').forEach(icon => {
@@ -1217,10 +1251,8 @@
         let sAmt=0,pAmt=0,sKg=0,pKg=0; 
         rows.forEach(r=>{ if(r.type==='فروخت'){ sAmt+=r.total; sKg+=parseFloat(r.qty); } else { pAmt+=r.total; pKg+=parseFloat(r.qty); } }); 
         
-        // ڈاٹ والا طریقہ شامل کر دیا گیا
         document.getElementById('statTotalSales').innerText = statsVisible ? sAmt.toFixed(0) : '••••'; 
         document.getElementById('statTotalPurchase').innerText = statsVisible ? pAmt.toFixed(0) : '••••'; 
-        
         document.getElementById('statTotalKgSold').innerText = sKg.toFixed(2); 
         document.getElementById('statTotalKgPurchased').innerText = pKg.toFixed(2); 
     }
@@ -1243,12 +1275,8 @@
     function addToCart(productId) {
         const product = products.find(p => p.id === productId); if (!product) return;
         const existing = cart.find(item => item.id === productId);
-        if (existing) { 
-            existing.qty += 1; 
-            existing.activeShortcut = null; // اگر دوبارہ کلک ہو تو پرانا شارٹ کٹ ہٹ جائے
-        } else { 
-            cart.push({ id: product.id, name: product.name, price: product.price, qty: 1, activeShortcut: null }); 
-        }
+        if (existing) { existing.qty += 1; existing.activeShortcut = null; } 
+        else { cart.push({ id: product.id, name: product.name, price: product.price, qty: 1, activeShortcut: null }); }
         renderCartAndProducts();
     }
     function updateCartItemQty(index, newQty) { if (newQty <= 0) cart.splice(index,1); else cart[index].qty = newQty; renderCartAndProducts(); }
@@ -1256,7 +1284,6 @@
     function removeCartItem(index) { cart.splice(index,1); renderCartAndProducts(); }
     function renderCartAndProducts() { renderCart(); renderProducts(); updateTotals(); }
     
-    // Yahan Cart main Shortcuts add kiye gaye hain
     function renderCart() {
         const container = document.getElementById('cartList'); if (!container) return;
         if (cart.length === 0) { container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-dark-muted);">کارٹ خالی ہے</div>'; return; }
@@ -1268,7 +1295,6 @@
                     <div class="qty-control"><input type="number" step="1" value="${item.price}" class="cart-price cart-price-input" data-idx="${idx}" dir="ltr"><span style="padding:0 8px;">Rs</span></div>
                     <button class="cart-delete-btn" data-idx="${idx}"><span class="material-icons-round" style="font-size:18px;">delete</span></button>
                 </div>
-                
                 <div style="font-size: 0.8rem; font-weight: bold; margin-top: 10px; color: var(--primary);">گرام:</div>
                 <div class="shortcuts-row" style="margin-top: 5px;">
                     <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.05' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.05">50</button>
@@ -1276,73 +1302,31 @@
                     <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.15' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.15">150</button>
                     <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.2' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.2">200</button>
                     <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.25' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.25">250</button>
-                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.3' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.3">300</button>
-                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.4' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.4">400</button>
                     <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.5' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.5">500</button>
-                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.55' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.55">550</button>
-                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.6' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.6">600</button>
-                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.65' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.65">650</button>
-                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.7' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.7">700</button>
                     <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.75' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.75">750</button>
-                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.8' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.8">800</button>
-                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.85' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.85">850</button>
-                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.9' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.9">900</button>
-                    <button class="quick-qty-btn gram-btn ${item.activeShortcut === 'g-0.95' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="0.95">950</button>
                 </div>
                 <div style="font-size: 0.8rem; font-weight: bold; margin-top: 10px; color: var(--primary);">فکس قیمت (Rs):</div>
                 <div class="shortcuts-row" style="margin-top: 5px;">
                     <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-50' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="50">50</button>
                     <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-100' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="100">100</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-150' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="150">150</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-200' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="200">200</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-250' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="250">250</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-300' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="300">300</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-350' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="350">350</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-400' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="400">400</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-450' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="450">450</button>
                     <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-500' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="500">500</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-550' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="550">550</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-600' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="600">600</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-650' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="650">650</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-700' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="700">700</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-750' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="750">750</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-800' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="800">800</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-850' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="850">850</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-900' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="900">900</button>
-                    <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-950' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="950">950</button>
                     <button class="quick-qty-btn rs-btn ${item.activeShortcut === 'r-1000' ? 'active-shortcut' : ''}" data-idx="${idx}" data-val="1000">1000</button>
                 </div>
-
             </div>
         `).join('');
 
-        // اگر مینوئل تبدیل کریں تو شارٹ کٹ ہائی لائٹ ہٹ جائے گا
         document.querySelectorAll('.cart-qty').forEach(inp => inp.addEventListener('change', (e) => { 
-            const idx = parseInt(e.target.dataset.idx);
-            cart[idx].activeShortcut = null;
-            updateCartItemQty(idx, parseFloat(e.target.value)||1); 
+            const idx = parseInt(e.target.dataset.idx); cart[idx].activeShortcut = null; updateCartItemQty(idx, parseFloat(e.target.value)||1); 
         }));
-        
         document.querySelectorAll('.cart-price').forEach(inp => inp.addEventListener('change', (e) => { updateCartItemPrice(parseInt(e.target.dataset.idx), parseFloat(e.target.value)||0); }));
         document.querySelectorAll('.cart-delete-btn').forEach(btn => btn.addEventListener('click', (e) => removeCartItem(parseInt(e.currentTarget.dataset.idx))));
         
-        // شارٹ کٹس پر کلک کرنے کے ایونٹس
         document.querySelectorAll('.gram-btn').forEach(btn => btn.addEventListener('click', (e) => {
-            const idx = parseInt(e.target.dataset.idx);
-            const qtyInKg = parseFloat(e.target.dataset.val);
-            cart[idx].activeShortcut = 'g-' + e.target.dataset.val; // ہائی لائٹ محفوظ کریں
-            updateCartItemQty(idx, qtyInKg);
+            const idx = parseInt(e.target.dataset.idx); cart[idx].activeShortcut = 'g-' + e.target.dataset.val; updateCartItemQty(idx, parseFloat(e.target.dataset.val));
         }));
-
         document.querySelectorAll('.rs-btn').forEach(btn => btn.addEventListener('click', (e) => {
-            const idx = parseInt(e.target.dataset.idx);
-            const amountInRs = parseFloat(e.target.dataset.val);
-            const pricePerKg = parseFloat(cart[idx].price);
-            if (pricePerKg > 0) {
-                const qtyInKg = Number((amountInRs / pricePerKg).toFixed(3)); 
-                cart[idx].activeShortcut = 'r-' + e.target.dataset.val; // ہائی لائٹ محفوظ کریں
-                updateCartItemQty(idx, qtyInKg);
-            }
+            const idx = parseInt(e.target.dataset.idx); const price = parseFloat(cart[idx].price);
+            if (price > 0) { cart[idx].activeShortcut = 'r-' + e.target.dataset.val; updateCartItemQty(idx, Number((parseFloat(e.target.dataset.val) / price).toFixed(3))); }
         }));
     }
 
@@ -1397,7 +1381,7 @@
                 <div class="cart-controls">
                     <div class="qty-control"><input type="number" step="0.1" value="${item.qty}" class="pcart-qty" data-idx="${idx}" dir="ltr"><span style="padding:0 8px; font-size:0.8rem;">kg</span></div>
                     <div class="qty-control"><input type="number" step="1" value="${item.price}" class="pcart-price cart-price-input" data-idx="${idx}" dir="ltr"><span style="padding:0 8px;">Rs</span></div>
-                    <button class="cart-delete-btn" data-idx="${idx}"><span class="material-icons-round" style="font-size:18px;">delete</span></button>
+                    <button class="cart-delete-btn pcart-delete-btn" data-idx="${idx}"><span class="material-icons-round" style="font-size:18px;">delete</span></button>
                 </div>
             </div>
         `).join('');
@@ -1475,10 +1459,101 @@
     }
 
     document.getElementById('saveProductBtn').onclick = () => { push(ref(db,'products'),{ name: document.getElementById('prodName').value, price: parseFloat(document.getElementById('prodPrice').value), stock: parseFloat(document.getElementById('prodStock').value) }); document.getElementById('prodName').value=''; document.getElementById('prodPrice').value=''; document.getElementById('prodStock').value='0'; };
-    
     function openEditProductModal(product) { currentEditProductId = product.id; document.getElementById('editProductName').value = product.name; document.getElementById('editProductPrice').value = product.price; document.getElementById('editProductStock').value = product.stock; document.getElementById('editProductModal').style.display = 'flex'; }
     async function saveProductEdit() { const name = document.getElementById('editProductName').value.trim(); const price = parseFloat(document.getElementById('editProductPrice').value); const stock = parseFloat(document.getElementById('editProductStock').value); if(!name || isNaN(price) || isNaN(stock)) return showToast("فارم پُر کریں"); await update(ref(db), { [`products/${currentEditProductId}/name`]: name, [`products/${currentEditProductId}/price`]: price, [`products/${currentEditProductId}/stock`]: stock }); showToast("اپڈیٹ ہوگیا"); document.getElementById('editProductModal').style.display = 'none'; }
     
+    // ====== ACCOUNTS / LEDGER (حسابات) ======
+    document.querySelectorAll('.account-filter-btn').forEach(btn => {
+        btn.onclick = () => { 
+            document.querySelectorAll('.account-filter-btn').forEach(b=>b.classList.remove('active')); 
+            btn.classList.add('active'); currentAccountFilter = btn.dataset.filter; renderAccountsList(); 
+        };
+    });
+
+    document.getElementById('searchAccountInput')?.addEventListener('input', renderAccountsList);
+
+    function renderAccountsList() { 
+        const container = document.getElementById('accountsList'); if(!container) return; 
+        const searchTerm = (document.getElementById('searchAccountInput')?.value || '').toLowerCase().trim();
+        
+        let creditGivenAmount = 0, creditGivenWeight = 0;
+        let creditTakenAmount = 0, creditTakenWeight = 0;
+        let allRecords = [];
+        
+        // ادھار دیا (Sales pending balances)
+        sales.forEach(s => {
+            const bal = parseFloat(s.balance) || 0;
+            if(bal < -0.5) { 
+                const pending = Math.abs(bal); let weight = 0;
+                if(s.items) s.items.forEach(i => weight += parseFloat(i.qty) || 0);
+                creditGivenAmount += pending; creditGivenWeight += weight;
+                allRecords.push({ ...s, _dbType: 'sale', _pending: pending, _weight: weight });
+            }
+        });
+
+        // ادھار لیا (Purchases pending balances)
+        purchases.forEach(p => { 
+            const bal = parseFloat(p.balance) || 0;
+            if(bal < -0.5) {
+                const pending = Math.abs(bal); let weight = 0;
+                if(p.items) p.items.forEach(i => weight += parseFloat(i.qty) || 0);
+                creditTakenAmount += pending; creditTakenWeight += weight;
+                allRecords.push({ ...p, _dbType: 'purchase', _pending: pending, _weight: weight }); 
+            }
+        });
+
+        document.getElementById('statTotalCreditGiven').innerText = creditGivenAmount.toFixed(0);
+        document.getElementById('statWeightCreditGiven').innerText = creditGivenWeight.toFixed(2);
+        document.getElementById('statTotalCreditTaken').innerText = creditTakenAmount.toFixed(0);
+        document.getElementById('statWeightCreditTaken').innerText = creditTakenWeight.toFixed(2);
+
+        if (currentAccountFilter === 'given') allRecords = allRecords.filter(r => r._dbType === 'sale');
+        if (currentAccountFilter === 'taken') allRecords = allRecords.filter(r => r._dbType === 'purchase');
+
+        if (searchTerm) { 
+            allRecords = allRecords.filter(r => 
+                (r.receiptNo && r.receiptNo.toString().includes(searchTerm)) || 
+                (r.customer && r.customer.toLowerCase().includes(searchTerm)) || 
+                (r.date && r.date.toLowerCase().includes(searchTerm))
+            ); 
+        }
+        allRecords.sort((a,b)=> (parseDateFromString(b.date)||0) - (parseDateFromString(a.date)||0));
+
+        if(allRecords.length === 0){ container.innerHTML='<div style="padding:30px; text-align:center; color:var(--text-dark-muted); font-weight:bold;">کوئی ادھار رسید نہیں ملی</div>'; return; } 
+        
+        container.innerHTML = allRecords.map(rec => {
+            const isPurchase = rec._dbType === 'purchase';
+            const typeColor = isPurchase ? 'var(--danger)' : 'var(--primary)';
+            const typeLabel = isPurchase ? 'ادھار لیا' : 'ادھار دیا';
+            return `<div class="list-tile" style="border-right: 4px solid ${typeColor}">
+                <div class="list-tile-header">
+                    <div><div class="list-tile-title">رسید # ${rec.receiptNo || '---'} <span style="font-size:0.8rem; color:${typeColor}">(${typeLabel})</span></div>
+                    <div class="list-tile-subtitle">${rec.customer||'نامعلوم'} ${rec.mobile?`(${rec.mobile})`:''} | ${rec.date.split(' ')[0]}</div></div>
+                    <div style="text-align: left;">
+                        <div style="font-size: 0.8rem; color: var(--text-dark-muted);">بقایا رقم:</div>
+                        <div style="font-weight:900; color:${typeColor};">${rec._pending.toFixed(0)} Rs</div>
+                    </div>
+                </div>
+                <div style="font-size:0.85rem; color:var(--text-dark-muted); margin: 5px 0;">
+                    کل بل: ${parseFloat(rec.total).toFixed(0)} Rs | ادا شدہ: ${parseFloat(rec.cash).toFixed(0)} Rs<br>
+                    <span style="font-size:0.8rem;">${rec.items.map(i=>`${i.name}(${i.qty}kg)`).join(' · ')}</span>
+                </div>
+                <div class="list-tile-actions">
+                    <button class="btn-icon primary account-print-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">print</span></button>
+                    <button class="btn-icon primary account-edit-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">edit</span> ترمیم</button>
+                    <button class="btn-icon danger account-delete-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">delete</span></button>
+                </div>
+            </div>`
+        }).join(''); 
+        
+        document.querySelectorAll('.account-print-btn').forEach(btn => btn.onclick = () => { 
+            const arr = btn.dataset.type === 'sale' ? sales : purchases; 
+            const r = arr.find(x=>x.id===btn.dataset.id); if(r) printThermalReceipt(r, btn.dataset.type); 
+        }); 
+        document.querySelectorAll('.account-edit-btn').forEach(btn => btn.onclick = () => openEditModal(btn.dataset.id, btn.dataset.type)); 
+        document.querySelectorAll('.account-delete-btn').forEach(btn => btn.onclick = () => deleteReceipt(btn.dataset.id, btn.dataset.type)); 
+    }
+
     // ====== RECEIPTS & HISTORY ======
     document.querySelectorAll('.receipt-filter-btn').forEach(btn => btn.onclick = () => { 
         document.querySelectorAll('.receipt-filter-btn').forEach(b=>b.classList.remove('active')); 
@@ -1491,9 +1566,7 @@
         
         let allRecords = [];
         sales.forEach(s => allRecords.push({ ...s, _dbType: 'sale' }));
-        purchases.forEach(p => { 
-            if(p.items) allRecords.push({ ...p, _dbType: 'purchase' }); 
-        });
+        purchases.forEach(p => { if(p.items) allRecords.push({ ...p, _dbType: 'purchase' }); });
 
         if (currentReceiptFilter === 'sale') allRecords = allRecords.filter(r => r._dbType === 'sale');
         if (currentReceiptFilter === 'purchase') allRecords = allRecords.filter(r => r._dbType === 'purchase');
@@ -1571,6 +1644,7 @@
         t.classList.add('active'); document.getElementById(t.dataset.tab).classList.add('active'); window.scrollTo({top:0, behavior:'smooth'});
         if(t.dataset.tab==='dashboard') renderFullReport(); 
         if(t.dataset.tab==='receipts') renderReceiptsList(); 
+        if(t.dataset.tab==='accounts') renderAccountsList(); 
     });
     
     document.getElementById('saveEditBtn').onclick = saveEditReceipt; document.getElementById('closeModalBtn').onclick = () => document.getElementById('editModal').style.display='none';
@@ -1588,12 +1662,12 @@
         onValue(ref(db, 'sales'), (snap) => { 
             sales = snap.val() ? Object.keys(snap.val()).map(id => ({id, ...snap.val()[id]})) : []; 
             localStorage.setItem('cachedSales', JSON.stringify(sales));
-            renderFullReport(); renderReceiptsList(); 
+            renderFullReport(); renderReceiptsList(); renderAccountsList();
         });
         onValue(ref(db, 'purchases'), (snap) => { 
             purchases = snap.val() ? Object.keys(snap.val()).map(id => ({id, ...snap.val()[id]})) : []; 
             localStorage.setItem('cachedPurchases', JSON.stringify(purchases));
-            renderFullReport(); renderReceiptsList(); 
+            renderFullReport(); renderReceiptsList(); renderAccountsList();
         });
     }
 </script>
