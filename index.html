@@ -335,10 +335,33 @@
         }
 
         .product-btn:active { transform: scale(0.96); background: #FCF4F9; }
+        
+        /* NEW HIGHLIGHT STYLES WITH CHECKMARK */
         .product-btn.highlight {
-            border: 2px solid var(--primary); 
+            border: 3px solid var(--primary); 
             background: #F9E8F2;
             box-shadow: 0 6px 12px rgba(88, 24, 69, 0.15);
+            transform: scale(0.98);
+        }
+
+        .product-btn.highlight::before {
+            content: '✓';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            background: var(--success);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            font-family: sans-serif;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
         }
 
         .product-btn .p-name { font-weight: 800; font-size: 0.95rem; display: block; color: var(--text-dark); line-height: 1.2; }
@@ -1437,6 +1460,7 @@
     function updateTotals() { let total = cart.reduce((sum, i) => sum + (i.qty * i.price), 0); document.getElementById('grandTotal').innerText = total.toFixed(0); updateBalance(); }
     window.updateBalance = () => { const total = parseFloat(document.getElementById('grandTotal').innerText) || 0; const cash = parseFloat(document.getElementById('cashInput').value) || 0; document.getElementById('balanceAmount').innerText = (cash - total).toFixed(0); };
     
+    // UPDATED: PRINT SALE WITH FALLBACK
     document.getElementById('printBtn').onclick = async () => {
         if(cart.length === 0) return showToast("کارٹ خالی ہے");
         const total = parseFloat(document.getElementById('grandTotal').innerText);
@@ -1455,13 +1479,22 @@
             cart = []; renderCartAndProducts(); document.getElementById('customerName').value = ''; document.getElementById('customerMobile').value = ''; document.getElementById('cashInput').value = 0; 
             showToast("آف لائن فروخت رسید محفوظ"); return;
         }
+        
         document.getElementById('printBtn').disabled = true;
         try {
             const newSaleRef = await push(ref(db,'sales'), saleObj);
             for(let it of cart){ const p = products.find(x=>x.id === it.id); if(p) await update(ref(db,`products/${it.id}`),{stock: Math.max(0, p.stock - it.qty)}); }
             printThermalReceipt({ ...saleObj, id: newSaleRef.key }, 'sale');
             cart = []; renderCartAndProducts(); document.getElementById('customerName').value = ''; document.getElementById('customerMobile').value = ''; document.getElementById('cashInput').value = 0; showToast("فروخت کی رسید محفوظ");
-        } catch(e) { showToast("انٹرنیٹ کنکشن کا مسئلہ!"); }
+        } catch(e) { 
+            console.error(e);
+            saleObj.id = 'off_sale_' + Date.now(); offlineSales.push(saleObj); localStorage.setItem('offlineSales', JSON.stringify(offlineSales));
+            for(let it of cart){ const p = products.find(x=>x.id === it.id); if(p) p.stock = Math.max(0, p.stock - it.qty); }
+            localStorage.setItem('cachedProducts', JSON.stringify(products));
+            printThermalReceipt(saleObj, 'sale');
+            cart = []; renderCartAndProducts(); document.getElementById('customerName').value = ''; document.getElementById('customerMobile').value = ''; document.getElementById('cashInput').value = 0;
+            showToast("سرور سے رابطہ نہ ہو سکا۔ رسید آف لائن محفوظ اور پرنٹ ہو گئی۔"); 
+        }
         document.getElementById('printBtn').disabled = false;
     };
 
@@ -1502,6 +1535,7 @@
     function updatePurchaseTotals() { let total = pCart.reduce((sum, i) => sum + (i.qty * i.price), 0); document.getElementById('pGrandTotal').innerText = total.toFixed(0); updatePurchaseBalance(); }
     window.updatePurchaseBalance = () => { const total = parseFloat(document.getElementById('pGrandTotal').innerText) || 0; const cash = parseFloat(document.getElementById('pCashInput').value) || 0; document.getElementById('pBalanceAmount').innerText = (cash - total).toFixed(0); };
     
+    // UPDATED: PRINT PURCHASE WITH FALLBACK
     document.getElementById('printPurchaseBtn').onclick = async () => {
         if(pCart.length === 0) return showToast("خریداری کارٹ خالی ہے");
         const total = parseFloat(document.getElementById('pGrandTotal').innerText);
@@ -1520,13 +1554,22 @@
             pCart = []; renderPurchaseCartAndProducts(); document.getElementById('supplierName').value = ''; document.getElementById('supplierMobile').value = ''; document.getElementById('pCashInput').value = 0; 
             showToast("آف لائن خریداری محفوظ"); return;
         }
+
         document.getElementById('printPurchaseBtn').disabled = true;
         try {
             const newPurRef = await push(ref(db,'purchases'), purchaseObj);
             for(let it of pCart){ const p = products.find(x=>x.id === it.id); if(p) await update(ref(db,`products/${it.id}`),{stock: p.stock + it.qty}); } 
             printThermalReceipt({ ...purchaseObj, id: newPurRef.key }, 'purchase');
             pCart = []; renderPurchaseCartAndProducts(); document.getElementById('supplierName').value = ''; document.getElementById('supplierMobile').value = ''; document.getElementById('pCashInput').value = 0; showToast("خریداری کی رسید محفوظ");
-        } catch(e) { showToast("انٹرنیٹ کنکشن کا مسئلہ!"); }
+        } catch(e) { 
+            console.error(e);
+            purchaseObj.id = 'off_pur_' + Date.now(); offlinePurchases.push(purchaseObj); localStorage.setItem('offlinePurchases', JSON.stringify(offlinePurchases));
+            for(let it of pCart){ const p = products.find(x=>x.id === it.id); if(p) p.stock = p.stock + it.qty; }
+            localStorage.setItem('cachedProducts', JSON.stringify(products));
+            printThermalReceipt(purchaseObj, 'purchase');
+            pCart = []; renderPurchaseCartAndProducts(); document.getElementById('supplierName').value = ''; document.getElementById('supplierMobile').value = ''; document.getElementById('pCashInput').value = 0;
+            showToast("سرور سے رابطہ نہ ہو سکا۔ رسید آف لائن محفوظ اور پرنٹ ہو گئی۔");
+        }
         document.getElementById('printPurchaseBtn').disabled = false;
     };
 
