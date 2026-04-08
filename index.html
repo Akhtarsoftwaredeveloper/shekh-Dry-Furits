@@ -7,6 +7,7 @@
     <title>شیخ ڈرائی فروٹ پشین | پروفیشنل پوائنٹ آف سیل</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         /* =========================================
            FONT FACE (JAMEEL NOORI NASTALEEQ)
@@ -336,7 +337,6 @@
 
         .product-btn:active { transform: scale(0.96); background: #FCF4F9; }
         
-        /* NEW HIGHLIGHT STYLES WITH CHECKMARK */
         .product-btn.highlight {
             border: 3px solid var(--primary); 
             background: #F9E8F2;
@@ -578,6 +578,7 @@
         }
         .btn-icon.danger { background: rgba(239, 83, 80, 0.08); color: var(--danger); border-color: rgba(239, 83, 80, 0.2);}
         .btn-icon.primary { background: rgba(88, 24, 69, 0.08); color: var(--primary); border-color: rgba(88, 24, 69, 0.2);}
+        .btn-icon.info { background: rgba(0, 122, 255, 0.08); color: #007AFF; border-color: rgba(0, 122, 255, 0.2);}
         .btn-icon:active { transform: scale(0.95); }
 
         /* Dashboard & Stats Cards */
@@ -851,8 +852,8 @@
             </div>
         </div>
 
-        <button class="action" id="printBtn">
-            <span class="material-icons-round">print</span> فروخت کی رسید پرنٹ کریں
+        <button class="action" id="shareBtn" style="background: #007AFF; box-shadow: 0 6px 14px rgba(0, 122, 255, 0.3);">
+            <span class="material-icons-round">share</span> فروخت کی رسید شیئر کریں
         </button>
     </div>
 
@@ -890,8 +891,8 @@
             </div>
         </div>
 
-        <button class="action" id="printPurchaseBtn" style="background: var(--success); box-shadow: 0 6px 14px rgba(46,125,50,0.3);">
-            <span class="material-icons-round">print</span> خریداری کی رسید پرنٹ کریں
+        <button class="action" id="sharePurchaseBtn" style="background: #007AFF; box-shadow: 0 6px 14px rgba(0, 122, 255, 0.3);">
+            <span class="material-icons-round">share</span> خریداری کی رسید شیئر کریں
         </button>
     </div>
 
@@ -1149,92 +1150,107 @@
         });
     });
 
-    // ========== 58MM THERMAL RECEIPT ==========
-    function printThermalReceipt(transaction, type = 'sale') {
+    // ========== NEW FUNCTION: SHARE THERMAL RECEIPT (PNG/JPG GENERATOR) ==========
+    async function shareThermalReceipt(transaction, type = 'sale') {
         const titleText = type === 'purchase' ? 'خریداری رسید' : 'فروخت کی رسید';
         const personText = type === 'purchase' ? 'سپلائر:' : 'گاہک:';
-        
         const itemsHtml = transaction.items.map(item => `
-            <tr style="border-bottom: 1px dotted #aaa;">
-                <td style="padding: 4px 2px; text-align: left; font-size: 11px;">${item.name}</td>
-                <td style="padding: 4px 2px; text-align: center; font-size: 11px;">${parseFloat(item.price).toFixed(0)}</td>
-                <td style="padding: 4px 2px; text-align: center; font-size: 11px;">${parseFloat(item.qty).toFixed(2)}kg</td>
-                <td style="padding: 4px 2px; text-align: left; font-size: 11px; font-weight: 600;">${(parseFloat(item.qty) * parseFloat(item.price)).toFixed(0)}</td>
-              </tr>
+            <tr>
+                <td style="padding: 4px 0; text-align: right; font-size: 14px; border-bottom: 1px dashed #eee;">${item.name}</td>
+                <td style="padding: 4px 0; text-align: center; font-size: 14px; border-bottom: 1px dashed #eee;">${parseFloat(item.price).toFixed(0)}</td>
+                <td style="padding: 4px 0; text-align: center; font-size: 14px; border-bottom: 1px dashed #eee;" dir="ltr">${parseFloat(item.qty).toFixed(2)}kg</td>
+                <td style="padding: 4px 0; text-align: left; font-size: 14px; font-weight: bold; border-bottom: 1px dashed #eee;">${(parseFloat(item.qty) * parseFloat(item.price)).toFixed(0)}</td>
+            </tr>
         `).join('');
-        
         const balanceVal = parseFloat(transaction.balance) || 0;
         const balanceText = balanceVal >= 0 ? "تبدیلی / واپسی" : "بقایا رقم";
-        const balanceClass = balanceVal >= 0 ? "#2e7d32" : "#ef5350";
-        
+
         const receiptHTML = `
-        <div style="width: 58mm; max-width: 58mm; margin: 0 auto 0 0; padding: 6px 4px; font-family: 'Jameel Noori Nastaleeq', 'Noto Nastaliq Urdu', monospace; background: white; color: black; direction: ltr; text-align: left; box-sizing: border-box;">
-            <div style="text-align: center; border-bottom: 1px dashed #000; margin-bottom: 6px; padding-bottom: 6px;">
-                <h2 style="margin: 0; font-size: 16px; font-weight: 800; letter-spacing: 0px;">شیخ ڈرائی فروٹ</h2>
-                <p style="margin: 3px 0; font-size: 10px; font-weight:bold;">نزدیک گنج گلی پشین بلوچستان</p>
-                <p style="margin: 1px 0; font-size: 9px;">ہول سیل ریٹ پر دستیاب ہیں</p>
-                <p style="margin: 1px 0 4px; font-size: 9px;">آن لائن ڈیلوری کی سہولت بھی دستیاب ہیں</p>
-                <p style="margin: 3px 0; font-size: 9px; color: #5E3A54; border-top: 1px dotted #ccc; padding-top: 3px;">(${titleText})</p>
-                <p style="margin: 2px 0; font-size: 9px;">📞 0319 0112447  |  0336 8888083</p>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 9px; margin: 6px 0 4px; border-bottom: 1px dotted #ccc; padding-bottom: 4px;">
-                <span><strong>رسید نمبر:</strong> #${transaction.receiptNo || '---'}</span>
-                <span><strong>تاریخ:</strong> ${transaction.date.split(',')[0]}</span>
-            </div>
-            <div style="font-size: 9px; margin-bottom: 6px; border-bottom: 1px dotted #ccc; padding-bottom: 4px;">
-                <strong>${personText}</strong> ${transaction.customer || 'نامعلوم'} ${transaction.mobile ? ` | ${transaction.mobile}` : ''}
-            </div>
-            <table style="width: 100%; border-collapse: collapse; font-size: 9px; margin-bottom: 6px;">
-                <thead>
-                    <tr style="background: #f2f2f2; border-bottom: 1px solid #aaa;">
-                        <th style="text-align: left; padding: 4px 2px;">آئٹم</th>
-                        <th style="text-align: center; padding: 4px 2px;">ریٹ</th>
-                        <th style="text-align: center; padding: 4px 2px;">وزن</th>
-                        <th style="text-align: left; padding: 4px 2px;">رقم</th>
-                      </tr>
-                </thead>
-                <tbody>${itemsHtml || '<tr><td colspan="4" style="text-align:center;">کوئی اشیاء نہیں</td>'}</tbody>
-            </table>
-            <div style="border-top: 1px solid #000; padding-top: 4px; margin-top: 4px; direction: rtl;">
-                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 3px;">
-                    <span>کل رقم:</span><span dir="ltr">${parseFloat(transaction.total).toFixed(0)} Rs</span>
+            <div style="width: 320px; padding: 20px; background: white; color: black; font-family: 'Noto Nastaliq Urdu', sans-serif; box-sizing: border-box; direction: rtl;">
+                <div style="text-align: center; border-bottom: 2px dashed black; padding-bottom: 10px; margin-bottom: 10px;">
+                    <h2 style="font-size: 24px; font-weight: bold; margin: 0;">شیخ ڈرائی فروٹ</h2>
+                    <p style="font-size: 16px; margin: 2px 0 0 0;">نزدیک گنج گلی پشین بلوچستان</p>
+                    <p style="font-size: 14px; margin: 2px 0 0 0;">ہول سیل ریٹ پر دستیاب ہیں</p>
+                    
+                    <p style="font-size: 15px; margin: 6px 0 0 0; font-weight: bold; color: #d32f2f;">آن لائن ڈیلیوری بھی دستیاب ہیں</p>
+                    <p style="font-size: 14px; margin: 2px 0 0 0; font-weight: bold;" dir="ltr">📞 03368888083</p>
+                    
+                    <p style="font-size: 16px; margin-top: 8px; font-weight: bold;">(${titleText})</p>
                 </div>
-                <div style="display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 3px;">
-                    <span>نقدی / ادا شدہ:</span><span dir="ltr">${parseFloat(transaction.cash).toFixed(0)} Rs</span>
+                <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; border-bottom: 1px dashed #999; padding-bottom: 6px;">
+                    <span>رسید #: <span style="font-family: sans-serif;">${transaction.receiptNo || '---'}</span></span>
+                    <span style="font-family: sans-serif;">${transaction.date.split(',')[0]}</span>
                 </div>
-                <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; color: ${balanceClass};">
-                    <span>${balanceText}:</span><span dir="ltr">${Math.abs(balanceVal).toFixed(0)} Rs</span>
+                <div style="font-size: 15px; margin-bottom: 10px; border-bottom: 2px dashed black; padding-bottom: 10px;">
+                    <span style="font-weight: bold;">${personText}</span> ${transaction.customer || 'نامعلوم'} 
+                    ${transaction.mobile ? `<br><span dir="ltr" style="font-family: sans-serif; display:inline-block; margin-top:4px;">${transaction.mobile}</span>` : ''}
                 </div>
-            </div>
-            <div style="text-align: center; margin-top: 8px; padding-bottom: 4px;">
-                <img src="https://image2url.com/r2/default/images/1775501425744-6ee7edcf-c564-4bc2-a67f-498aaa675ec5.png" alt="QR Code" style="width: 80px; height: 80px; object-fit: contain;" />
-            </div>
-            <div style="text-align: center; margin-top: 6px; padding-top: 6px; border-top: 1px dashed #aaa; font-size: 8px; color: #5E3A54;">
-                شکریہ! معیار اور اعتماد کی علامت<br>
-                ڈویلپر: اختر محمد 03178022878
-                ${transaction.id && transaction.id.startsWith('off_') ? '<br><span style="color:#d9534f;">(آف لائن موڈ)</span>' : ''}
-            </div>
-        </div>`;
-        
-        const printWindow = window.open('', '_blank', 'width=400,height=600,left=50,top=50');
-        printWindow.document.write(`<html dir="ltr"><head><title>شیخ ڈرائی فروٹ - رسید</title>
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
-            @font-face {
-                font-family: 'Jameel Noori Nastaleeq';
-                src: url('https://cdn.jsdelivr.net/gh/haideralishah/pakistani-fonts/Jameel%20Noori%20Nastaleeq/Jameel%20Noori%20Nastaleeq.woff2') format('woff2');
-            }
-            * { margin: 0; padding: 0; box-sizing: border-box; }
-            body { background: #e9ecef; margin: 0; padding: 0; font-family: 'Jameel Noori Nastaleeq', 'Noto Nastaliq Urdu', monospace; text-align: left; }
-            @page { margin: 0; }
-            @media print { 
-                body { background: white; padding: 0; margin: 0; } 
-                .receipt-container { margin: 0 auto 0 0; padding: 0; display: flex; justify-content: flex-start; } 
-            }
-        </style></head><body><div class="receipt-container">${receiptHTML}</div></body></html>`);
-        printWindow.document.close();
-        printWindow.focus();
-        setTimeout(() => { printWindow.print(); setTimeout(() => printWindow.close(), 1500); }, 1200);
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;">
+                    <thead>
+                        <tr>
+                            <th style="text-align: right; border-bottom: 2px solid black; font-size: 14px; padding-bottom: 6px;">آئٹم</th>
+                            <th style="text-align: center; border-bottom: 2px solid black; font-size: 14px; padding-bottom: 6px;">ریٹ</th>
+                            <th style="text-align: center; border-bottom: 2px solid black; font-size: 14px; padding-bottom: 6px;">وزن</th>
+                            <th style="text-align: left; border-bottom: 2px solid black; font-size: 14px; padding-bottom: 6px;">رقم</th>
+                        </tr>
+                    </thead>
+                    <tbody>${itemsHtml || '<tr><td colspan="4" style="text-align: center; font-size:14px; padding-top:10px;">کوئی اشیاء نہیں</td></tr>'}</tbody>
+                </table>
+                <div style="border-top: 2px dashed black; padding-top: 10px; margin-top: 10px;">
+                    <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; margin-bottom: 6px;">
+                        <span>کل رقم:</span><span dir="ltr" style="font-family: sans-serif;">${parseFloat(transaction.total).toFixed(0)} Rs</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 15px; margin-bottom: 6px; color:#333;">
+                        <span>نقدی:</span><span dir="ltr" style="font-family: sans-serif;">${parseFloat(transaction.cash).toFixed(0)} Rs</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 16px;">
+                        <span>${balanceText}:</span><span dir="ltr" style="font-family: sans-serif;">${Math.abs(balanceVal).toFixed(0)} Rs</span>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <img src="https://image2url.com/r2/default/images/1775501425744-6ee7edcf-c564-4bc2-a67f-498aaa675ec5.png" crossorigin="anonymous" style="width: 100px; height: 100px; object-fit: contain;">
+                </div>
+                
+                <div style="text-align: center; border-top: 2px dashed black; padding-top: 10px; margin-top: 15px; font-size: 13px; color:#444;">
+                    شکریہ! معیار اور اعتماد کی علامت<br>ڈویلپر: اختر محمد 03178022878
+                </div>
+            </div>`;
+
+        const container = document.createElement('div');
+        container.style.position = 'absolute';
+        container.style.top = '-9999px';
+        container.style.left = '-9999px';
+        container.innerHTML = receiptHTML;
+        document.body.appendChild(container);
+
+        try {
+            showToast("تصویر تیار ہو رہی ہے...");
+            // html2canvas takes screenshot of the container
+            const canvas = await html2canvas(container, { scale: 3, useCORS: true, backgroundColor: '#ffffff' });
+            canvas.toBlob(async (blob) => {
+                const file = new File([blob], `Receipt_${transaction.receiptNo || '1'}.png`, { type: 'image/png' });
+                
+                // Web Share API Check
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    try {
+                        await navigator.share({ files: [file], title: 'شیخ ڈرائی فروٹ رسید' });
+                    } catch (e) { console.log('Share canceled', e); }
+                } else {
+                    // Fallback to Download if sharing is not supported
+                    const a = document.createElement('a'); 
+                    a.href = URL.createObjectURL(blob); 
+                    a.download = file.name; 
+                    a.click(); 
+                    showToast("تصویر ڈاؤن لوڈ ہو گئی (آپ کا براؤزر شیئر سپورٹ نہیں کرتا)");
+                }
+                document.body.removeChild(container);
+            }, 'image/png');
+        } catch (e) {
+            console.error(e);
+            document.body.removeChild(container);
+            showToast("شیئر کرنے میں مسئلہ پیش آیا");
+        }
     }
     
     async function syncOfflineData() {
@@ -1459,9 +1475,9 @@
 
     function updateTotals() { let total = cart.reduce((sum, i) => sum + (i.qty * i.price), 0); document.getElementById('grandTotal').innerText = total.toFixed(0); updateBalance(); }
     window.updateBalance = () => { const total = parseFloat(document.getElementById('grandTotal').innerText) || 0; const cash = parseFloat(document.getElementById('cashInput').value) || 0; document.getElementById('balanceAmount').innerText = (cash - total).toFixed(0); };
-    
-    // UPDATED: PRINT SALE WITH FALLBACK
-    document.getElementById('printBtn').onclick = async () => {
+
+    // NEW: SHARE SALE BUTTON LOGIC
+    document.getElementById('shareBtn').onclick = async () => {
         if(cart.length === 0) return showToast("کارٹ خالی ہے");
         const total = parseFloat(document.getElementById('grandTotal').innerText);
         const cash = parseFloat(document.getElementById('cashInput').value) || 0;
@@ -1475,27 +1491,26 @@
             saleObj.id = 'off_sale_' + Date.now(); offlineSales.push(saleObj); localStorage.setItem('offlineSales', JSON.stringify(offlineSales));
             for(let it of cart){ const p = products.find(x=>x.id === it.id); if(p) p.stock = Math.max(0, p.stock - it.qty); }
             localStorage.setItem('cachedProducts', JSON.stringify(products));
-            printThermalReceipt(saleObj, 'sale');
+            shareThermalReceipt(saleObj, 'sale');
             cart = []; renderCartAndProducts(); document.getElementById('customerName').value = ''; document.getElementById('customerMobile').value = ''; document.getElementById('cashInput').value = 0; 
-            showToast("آف لائن فروخت رسید محفوظ"); return;
+            return;
         }
         
-        document.getElementById('printBtn').disabled = true;
+        document.getElementById('shareBtn').disabled = true;
         try {
             const newSaleRef = await push(ref(db,'sales'), saleObj);
             for(let it of cart){ const p = products.find(x=>x.id === it.id); if(p) await update(ref(db,`products/${it.id}`),{stock: Math.max(0, p.stock - it.qty)}); }
-            printThermalReceipt({ ...saleObj, id: newSaleRef.key }, 'sale');
-            cart = []; renderCartAndProducts(); document.getElementById('customerName').value = ''; document.getElementById('customerMobile').value = ''; document.getElementById('cashInput').value = 0; showToast("فروخت کی رسید محفوظ");
+            shareThermalReceipt({ ...saleObj, id: newSaleRef.key }, 'sale');
+            cart = []; renderCartAndProducts(); document.getElementById('customerName').value = ''; document.getElementById('customerMobile').value = ''; document.getElementById('cashInput').value = 0;
         } catch(e) { 
             console.error(e);
             saleObj.id = 'off_sale_' + Date.now(); offlineSales.push(saleObj); localStorage.setItem('offlineSales', JSON.stringify(offlineSales));
             for(let it of cart){ const p = products.find(x=>x.id === it.id); if(p) p.stock = Math.max(0, p.stock - it.qty); }
             localStorage.setItem('cachedProducts', JSON.stringify(products));
-            printThermalReceipt(saleObj, 'sale');
+            shareThermalReceipt(saleObj, 'sale');
             cart = []; renderCartAndProducts(); document.getElementById('customerName').value = ''; document.getElementById('customerMobile').value = ''; document.getElementById('cashInput').value = 0;
-            showToast("سرور سے رابطہ نہ ہو سکا۔ رسید آف لائن محفوظ اور پرنٹ ہو گئی۔"); 
         }
-        document.getElementById('printBtn').disabled = false;
+        document.getElementById('shareBtn').disabled = false;
     };
 
     // ====== PURCHASE BILLING LOGIC ======
@@ -1535,8 +1550,8 @@
     function updatePurchaseTotals() { let total = pCart.reduce((sum, i) => sum + (i.qty * i.price), 0); document.getElementById('pGrandTotal').innerText = total.toFixed(0); updatePurchaseBalance(); }
     window.updatePurchaseBalance = () => { const total = parseFloat(document.getElementById('pGrandTotal').innerText) || 0; const cash = parseFloat(document.getElementById('pCashInput').value) || 0; document.getElementById('pBalanceAmount').innerText = (cash - total).toFixed(0); };
     
-    // UPDATED: PRINT PURCHASE WITH FALLBACK
-    document.getElementById('printPurchaseBtn').onclick = async () => {
+    // NEW: SHARE PURCHASE BUTTON LOGIC
+    document.getElementById('sharePurchaseBtn').onclick = async () => {
         if(pCart.length === 0) return showToast("خریداری کارٹ خالی ہے");
         const total = parseFloat(document.getElementById('pGrandTotal').innerText);
         const cash = parseFloat(document.getElementById('pCashInput').value) || 0;
@@ -1550,28 +1565,28 @@
             purchaseObj.id = 'off_pur_' + Date.now(); offlinePurchases.push(purchaseObj); localStorage.setItem('offlinePurchases', JSON.stringify(offlinePurchases));
             for(let it of pCart){ const p = products.find(x=>x.id === it.id); if(p) p.stock = p.stock + it.qty; } 
             localStorage.setItem('cachedProducts', JSON.stringify(products));
-            printThermalReceipt(purchaseObj, 'purchase');
+            shareThermalReceipt(purchaseObj, 'purchase');
             pCart = []; renderPurchaseCartAndProducts(); document.getElementById('supplierName').value = ''; document.getElementById('supplierMobile').value = ''; document.getElementById('pCashInput').value = 0; 
-            showToast("آف لائن خریداری محفوظ"); return;
+            return;
         }
 
-        document.getElementById('printPurchaseBtn').disabled = true;
+        document.getElementById('sharePurchaseBtn').disabled = true;
         try {
             const newPurRef = await push(ref(db,'purchases'), purchaseObj);
             for(let it of pCart){ const p = products.find(x=>x.id === it.id); if(p) await update(ref(db,`products/${it.id}`),{stock: p.stock + it.qty}); } 
-            printThermalReceipt({ ...purchaseObj, id: newPurRef.key }, 'purchase');
-            pCart = []; renderPurchaseCartAndProducts(); document.getElementById('supplierName').value = ''; document.getElementById('supplierMobile').value = ''; document.getElementById('pCashInput').value = 0; showToast("خریداری کی رسید محفوظ");
+            shareThermalReceipt({ ...purchaseObj, id: newPurRef.key }, 'purchase');
+            pCart = []; renderPurchaseCartAndProducts(); document.getElementById('supplierName').value = ''; document.getElementById('supplierMobile').value = ''; document.getElementById('pCashInput').value = 0;
         } catch(e) { 
             console.error(e);
             purchaseObj.id = 'off_pur_' + Date.now(); offlinePurchases.push(purchaseObj); localStorage.setItem('offlinePurchases', JSON.stringify(offlinePurchases));
             for(let it of pCart){ const p = products.find(x=>x.id === it.id); if(p) p.stock = p.stock + it.qty; }
             localStorage.setItem('cachedProducts', JSON.stringify(products));
-            printThermalReceipt(purchaseObj, 'purchase');
+            shareThermalReceipt(purchaseObj, 'purchase');
             pCart = []; renderPurchaseCartAndProducts(); document.getElementById('supplierName').value = ''; document.getElementById('supplierMobile').value = ''; document.getElementById('pCashInput').value = 0;
-            showToast("سرور سے رابطہ نہ ہو سکا۔ رسید آف لائن محفوظ اور پرنٹ ہو گئی۔");
         }
-        document.getElementById('printPurchaseBtn').disabled = false;
+        document.getElementById('sharePurchaseBtn').disabled = false;
     };
+
 
     // ====== COMMON PRODUCT RENDER ======
     function renderProducts() { 
@@ -1739,16 +1754,16 @@
                 </div>
                 <div>${renderReceiptItemsWithImages(rec.items)}</div>
                 <div class="list-tile-actions">
-                    <button class="btn-icon primary account-print-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">print</span></button>
+                    <button class="btn-icon info account-share-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">share</span> شیئر</button>
                     <button class="btn-icon primary account-edit-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">edit</span> ترمیم</button>
                     <button class="btn-icon danger account-delete-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">delete</span></button>
                 </div>
             </div>`
         }).join(''); 
         
-        document.querySelectorAll('.account-print-btn').forEach(btn => btn.onclick = () => { 
+        document.querySelectorAll('.account-share-btn').forEach(btn => btn.onclick = () => { 
             const arr = btn.dataset.type === 'sale' ? sales : purchases; 
-            const r = arr.find(x=>x.id===btn.dataset.id); if(r) printThermalReceipt(r, btn.dataset.type); 
+            const r = arr.find(x=>x.id===btn.dataset.id); if(r) shareThermalReceipt(r, btn.dataset.type); 
         }); 
         document.querySelectorAll('.account-edit-btn').forEach(btn => btn.onclick = () => openEditModal(btn.dataset.id, btn.dataset.type)); 
         document.querySelectorAll('.account-delete-btn').forEach(btn => btn.onclick = () => deleteReceipt(btn.dataset.id, btn.dataset.type)); 
@@ -1789,16 +1804,16 @@
                 </div>
                 <div>${renderReceiptItemsWithImages(rec.items)}</div>
                 <div class="list-tile-actions">
-                    <button class="btn-icon primary print-receipt-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">print</span></button>
+                    <button class="btn-icon info share-receipt-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">share</span> شیئر</button>
                     <button class="btn-icon primary edit-receipt-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">edit</span></button>
                     <button class="btn-icon danger delete-receipt-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">delete</span></button>
                 </div>
             </div>`
         }).join(''); 
         
-        document.querySelectorAll('.print-receipt-btn').forEach(btn => btn.onclick = () => { 
+        document.querySelectorAll('.share-receipt-btn').forEach(btn => btn.onclick = () => { 
             const arr = btn.dataset.type === 'sale' ? sales : purchases; 
-            const r = arr.find(x=>x.id===btn.dataset.id); if(r) printThermalReceipt(r, btn.dataset.type); 
+            const r = arr.find(x=>x.id===btn.dataset.id); if(r) shareThermalReceipt(r, btn.dataset.type); 
         }); 
         document.querySelectorAll('.edit-receipt-btn').forEach(btn => btn.onclick = () => openEditModal(btn.dataset.id, btn.dataset.type)); 
         document.querySelectorAll('.delete-receipt-btn').forEach(btn => btn.onclick = () => deleteReceipt(btn.dataset.id, btn.dataset.type)); 
