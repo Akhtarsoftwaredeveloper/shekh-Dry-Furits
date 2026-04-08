@@ -337,6 +337,7 @@
 
         .product-btn:active { transform: scale(0.96); background: #FCF4F9; }
         
+        /* NEW HIGHLIGHT STYLES WITH CHECKMARK */
         .product-btn.highlight {
             border: 3px solid var(--primary); 
             background: #F9E8F2;
@@ -852,9 +853,14 @@
             </div>
         </div>
 
-        <button class="action" id="shareBtn" style="background: #007AFF; box-shadow: 0 6px 14px rgba(0, 122, 255, 0.3);">
-            <span class="material-icons-round">share</span> فروخت کی رسید شیئر کریں
-        </button>
+        <div style="display: flex; gap: 10px;">
+            <button class="action" id="printBtn" style="flex: 2;">
+                <span class="material-icons-round">print</span> پرنٹ کریں
+            </button>
+            <button class="action" id="shareBtn" style="flex: 1; background: #007AFF; box-shadow: 0 6px 14px rgba(0, 122, 255, 0.3);">
+                <span class="material-icons-round">share</span> شیئر
+            </button>
+        </div>
     </div>
 
     <div id="purchaseBilling" class="tab-content">
@@ -891,9 +897,14 @@
             </div>
         </div>
 
-        <button class="action" id="sharePurchaseBtn" style="background: #007AFF; box-shadow: 0 6px 14px rgba(0, 122, 255, 0.3);">
-            <span class="material-icons-round">share</span> خریداری کی رسید شیئر کریں
-        </button>
+        <div style="display: flex; gap: 10px;">
+            <button class="action" id="printPurchaseBtn" style="flex: 2; background: var(--success); box-shadow: 0 6px 14px rgba(46,125,50,0.3);">
+                <span class="material-icons-round">print</span> پرنٹ کریں
+            </button>
+            <button class="action" id="sharePurchaseBtn" style="flex: 1; background: #007AFF; box-shadow: 0 6px 14px rgba(0, 122, 255, 0.3);">
+                <span class="material-icons-round">share</span> شیئر
+            </button>
+        </div>
     </div>
 
     <div id="products" class="tab-content">
@@ -1150,6 +1161,153 @@
         });
     });
 
+    // ========== UPDATED 58MM THERMAL RECEIPT (SMOOTH MOBILE PRINTING) ==========
+    function printThermalReceipt(transaction, type = 'sale') {
+        const titleText = type === 'purchase' ? 'خریداری رسید' : 'فروخت کی رسید';
+        const personText = type === 'purchase' ? 'سپلائر:' : 'گاہک:';
+        
+        const itemsHtml = transaction.items.map(item => `
+            <tr>
+                <td style="padding: 3px 0; text-align: right; font-size: 11px;">${item.name}</td>
+                <td style="padding: 3px 0; text-align: center; font-size: 11px;">${parseFloat(item.price).toFixed(0)}</td>
+                <td style="padding: 3px 0; text-align: center; font-size: 11px;" dir="ltr">${parseFloat(item.qty).toFixed(2)}kg</td>
+                <td style="padding: 3px 0; text-align: left; font-size: 11px; font-weight: 600;">${(parseFloat(item.qty) * parseFloat(item.price)).toFixed(0)}</td>
+            </tr>
+        `).join('');
+        
+        const balanceVal = parseFloat(transaction.balance) || 0;
+        const balanceText = balanceVal >= 0 ? "تبدیلی / واپسی" : "بقایا رقم";
+        
+        // Pure 58mm optimized HTML
+        const receiptHTML = `
+        <!DOCTYPE html>
+        <html lang="ur" dir="rtl">
+        <head>
+            <meta charset="UTF-8">
+            <title>Receipt</title>
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+                
+                /* Yeh setting printer ko batati hai ke page sirf 58mm ka hai */
+                @page { 
+                    margin: 0; 
+                    size: 58mm auto; 
+                }
+                
+                body { 
+                    margin: 0; 
+                    padding: 0; 
+                    font-family: 'Noto Nastaliq Urdu', sans-serif; 
+                    background: white; 
+                    color: black; 
+                }
+                
+                .ticket { 
+                    width: 58mm; 
+                    max-width: 58mm; 
+                    padding: 4px; 
+                    margin: 0 auto; 
+                    box-sizing: border-box; 
+                }
+                
+                .text-center { text-align: center; }
+                .border-bottom { border-bottom: 1px dashed black; padding-bottom: 4px; margin-bottom: 4px; }
+                .border-top { border-top: 1px dashed black; padding-top: 4px; margin-top: 4px; }
+                
+                p, h2, th, td { margin: 0; color: black; }
+                
+                table { width: 100%; border-collapse: collapse; }
+                th { border-bottom: 1px solid black; padding-bottom: 2px; font-size: 10px; }
+                
+                .flex-row { display: flex; justify-content: space-between; font-size: 10px; margin-bottom: 2px; }
+                .bold { font-weight: bold; }
+            </style>
+        </head>
+        <body>
+            <div class="ticket">
+                <div class="text-center border-bottom">
+                    <h2 style="font-size: 16px; font-weight: bold;">شیخ ڈرائی فروٹ</h2>
+                    <p style="font-size: 10px;">نزدیک گنج گلی پشین بلوچستان</p>
+                    <p style="font-size: 9px;">ہول سیل ریٹ پر دستیاب ہیں</p>
+                    <p style="font-size: 10px; margin-top: 3px;" class="bold">(${titleText})</p>
+                    <p style="font-size: 10px;" dir="ltr">📞 0319 0112447</p>
+                </div>
+                
+                <div class="flex-row border-bottom">
+                    <span>رسید #: ${transaction.receiptNo || '---'}</span>
+                    <span>${transaction.date.split(',')[0]}</span>
+                </div>
+                
+                <div style="font-size: 11px; margin-bottom: 4px;" class="border-bottom">
+                    <span class="bold">${personText}</span> ${transaction.customer || 'نامعلوم'} 
+                    ${transaction.mobile ? `<br><span dir="ltr">${transaction.mobile}</span>` : ''}
+                </div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: right;">آئٹم</th>
+                            <th style="text-align: center;">ریٹ</th>
+                            <th style="text-align: center;">وزن</th>
+                            <th style="text-align: left;">رقم</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${itemsHtml || '<tr><td colspan="4" class="text-center">کوئی اشیاء نہیں</td></tr>'}
+                    </tbody>
+                </table>
+                
+                <div class="border-top">
+                    <div class="flex-row bold" style="font-size: 12px;">
+                        <span>کل رقم:</span>
+                        <span dir="ltr">${parseFloat(transaction.total).toFixed(0)} Rs</span>
+                    </div>
+                    <div class="flex-row">
+                        <span>نقدی:</span>
+                        <span dir="ltr">${parseFloat(transaction.cash).toFixed(0)} Rs</span>
+                    </div>
+                    <div class="flex-row bold" style="font-size: 11px;">
+                        <span>${balanceText}:</span>
+                        <span dir="ltr">${Math.abs(balanceVal).toFixed(0)} Rs</span>
+                    </div>
+                </div>
+                
+                <div class="text-center border-top" style="font-size: 9px; padding-top: 6px;">
+                    شکریہ! معیار اور اعتماد کی علامت<br>
+                    ڈویلپر: اختر محمد 03178022878
+                    ${transaction.id && transaction.id.startsWith('off_') ? '<br>(آف لائن موڈ)' : ''}
+                </div>
+            </div>
+        </body>
+        </html>`;
+
+        // Using Hidden Iframe Method (Best for Mobile Browsers)
+        const iframe = document.createElement('iframe');
+        iframe.style.position = 'fixed';
+        iframe.style.right = '0';
+        iframe.style.bottom = '0';
+        iframe.style.width = '0';
+        iframe.style.height = '0';
+        iframe.style.border = 'none';
+        document.body.appendChild(iframe);
+
+        const doc = iframe.contentWindow.document;
+        doc.open();
+        doc.write(receiptHTML);
+        doc.close();
+
+        // Wait for fonts/rendering, then trigger print
+        setTimeout(() => {
+            iframe.contentWindow.focus();
+            iframe.contentWindow.print();
+            
+            // Clean up iframe after printing dialog closes
+            setTimeout(() => {
+                document.body.removeChild(iframe);
+            }, 2000);
+        }, 800); 
+    }
+
     // ========== NEW FUNCTION: SHARE THERMAL RECEIPT (PNG/JPG GENERATOR) ==========
     async function shareThermalReceipt(transaction, type = 'sale') {
         const titleText = type === 'purchase' ? 'خریداری رسید' : 'فروخت کی رسید';
@@ -1171,11 +1329,8 @@
                     <h2 style="font-size: 24px; font-weight: bold; margin: 0;">شیخ ڈرائی فروٹ</h2>
                     <p style="font-size: 16px; margin: 2px 0 0 0;">نزدیک گنج گلی پشین بلوچستان</p>
                     <p style="font-size: 14px; margin: 2px 0 0 0;">ہول سیل ریٹ پر دستیاب ہیں</p>
-                    
-                    <p style="font-size: 15px; margin: 6px 0 0 0; font-weight: bold; color: #d32f2f;">آن لائن ڈیلیوری بھی دستیاب ہیں</p>
-                    <p style="font-size: 14px; margin: 2px 0 0 0; font-weight: bold;" dir="ltr">📞 03368888083</p>
-                    
-                    <p style="font-size: 16px; margin-top: 8px; font-weight: bold;">(${titleText})</p>
+                    <p style="font-size: 16px; margin-top: 6px; font-weight: bold;">(${titleText})</p>
+                    <p style="font-size: 14px; margin: 2px 0 0 0;" dir="ltr">📞 0319 0112447</p>
                 </div>
                 <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; border-bottom: 1px dashed #999; padding-bottom: 6px;">
                     <span>رسید #: <span style="font-family: sans-serif;">${transaction.receiptNo || '---'}</span></span>
@@ -1207,11 +1362,6 @@
                         <span>${balanceText}:</span><span dir="ltr" style="font-family: sans-serif;">${Math.abs(balanceVal).toFixed(0)} Rs</span>
                     </div>
                 </div>
-                
-                <div style="text-align: center; margin-top: 20px;">
-                    <img src="https://image2url.com/r2/default/images/1775501425744-6ee7edcf-c564-4bc2-a67f-498aaa675ec5.png" crossorigin="anonymous" style="width: 100px; height: 100px; object-fit: contain;">
-                </div>
-                
                 <div style="text-align: center; border-top: 2px dashed black; padding-top: 10px; margin-top: 15px; font-size: 13px; color:#444;">
                     شکریہ! معیار اور اعتماد کی علامت<br>ڈویلپر: اختر محمد 03178022878
                 </div>
@@ -1475,6 +1625,44 @@
 
     function updateTotals() { let total = cart.reduce((sum, i) => sum + (i.qty * i.price), 0); document.getElementById('grandTotal').innerText = total.toFixed(0); updateBalance(); }
     window.updateBalance = () => { const total = parseFloat(document.getElementById('grandTotal').innerText) || 0; const cash = parseFloat(document.getElementById('cashInput').value) || 0; document.getElementById('balanceAmount').innerText = (cash - total).toFixed(0); };
+    
+    // UPDATED: PRINT SALE WITH FALLBACK
+    document.getElementById('printBtn').onclick = async () => {
+        if(cart.length === 0) return showToast("کارٹ خالی ہے");
+        const total = parseFloat(document.getElementById('grandTotal').innerText);
+        const cash = parseFloat(document.getElementById('cashInput').value) || 0;
+        let nextReceiptNo = 1001;
+        const offlineSales = JSON.parse(localStorage.getItem('offlineSales') || '[]');
+        const allSales = [...sales, ...offlineSales]; 
+        if (allSales.length > 0) { const maxNo = Math.max(...allSales.map(s => s.receiptNo || 1000)); nextReceiptNo = maxNo + 1; }
+        const saleObj = { type: 'sale', receiptNo: nextReceiptNo, customer: document.getElementById('customerName').value || 'عام گاہک', mobile: document.getElementById('customerMobile').value, items: [...cart], total, cash, balance: cash-total, date: new Date().toLocaleString('ur-PK') };
+        
+        if (isOfflineMode) {
+            saleObj.id = 'off_sale_' + Date.now(); offlineSales.push(saleObj); localStorage.setItem('offlineSales', JSON.stringify(offlineSales));
+            for(let it of cart){ const p = products.find(x=>x.id === it.id); if(p) p.stock = Math.max(0, p.stock - it.qty); }
+            localStorage.setItem('cachedProducts', JSON.stringify(products));
+            printThermalReceipt(saleObj, 'sale');
+            cart = []; renderCartAndProducts(); document.getElementById('customerName').value = ''; document.getElementById('customerMobile').value = ''; document.getElementById('cashInput').value = 0; 
+            showToast("آف لائن فروخت رسید محفوظ"); return;
+        }
+        
+        document.getElementById('printBtn').disabled = true;
+        try {
+            const newSaleRef = await push(ref(db,'sales'), saleObj);
+            for(let it of cart){ const p = products.find(x=>x.id === it.id); if(p) await update(ref(db,`products/${it.id}`),{stock: Math.max(0, p.stock - it.qty)}); }
+            printThermalReceipt({ ...saleObj, id: newSaleRef.key }, 'sale');
+            cart = []; renderCartAndProducts(); document.getElementById('customerName').value = ''; document.getElementById('customerMobile').value = ''; document.getElementById('cashInput').value = 0; showToast("فروخت کی رسید محفوظ");
+        } catch(e) { 
+            console.error(e);
+            saleObj.id = 'off_sale_' + Date.now(); offlineSales.push(saleObj); localStorage.setItem('offlineSales', JSON.stringify(offlineSales));
+            for(let it of cart){ const p = products.find(x=>x.id === it.id); if(p) p.stock = Math.max(0, p.stock - it.qty); }
+            localStorage.setItem('cachedProducts', JSON.stringify(products));
+            printThermalReceipt(saleObj, 'sale');
+            cart = []; renderCartAndProducts(); document.getElementById('customerName').value = ''; document.getElementById('customerMobile').value = ''; document.getElementById('cashInput').value = 0;
+            showToast("سرور سے رابطہ نہ ہو سکا۔ رسید آف لائن محفوظ اور پرنٹ ہو گئی۔"); 
+        }
+        document.getElementById('printBtn').disabled = false;
+    };
 
     // NEW: SHARE SALE BUTTON LOGIC
     document.getElementById('shareBtn').onclick = async () => {
@@ -1550,6 +1738,44 @@
     function updatePurchaseTotals() { let total = pCart.reduce((sum, i) => sum + (i.qty * i.price), 0); document.getElementById('pGrandTotal').innerText = total.toFixed(0); updatePurchaseBalance(); }
     window.updatePurchaseBalance = () => { const total = parseFloat(document.getElementById('pGrandTotal').innerText) || 0; const cash = parseFloat(document.getElementById('pCashInput').value) || 0; document.getElementById('pBalanceAmount').innerText = (cash - total).toFixed(0); };
     
+    // UPDATED: PRINT PURCHASE WITH FALLBACK
+    document.getElementById('printPurchaseBtn').onclick = async () => {
+        if(pCart.length === 0) return showToast("خریداری کارٹ خالی ہے");
+        const total = parseFloat(document.getElementById('pGrandTotal').innerText);
+        const cash = parseFloat(document.getElementById('pCashInput').value) || 0;
+        let nextReceiptNo = 5001; 
+        const offlinePurchases = JSON.parse(localStorage.getItem('offlinePurchases') || '[]');
+        const allPurchases = [...purchases, ...offlinePurchases]; 
+        if (allPurchases.length > 0) { const maxNo = Math.max(...allPurchases.map(s => s.receiptNo || 5000)); nextReceiptNo = maxNo + 1; }
+        const purchaseObj = { type: 'purchase', receiptNo: nextReceiptNo, customer: document.getElementById('supplierName').value || 'سپلائر', mobile: document.getElementById('supplierMobile').value, items: [...pCart], total, cash, balance: cash-total, date: new Date().toLocaleString('ur-PK') };
+        
+        if (isOfflineMode) {
+            purchaseObj.id = 'off_pur_' + Date.now(); offlinePurchases.push(purchaseObj); localStorage.setItem('offlinePurchases', JSON.stringify(offlinePurchases));
+            for(let it of pCart){ const p = products.find(x=>x.id === it.id); if(p) p.stock = p.stock + it.qty; } 
+            localStorage.setItem('cachedProducts', JSON.stringify(products));
+            printThermalReceipt(purchaseObj, 'purchase');
+            pCart = []; renderPurchaseCartAndProducts(); document.getElementById('supplierName').value = ''; document.getElementById('supplierMobile').value = ''; document.getElementById('pCashInput').value = 0; 
+            showToast("آف لائن خریداری محفوظ"); return;
+        }
+
+        document.getElementById('printPurchaseBtn').disabled = true;
+        try {
+            const newPurRef = await push(ref(db,'purchases'), purchaseObj);
+            for(let it of pCart){ const p = products.find(x=>x.id === it.id); if(p) await update(ref(db,`products/${it.id}`),{stock: p.stock + it.qty}); } 
+            printThermalReceipt({ ...purchaseObj, id: newPurRef.key }, 'purchase');
+            pCart = []; renderPurchaseCartAndProducts(); document.getElementById('supplierName').value = ''; document.getElementById('supplierMobile').value = ''; document.getElementById('pCashInput').value = 0; showToast("خریداری کی رسید محفوظ");
+        } catch(e) { 
+            console.error(e);
+            purchaseObj.id = 'off_pur_' + Date.now(); offlinePurchases.push(purchaseObj); localStorage.setItem('offlinePurchases', JSON.stringify(offlinePurchases));
+            for(let it of pCart){ const p = products.find(x=>x.id === it.id); if(p) p.stock = p.stock + it.qty; }
+            localStorage.setItem('cachedProducts', JSON.stringify(products));
+            printThermalReceipt(purchaseObj, 'purchase');
+            pCart = []; renderPurchaseCartAndProducts(); document.getElementById('supplierName').value = ''; document.getElementById('supplierMobile').value = ''; document.getElementById('pCashInput').value = 0;
+            showToast("سرور سے رابطہ نہ ہو سکا۔ رسید آف لائن محفوظ اور پرنٹ ہو گئی۔");
+        }
+        document.getElementById('printPurchaseBtn').disabled = false;
+    };
+
     // NEW: SHARE PURCHASE BUTTON LOGIC
     document.getElementById('sharePurchaseBtn').onclick = async () => {
         if(pCart.length === 0) return showToast("خریداری کارٹ خالی ہے");
@@ -1754,13 +1980,18 @@
                 </div>
                 <div>${renderReceiptItemsWithImages(rec.items)}</div>
                 <div class="list-tile-actions">
-                    <button class="btn-icon info account-share-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">share</span> شیئر</button>
+                    <button class="btn-icon info account-share-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">share</span></button>
+                    <button class="btn-icon primary account-print-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">print</span></button>
                     <button class="btn-icon primary account-edit-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">edit</span> ترمیم</button>
                     <button class="btn-icon danger account-delete-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">delete</span></button>
                 </div>
             </div>`
         }).join(''); 
         
+        document.querySelectorAll('.account-print-btn').forEach(btn => btn.onclick = () => { 
+            const arr = btn.dataset.type === 'sale' ? sales : purchases; 
+            const r = arr.find(x=>x.id===btn.dataset.id); if(r) printThermalReceipt(r, btn.dataset.type); 
+        }); 
         document.querySelectorAll('.account-share-btn').forEach(btn => btn.onclick = () => { 
             const arr = btn.dataset.type === 'sale' ? sales : purchases; 
             const r = arr.find(x=>x.id===btn.dataset.id); if(r) shareThermalReceipt(r, btn.dataset.type); 
@@ -1804,13 +2035,18 @@
                 </div>
                 <div>${renderReceiptItemsWithImages(rec.items)}</div>
                 <div class="list-tile-actions">
-                    <button class="btn-icon info share-receipt-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">share</span> شیئر</button>
+                    <button class="btn-icon info share-receipt-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">share</span></button>
+                    <button class="btn-icon primary print-receipt-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">print</span></button>
                     <button class="btn-icon primary edit-receipt-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">edit</span></button>
                     <button class="btn-icon danger delete-receipt-btn" data-id="${rec.id}" data-type="${rec._dbType}"><span class="material-icons-round" style="font-size:16px;">delete</span></button>
                 </div>
             </div>`
         }).join(''); 
         
+        document.querySelectorAll('.print-receipt-btn').forEach(btn => btn.onclick = () => { 
+            const arr = btn.dataset.type === 'sale' ? sales : purchases; 
+            const r = arr.find(x=>x.id===btn.dataset.id); if(r) printThermalReceipt(r, btn.dataset.type); 
+        }); 
         document.querySelectorAll('.share-receipt-btn').forEach(btn => btn.onclick = () => { 
             const arr = btn.dataset.type === 'sale' ? sales : purchases; 
             const r = arr.find(x=>x.id===btn.dataset.id); if(r) shareThermalReceipt(r, btn.dataset.type); 
